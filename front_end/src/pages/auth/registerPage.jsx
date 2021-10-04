@@ -34,13 +34,21 @@ const RegisterPage = () =>{
         let un = username
         let em = email
         let pass = password
-        console.log(un, em);
+        let conf = confPassword
+        console.log(un, pass);
+        
 
         if (un == "" || em == "" || pass == ""){
             alert('fill in all the form')
+        
+        }else if(pass !== conf){
+            alert("password tidak sesuai")
+
         }else {
-            Axios.post(URL_API + '/user/regis',{
-                un, em, password
+            Axios.post(URL_API + '/user/register',{
+                un,
+                em,
+                pass
             })
             .then(res => console.log(res.data))
             .catch(err => console.log(err))
@@ -80,15 +88,16 @@ const RegisterPage = () =>{
                             value={email}
                            
                             />
-                            <input type="text"
-                            placeholder="username"
+                            <input type="password"
+                            placeholder="password"
                             className="form-control my-4"
                             onChange={changePassword}
                             value={password}
+
                             
                             />
-                            <input type="text"
-                            placeholder="username"
+                            <input type="password"
+                            placeholder="password"
                             className="form-control my-4"
                             onChange={changeConfPassword}
                             value={confPassword}

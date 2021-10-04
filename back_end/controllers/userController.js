@@ -1,6 +1,6 @@
 const { db } = require('../database')
 const {createToken} = require('../helper/createToken')
-const Crypto =require('crypto')
+const Crypto = require('crypto')
 const transporter = require('../helper/nodemailer')
 module.exports = {
     getData : (req, res)=>{
@@ -10,8 +10,8 @@ module.exports = {
         db.query(scriptQuery,(err, results) =>{
             if(err) res.status(500).send(err)
             if(results[0]){
-                let {idusers, username, email, password, role, status} = results[0]
-                let token =  createToken({id_user, username, email,password, address, phone_number, fullname, gender, age, profile_picture, role, status})
+                let {username, email,password, address, phone_number, fullname, gender, age, profile_picture, role, status} = results[0]
+                let token =  createToken({username, email,password, address, phone_number, fullname, gender, age, profile_picture, role, status})
                 if(status != "verified"){
                     res.status(200).send({message: "your account not verified"})
                 }else{
@@ -29,7 +29,8 @@ module.exports = {
         password = Crypto.createHmac("sha1","hash123").update(password).digest("hex")
         console.log(password);
         let insertQuery = `insert into user values(
-            null, ${db.escape(username)},
+            null,
+             ${db.escape(username)},
             ${db.escape(email)},
             ${db.escape(password)},
             ${db.escape(address)},
