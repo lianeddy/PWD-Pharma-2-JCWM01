@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import RegisterPage from './pages/auth/registerPage'
+import RegisterPage from './pages/auth/RegisterPage'
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 
 function App() {
