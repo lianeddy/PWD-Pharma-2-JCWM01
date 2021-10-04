@@ -9,6 +9,7 @@ function App() {
     <BrowserRouter>
     <Switch>
     <Route component={RegisterPage} path="/register"/>
+   
     </Switch>
     </BrowserRouter>
   

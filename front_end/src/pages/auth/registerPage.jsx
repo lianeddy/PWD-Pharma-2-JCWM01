@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import React, {useState, useEffect} from 'react'
+import {URL_API} from '../../helper'
 
 
 const RegisterPage = () =>{
@@ -29,8 +30,22 @@ const RegisterPage = () =>{
     }
 
 
-    const onBtnRegister = () =>{
-        let username
+    const onBtnRegister = (data) =>{
+        let un = username
+        let em = email
+        let pass = password
+        console.log(un, em);
+
+        if (un == "" || em == "" || pass == ""){
+            alert('fill in all the form')
+        }else {
+            Axios.post(URL_API + '/user/regis',{
+                un, em, password
+            })
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err))
+        }
+        
     }
    
 
@@ -51,6 +66,7 @@ const RegisterPage = () =>{
                             <h5 className="font-weight-bold mb-3">register</h5>
                             
                             <input type="text"
+                            
                             placeholder="username"
                             className="form-control my-4"
                             onChange={changeUsername}
@@ -79,7 +95,7 @@ const RegisterPage = () =>{
                           
                             />
                             <div className="d-flex flex-row justify-content-between align-items-center">
-                                <button className="btn btn-primary mt-2">
+                                <button onClick={onBtnRegister} className="btn btn-primary mt-2">
                                     REGISTER
                                 </button>
                             </div>
