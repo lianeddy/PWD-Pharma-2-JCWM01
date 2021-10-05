@@ -33,7 +33,7 @@ class Login extends React.Component {
       // if () {
         alert("Login Succes")
         console.log("Login Success ✔")
-        console.log(res.data)
+        // console.log(res.data)
         this.setState({redirect: true})
       // } else if (this.state.redirect = false) {
       //   alert("Username or Password is Wrong!")

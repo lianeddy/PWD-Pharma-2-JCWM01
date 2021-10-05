@@ -27,15 +27,34 @@ module.exports = {
     })
   },
   editPassword: (req, res) => {
-    let newPassword = "123"
+    // let newPassword = "12345"
     // let updateQuery = `UPDATE user SET password = '${newPassword}' WHERE id_user = ${req.params.id}`
-    let updateQuery = `UPDATE user SET password = '${newPassword}' WHERE id_user = ${req.params.id}`
+    let selectQuery = `SELECT password FROM user WHERE id_user = ${db.escape(req.params.id)}`
+    console.log(selectQuery)
+
+    let updateQuery = `UPDATE user SET password = ${db.escape(req.body.newPass)} WHERE id_user = ${db.escape(req.params.id)}`
     console.log(updateQuery)
 
-    db.query(updateQuery, (err, results) => {
-      if (err) res.status(500).send(err)
-      res.status(200).send(results)
+    db.query(selectQuery, (err, results) => {
+      if (err) {
+        console.log(err)
+        return res.status(500).send(err)
+      }
+
+      if (results[0].password == req.body.currentPass) {
+        db.query(updateQuery, (err2, results2) => {
+          if (err2) return res.status(500).send(err2)
+          return res.status(200).send(results2)
+        })
+      } else {
+        return res.status(500).json({ message: "Current Password is Wrong" })
+      }
     })
+
+    // db.query(updateQuery, (err, results) => {
+    //   if (err) return res.status(500).send(err)
+    //   return res.status(200).send(results)
+    // })
   },
 
 

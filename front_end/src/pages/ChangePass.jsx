@@ -20,14 +20,25 @@ class ChangePass extends React.Component {
 
   onBtnSubmit = () => {
     const {currentPass, newPass, confNewPass} = this.state
-    console.log(currentPass, newPass, confNewPass)
+    // console.log(currentPass, newPass, confNewPass)
 
     if (currentPass == "" || newPass == "" || confNewPass == "" ) {
       alert("Fill in All the Form")
     } else if (newPass !== confNewPass) {
-      alert("Password is not Matched")
+      alert("New Password Confirmation is not Matched")
     } else {
-      
+      Axios.patch(`${URL_API}/user/edit/1`, {
+        newPass,
+        currentPass
+      })
+      .then(res => {
+        alert("Password Changed Successfully")
+        console.log("Password Changed Successfully")
+      })
+      .catch(err => {
+        alert("Your Current Password is Wrong")
+        console.log(err)
+      })
     }
   }
 
@@ -50,11 +61,11 @@ class ChangePass extends React.Component {
             <div className="card">
               <div className="card-body">
                 <h5 className="font-weight-bold mb-3">Change Password</h5>
-                <input onChange={this.inputHandler} name="username" placeholder="Current password" type="text" className="form-control my-2" />
-                <input onChange={this.inputHandler} name="password" placeholder="New password" type="password" className="form-control my-2" />
-                <input onChange={this.inputHandler} name="password" placeholder="Confirm new password" type="password" className="form-control my-2" />
+                <input onChange={this.inputHandler} name="currentPass" placeholder="Current password" type="password" className="form-control my-2" />
+                <input onChange={this.inputHandler} name="newPass" placeholder="New password" type="password" className="form-control my-2" />
+                <input onChange={this.inputHandler} name="confNewPass" placeholder="Confirm new password" type="password" className="form-control my-2" />
                 <div className="d-flex flex-row justify-content-between align-items-center">
-                  <button className="btn btn-primary mt-2">
+                  <button onClick={this.onBtnSubmit} className="btn btn-primary mt-2">
                     Submit
                   </button>
                   <Link to="/">Cancel</Link>
