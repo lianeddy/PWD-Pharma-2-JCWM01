@@ -9,11 +9,13 @@ app.use(bearerToken())
 app.use(cors())
 app.use(express.json())
 
+app.use(express.static('public'))
+
 app.get('/', (req, res) => {
   res.status(200).send('<h4>integrated with mysql</h4>')
 })
 
-const {userRouters} = require('./routers')
+const { userRouters } = require('./routers')
 
 app.use('/user', userRouters)
 
