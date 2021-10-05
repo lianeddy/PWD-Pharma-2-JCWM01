@@ -6,19 +6,24 @@ const transporter = require('../helper/nodemailer')
 module.exports = {
   getData: (req, res) => {
     req.body.password = Crypto.createHmac("sha1", "hash123").update(req.body.password).digest("hex")
-    let scriptQuery = `select * from user where username = ${db.escape(req.body.username)} and password = ${db.escape(req.body.password)};`
+    let scriptQuery = `SELECT * FROM user WHERE username = ${db.escape(req.body.username)} AND password = ${db.escape(req.body.password)};`
 
     db.query(scriptQuery, (err, results) => {
-      if (err) res.status(500).send(err)
+      console.log(results)
+      if (err) return res.status(500).send(err)
       if (results[0]) {
         let { id_user, username, email, password, address, phone_number, full_name, gender, age, profile_picture, role, status } = results[0]
         let token = createToken({ id_user, username, email, password, address, phone_number, full_name, gender, age, profile_picture, role, status })
         if (status != "verified") {
-          res.status(200).send({ message: "Your account is not verified" })
+          return res.status(200).send({ message: "Your account is not verified" })
         } else {
-          res.status(200).send({ dataLogin: results[0], token, message: "Login Success" })
+          return res.status(200).send({ dataLogin: results[0], token, message: "Login Success" })
         }
-      }
+      } 
+      //   else {
+      //   // Jika tidak dapat data (user not found)
+      //   return res.status(200).send({ message: "Login Failed" })
+      // }
     })
   },
     addData : (req, res)=>{
