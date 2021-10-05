@@ -10,6 +10,7 @@ module.exports = {
 
         db.query(scriptQuery,(err, results) =>{
             if(err) res.status(500).send(err)
+            
             if(results[0]){
                 let {username, email,password, address, phone_number, fullname, gender, age, profile_picture, role, status} = results[0]
                 let token =  createToken({username, email,password, address, phone_number, fullname, gender, age, profile_picture, role, status})
