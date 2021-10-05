@@ -1,6 +1,31 @@
 import Axios from "axios";
 import { URL_API } from "../../helper";
 
+export const registerUser = ({ fullname, username, email, password }) => {
+  return (dispatch) => {
+    Axios.post(`${URL_API}/user/register`, {
+      fullname,
+      username,
+      email,
+      password,
+    })
+
+      //proses asyncronus
+      .then((result) => {
+        delete result.data.password;
+        dispatch({
+          type: "USER_LOGIN",
+          payload: result.data,
+        });
+        alert("berhasil mendapatkan users");
+      })
+      .catch(() => {
+        alert("gagal mendapatkan users");
+      });
+  };
+};
+
+
 export const loginUser = ({ username, password }) => {
     return (dispatch) => {
       Axios.get(`${URL_API}/user`, {

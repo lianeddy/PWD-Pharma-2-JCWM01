@@ -8,7 +8,6 @@ module.exports = {
     req.body.password = Crypto.createHmac("sha1", "hash123").update(req.body.password).digest("hex")
     let scriptQuery = `select * from user where email = ${db.escape(req.body.email)} and password = ${db.escape(req.body.password)};`
 
-        let scriptQuery = `select * from user where email = ${db.escape(req.body.email)} and password=${db.escape(req.body.password)};`
         db.query(scriptQuery,(err, results) =>{
             if(err) res.status(500).send(err)
             if(results[0]){
@@ -27,7 +26,7 @@ module.exports = {
     },
     addData : (req, res)=>{
         console.log(req.body);
-        let {username, email, password} = req.body
+        let {username, email, password, address, phone_number, fullname, gender, age, profile_picture} = req.body
         password = Crypto.createHmac("sha1","hash123").update(password).digest("hex")
         console.log(password);
         let insertQuery = `insert into user values(

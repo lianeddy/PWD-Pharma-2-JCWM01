@@ -1,36 +1,52 @@
 import Axios from 'axios'
 import React from 'react'
 import {URL_API} from '../../helper'
+import {connect} from 'react-redux'
+import {registerUser } from '../../redux/actions/user'
 
 
-class RegisterPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            alertShow: 'none',
-            redirect: false
-        }
+class Register extends React.Component {
+    state = {
+       username : "",
+       email : "",
+       password : "",
+       confPassword : ""
     }
+
+    inputHandler = (event) => {
+        const value = event.target.value;
+        const name = event.target.name;
+    
+        this.setState({ [name]: value });
+      };
 
 
    
 
     onBtnRegister = () => {
-        let username = this.regisUsername.value
-        let email = this.regisEmail.value
-        let password = this.regisPass.value
-        let confPassword = this.regisConfPass.value
-        console.log(username, password)
+        const {username, email, password, confPassword } = this.state;
+        console.log(username, email, password, confPassword);
 
-        if (username == "" || email == "" || password == "") {
-            alert('Fill in all the form')
-        } else {
+        if(username == "" || email == "" || password == "" || confPassword == ""){
+            alert('fill in all the form')
+        }else if(password !== confPassword){
+            alert('password is not match')
+        }else{
             Axios.post(`${URL_API}/user/register`, {
-                username, email, password
-            })
-                .then(res => console.log(res.data))
-                .catch(err => console.log(err))
+                username,
+                email,
+                password,
+                confPassword
+              })
+                   //proses asyncronus
+                .then(() => {
+                  alert("berhasil mendapatkan users");
+                })
+                .catch(() => {
+                  alert("gagal mendapatkan users");
+                });
         }
+  
     }
         
 
@@ -52,32 +68,34 @@ class RegisterPage extends React.Component {
                             <div className="card-body">
                                 <h5 className="font-weight-bold mb-3">register</h5>
                                 
-                                <input type="text"
-                                
-                                placeholder="username"
-                                className="form-control my-4"
-                                ref={el => this.regisUsername = el}
-                                
-                                />
-                                <input type="text"
-                                placeholder="email"
-                                className="form-control my-4"
-                                ref={el => this.regisEmail = el}
-                               
-                                />
-                                <input type="password"
-                                placeholder="password"
-                                className="form-control my-4"
-                                ref={el => this.regisPass = el}
-    
-                                
-                                />
-                                <input type="password"
-                                placeholder="password"
-                                className="form-control my-4"
-                                ref={el => this.regisConfPass = el}
-                              
-                                />
+                                        <input
+                                        name="username"
+                                        onChange={this.inputHandler}
+                                        placeholder="username"
+                                        type="text"
+                                        className="form-control my-2"
+                                        />
+                                        <input
+                                        name="email"
+                                        onChange={this.inputHandler}
+                                        placeholder="email"
+                                        type="text"
+                                        className="form-control my-2"
+                                        />
+                                        <input
+                                        name="password"
+                                        onChange={this.inputHandler}
+                                        placeholder="password"
+                                        type="password"
+                                        className="form-control my-2"
+                                        />
+                                         <input
+                                        name="confPassword"
+                                        onChange={this.inputHandler}
+                                        placeholder="configuration password"
+                                        type="password"
+                                        className="form-control my-2"
+                                        />
                                 <div className="d-flex flex-row justify-content-between align-items-center">
                                     <button onClick={this.onBtnRegister} className="btn btn-primary mt-2">
                                         REGISTER
@@ -94,4 +112,12 @@ class RegisterPage extends React.Component {
     }
     
 }
-export default Register
+const mapStateToProps = () => {
+    return {};
+  };
+  
+  const mapDispatchToProps = {
+    registerUser,
+  };
+  export default connect(mapStateToProps, mapDispatchToProps)(Register);
+  
