@@ -25,7 +25,7 @@ class RegisterPage extends React.Component {
         if (username == "" || email == "" || password == "") {
             alert('Fill in all the form')
         } else {
-            Axios.post(URL_API + '/user/regis', {
+            Axios.post(`${URL_API}/user/register`, {
                 username, email, password
             })
                 .then(res => console.log(res.data))
@@ -34,7 +34,7 @@ class RegisterPage extends React.Component {
     }
         
 
-      
+       
 
     
 
