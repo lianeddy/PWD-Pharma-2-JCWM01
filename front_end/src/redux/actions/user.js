@@ -3,7 +3,7 @@ import { URL_API } from "../../helper";
 
 export const loginUser = ({ username, password }) => {
     return (dispatch) => {
-      Axios.get(`${URL_API}/user`, {
+      Axios.get(`${URL_API}/user/login`, {
         params: {
           username,
         }
@@ -35,6 +35,7 @@ export const loginUser = ({ username, password }) => {
         }
       })
       .catch((err) => {
+        console.log(err)
         alert("Terjadi kesalahan di server")
       })
     }
