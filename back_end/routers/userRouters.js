@@ -1,10 +1,9 @@
 const express = require('express')
-const {usersController} = require('../controllers')
-const {auth} = require('../helper/authToken')
+const { userController } = require('../controllers')
+const { auth } = require('../helper/authToken')
 const routers = express.Router()
 
-
-routers.post('/regis', usersController.addData)
-
+routers.post('/login', userController.getData)
+routers.post('/regis', userController.addData)
 
 module.exports = routers

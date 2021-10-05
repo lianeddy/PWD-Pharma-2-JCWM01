@@ -1,9 +1,9 @@
 import Axios from 'axios'
 import React, {useState, useEffect} from 'react'
-import {URL_API} from '../../helper'
+import { URL_API } from '../../helper';
 
 
-const RegisterPage = () =>{
+const Register = () =>{
     const [ username, setUsername] = useState('')
     const [ email, setEmail] = useState('')
     const [ password, setPassword] = useState('')
@@ -38,20 +38,15 @@ const RegisterPage = () =>{
 
         if (un == "" || em == "" || pass == ""){
             alert('fill in all the form')
-        }else {
-            Axios.post(URL_API + '/user/regis',{
+        } else {
+            Axios.post(URL_API + '/user/regis', {
                 un, em, password
             })
             .then(res => console.log(res.data))
             .catch(err => console.log(err))
         }
-        
     }
    
-
-    
-
-    
     return (
         <div className="container" >
             <div className="row">
@@ -108,4 +103,4 @@ const RegisterPage = () =>{
         
     )
 }
-export default RegisterPage
+export default Register

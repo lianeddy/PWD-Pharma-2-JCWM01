@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
   res.status(200).send('<h4>integrated with mysql</h4>')
 })
 
-const {userRouters} = require('./routers')
+const { userRouters } = require('./routers')
 
 app.use('/user', userRouters)
 

@@ -2,27 +2,25 @@ const { db } = require('../database')
 const {createToken} = require('../helper/createToken')
 const Crypto =require('crypto')
 const transporter = require('../helper/nodemailer')
-module.exports = {
-    getData : (req, res)=>{
-        req.body.password = Crypto.createHmac("sha1","hash123").update(req.body.password).digest("hex")
 
-        let scriptQuery = `select * from user where email = ${db.escape(req.body.email)} and password=${db.escape(req.body.password)};`
-        db.query(scriptQuery,(err, results) =>{
-            if(err) res.status(500).send(err)
-            if(results[0]){
-                let {idusers, username, email, password, role, status} = results[0]
-                let token =  createToken({id_user, username, email,password, address, phone_number, fullname, gender, age, profile_picture, role, status})
-                if(status != "verified"){
-                    res.status(200).send({message: "your account not verified"})
-                }else{
-                    res.status(200).send({dataLogin : results[0], token, message : "login success"})
-                }
-            }
-            
-           
-        })
-    
-    },
+module.exports = {
+  getData: (req, res) => {
+    req.body.password = Crypto.createHmac("sha1", "hash123").update(req.body.password).digest("hex")
+    let scriptQuery = `select * from user where email = ${db.escape(req.body.email)} and password = ${db.escape(req.body.password)};`
+
+    db.query(scriptQuery, (err, results) => {
+      if (err) res.status(500).send(err)
+      if (results[0]) {
+        let { id_user, username, email, password, address, phone_number, gender, age, profile_picture, role, status } = results[0]
+        let token = createToken({ id_user, username, email, password, address, phone_number, gender, age, profile_picture, role, status })
+        if (status != "verified") {
+          res.status(200).send({ message: "Your account is not verified" })
+        } else {
+          res.status(200).send({ dataLogin: results[0], token, message: "Login Success" })
+        }
+      }
+    })
+  },
     addData : (req, res)=>{
         console.log(req.body);
         let {username, email, password} = req.body
