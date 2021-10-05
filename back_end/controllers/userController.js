@@ -49,6 +49,7 @@ module.exports = {
                 console.log(err);
                 res.status(500).send(err)
             }
+            console.log(results);
             if(results.insertId){
                 let sqlGet = `select * from user where id_user = ${results.insertId};`
                 db.query(sqlGet,(err2, results2)=>{

@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import Home from './pages/Home';
 import Register from './pages/auth/Register';
 import Login from './pages/auth/Login';
+import VerificationPage from './pages/auth/VerificationPage'
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
       <Switch>
         <Route component={Login} path="/login" />
         <Route component={Register} path="/register"/>
-        <Route component={Home} path="/" />
+        <Route component={VerificationPage} path="/authentication/:token" />
       </Switch>
     </BrowserRouter>
   );
