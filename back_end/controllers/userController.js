@@ -26,7 +26,7 @@ module.exports = {
       // }
     })
   },
-  editPassword: (req, res) => {
+  changePassword: (req, res) => {
     // let newPassword = "12345"
     // let updateQuery = `UPDATE user SET password = '${newPassword}' WHERE id_user = ${req.params.id}`
     let selectQuery = `SELECT password FROM user WHERE id_user = ${db.escape(req.params.id)}`
