@@ -20,7 +20,10 @@ class MyNavbar extends React.Component {
     return (
       <div>
         <Navbar color = "blue">
-            <NavbarBrand className="mx-4">PHARMA2</NavbarBrand>
+            <NavbarBrand className="mx-4">
+                <Link />
+                PHARMA2
+                </NavbarBrand>
             
             <Nav>
                 <NavItem>

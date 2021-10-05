@@ -56,7 +56,8 @@ class Register extends React.Component {
 
     render(){
         return (
-            <div className="container " style={{backgroundColor:"grey"}} >
+            
+            <div className="container" style={{background:""}} >
                 <div className="row">
                     <div className="col-12 text-center my-5" >
                         <h1>Register page</h1>
@@ -107,6 +108,7 @@ class Register extends React.Component {
                 
                 </div>
             </div>
+            
             
         )
     }
