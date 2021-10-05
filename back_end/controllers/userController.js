@@ -2,9 +2,11 @@ const { db } = require('../database')
 const {createToken} = require('../helper/createToken')
 const Crypto = require('crypto')
 const transporter = require('../helper/nodemailer')
+
 module.exports = {
-    getData : (req, res)=>{
-        req.body.password = Crypto.createHmac("sha1","hash123").update(req.body.password).digest("hex")
+  getData: (req, res) => {
+    req.body.password = Crypto.createHmac("sha1", "hash123").update(req.body.password).digest("hex")
+    let scriptQuery = `select * from user where email = ${db.escape(req.body.email)} and password = ${db.escape(req.body.password)};`
 
         let scriptQuery = `select * from user where email = ${db.escape(req.body.email)} and password=${db.escape(req.body.password)};`
         db.query(scriptQuery,(err, results) =>{
