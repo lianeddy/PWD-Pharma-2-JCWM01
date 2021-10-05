@@ -26,6 +26,28 @@ module.exports = {
       // }
     })
   },
+  editPassword: (req, res) => {
+    let newPassword = "123"
+    // let updateQuery = `UPDATE user SET password = '${newPassword}' WHERE id_user = ${req.params.id}`
+    let updateQuery = `UPDATE user SET password = '${newPassword}' WHERE id_user = ${req.params.id}`
+    console.log(updateQuery)
+
+    db.query(updateQuery, (err, results) => {
+      if (err) res.status(500).send(err)
+      res.status(200).send(results)
+    })
+  },
+
+
+
+
+
+
+
+
+
+
+
     addData : (req, res)=>{
         console.log(req.body);
         let {username, email, password} = req.body

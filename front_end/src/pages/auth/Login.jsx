@@ -54,7 +54,7 @@ class Login extends React.Component {
           <div className="col-12 text-center">
             <h1>Log in now!</h1>
             <p className="lead">
-              Log in now and start shopping in the most affordable ecommerce platform
+              Log in now and start shopping in the most affordable <strong>pharmaceutical</strong> ecommerce
             </p>
           </div>
         </div>

@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import Home from './pages/Home';
 import Register from './pages/auth/Register';
 import Login from './pages/auth/Login';
+import ChangePass from './pages/ChangePass';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Switch>
         <Route component={Login} path="/login" />
         <Route component={Register} path="/register"/>
+        <Route component={ChangePass} path="/change-pass"/>
         <Route component={Home} path="/" />
       </Switch>
     </BrowserRouter>
