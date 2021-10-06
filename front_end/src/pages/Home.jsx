@@ -1,8 +1,6 @@
 import React from "react";
-import ProductCard from "../components/ProductCard";
-import Axios from "axios";
-import { URL_API } from "../helper";
 
+<<<<<<< HEAD
 class Home extends React.Component {
   state = {
     productList: [],
@@ -209,6 +207,14 @@ class Home extends React.Component {
       </div>
     );
   }
+=======
+const Home = () =>{
+  return (
+    <div>
+        <h1>Home Page</h1>
+    </div>
+  )
+>>>>>>> parent of be5605f (paginate)
 }
 
 export default Home;

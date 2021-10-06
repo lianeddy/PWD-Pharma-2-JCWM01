@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import {Header} from "./components/Header";
-import {Footer} from "./components/Footer";
 import reportWebVitals from './reportWebVitals';
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
@@ -14,9 +12,7 @@ const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 ReactDOM.render(
   <Provider store={store}>
-    <Header />
     <App />
-    <Footer />
   </Provider>,
   document.getElementById('root')
 );

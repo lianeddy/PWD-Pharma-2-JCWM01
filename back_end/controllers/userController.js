@@ -113,21 +113,6 @@ module.exports = {
             res.status(200).send(results)
         })
     
-    },
-
-
-
-    //--------
-    fetchProducts: (req, res) => {
-        let {limit} = req.body
-        let scriptQuery = `select * from product`;
-            db.query(scriptQuery,(err, results) =>{
-                if(err) res.status(500).send(err)
-                console.log(limit);
-                console.log(results);
-                res.status(200).send(results);
-            })
-        
-        },
+    }
 
 }
