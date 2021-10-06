@@ -82,6 +82,68 @@ export const onBtnLogin = ({ username, password }) => {
   }
 }
 
+export const submitBtnResetEmail = ({email}) => {
+  return (dispatch) => {
+    if (email == "") {
+      return alert("Fill in All the Form")
+    }
+
+    Axios.post(`${URL_API}/user/reset-email`, {
+      email
+    })
+    .then(res => {
+      if (res.data.dataUser) {
+        console.log("Email Exists")
+        console.log(res.data)
+        alert("Continue to reset password")
+        dispatch({
+          type: "RESET_EMAIL_PASS",
+          payload: res.data.dataUser
+        })
+      } else {
+        dispatch({
+          type: "RESET_EMAIL_ERROR",
+          payload: "Your Email doesn't Exist"
+        })
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+}
+
+// export const submitBtnResetPass = ({newPass, confNewPass}) => {
+//   return (dispatch) => {
+//     if (newPass == "" || confNewPass == "") {
+//       return alert("Fill in All the Form")
+//     }
+
+//     // Axios.post(`${URL_API}/user/reset-email`, {
+//     //   email
+//     // })
+//     // .then(res => {
+//     //   if (res.data.dataUser) {
+//     //     console.log("Email Exists")
+//     //     console.log(res.data)
+//     //     alert("Continue to reset password")
+//     //     dispatch({
+//     //       type: "RESET_EMAIL_PASS",
+//     //       payload: res.data.dataUser
+//     //     })
+//     //   } else {
+//     //     dispatch({
+//     //       type: "RESET_EMAIL_ERROR",
+//     //       payload: "Your Email doesn't Exist"
+//     //     })
+//     //   }
+//     // })
+//     // .catch(err => {
+//     //   console.log(err)
+//     // })
+//   }
+// }
+
 // export const onBtnSubmit = ({currentPass, newPass, confNewPass}) => {
 //   // const {currentPass, newPass, confNewPass} = this.state
 //   // console.log(currentPass, newPass, confNewPass)

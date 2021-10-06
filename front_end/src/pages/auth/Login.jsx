@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { onBtnLogin } from "../../redux/actions/user";
-import "../../assets/styles/background.css"
+import "../../assets/styles/background.css";
 
 class Login extends React.Component {
   state = {
@@ -48,6 +48,9 @@ class Login extends React.Component {
                     <strong>Login</strong>
                   </button>
                   <Link to="/register" style={{ color: "white" }}>Or register</Link>
+                </div>
+                <div className="mt-2">
+                  <Link to="/reset-pass-email" style={{ color: "white" }}>Forgot Password?</Link>
                 </div>
               </div>
             </div>

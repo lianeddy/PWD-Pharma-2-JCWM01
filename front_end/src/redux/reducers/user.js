@@ -10,7 +10,8 @@ const init_state = {
     profile_picture: "",
     role: "",
     status: "",
-    errMsg: ""
+    errMsg: "",
+    navbarLogin: true
   };
   
   const reducer = (state = init_state, action) => {
@@ -20,7 +21,11 @@ const init_state = {
       case "USER_CHANGE_PASS":
         return { ...state, ...action.payload };
       case "USER_ERROR":
-          return { ...state, errMsg: action.payload };
+        return { ...state, errMsg: action.payload };
+      case "RESET_EMAIL_PASS":
+        return { ...state, ...action.payload, navbarLogin: false };
+        case "RESET_EMAIL_ERROR":
+          return { ...state, errMsg: action.payload, navbarLogin: false };
       default:
         return state;
     }

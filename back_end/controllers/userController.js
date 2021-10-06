@@ -15,7 +15,7 @@ module.exports = {
         let { id_user, username, email, password, address, phone_number, full_name, gender, age, profile_picture, role, status } = results[0]
         let token = createToken({ id_user, username, email, password, address, phone_number, full_name, gender, age, profile_picture, role, status })
         if (status != "verified") {
-          return res.status(200).send({ dataLogin: 0, message: "Your account is not verified" })
+          return res.status(200).send({ dataLogin: null, message: "Your account is not verified" })
         } else {
           return res.status(200).send({ dataLogin: results[0], token, message: "Login Success" })
         }
@@ -53,14 +53,47 @@ module.exports = {
         return res.status(500).json({ message: "Current Password is Wrong" })
       }
     })
-
-    // db.query(updateQuery, (err, results) => {
-    //   if (err) return res.status(500).send(err)
-    //   return res.status(200).send(results)
-    // })
   },
+  resetEmailPass: (req, res) => {
+    let selectQuery = `SELECT * FROM user WHERE email = ${db.escape(req.body.email)}`
+    console.log(selectQuery)
 
+    db.query(selectQuery, (err, results) => {
+      if (err) {
+        console.log(err)
+        return res.status(500).send(err)
+      }
 
+      if (results[0]) {
+        return res.status(200).send({ dataUser: results[0], message: "Email Exists" })
+      } else {
+        return res.status(200).send({ dataUser: null , message: "Email doesn't Exist" })
+      }
+    })
+  },
+  resetPass: (req, res) => {
+    let selectQuery = `SELECT * FROM user WHERE id_user = ${db.escape(req.params.id)}`
+    console.log(selectQuery)
+
+    req.body.newPass = Crypto.createHmac("sha1", "hash123").update(req.body.newPass).digest("hex")
+
+    let updateQuery = `UPDATE user SET password = ${db.escape(req.body.newPass)} WHERE id_user = ${db.escape(req.params.id)}`
+    console.log(updateQuery)
+
+    db.query(selectQuery, (err, results) => {
+      if (err) {
+        console.log(err)
+        return res.status(500).send(err)
+      }
+
+      if (results[0]) {
+        db.query(updateQuery, (err2, results2) => {
+          if (err2) return res.status(500).send(err2)
+          return res.status(200).send(results2)
+        })
+      }
+    })
+  },
 
 
 

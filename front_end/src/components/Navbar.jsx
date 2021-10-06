@@ -24,7 +24,7 @@ class MyNavbar extends React.Component {
           </NavbarBrand>
           <Nav>
             {
-              this.props.userGlobal.username ?
+              this.props.userGlobal.username && this.props.userGlobal.navbarLogin ?
               <>
                 <NavItem>
                   <NavbarText className="nav">Hello, {this.props.userGlobal.username}</NavbarText>
