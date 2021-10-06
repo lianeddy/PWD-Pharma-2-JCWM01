@@ -89,4 +89,4 @@ const mapStateToProps = (state) => {
 //   onBtnSubmit,
 // }
 
-export default connect(mapStateToProps)(ChangePass);
+export default connect(mapStateToProps)(ChangePass)

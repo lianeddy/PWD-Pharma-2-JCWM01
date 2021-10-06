@@ -59,6 +59,7 @@ module.exports = {
     //   return res.status(200).send(results)
     // })
   },
+  
   getProfile : (req, res) =>{
     let scriptQuery = `select * from user where id_user = ${db.escape(req.params.id)};`
    
@@ -149,7 +150,7 @@ module.exports = {
             res.status(200).send({message: "verified account", success: true})
         })
     },
-    editData :(req, res)=>{
+    changeProfile :(req, res)=>{
         let dataUpdate = []
         for(let prop in req.body){
             dataUpdate.push(`${prop} = ${db.escape(req.body[prop])}`)
