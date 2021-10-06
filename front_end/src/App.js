@@ -18,6 +18,7 @@ function App() {
       <Switch>
         <Route component={Profile} path="/profile"/>
         <Route component={Login} path="/login" />
+        <Route component={Home} path="/home" />
         <Route component={Register} path="/register"/>
         <Route component={VerificationPage} path="/authentication/:token" />
       </Switch>
