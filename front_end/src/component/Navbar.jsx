@@ -19,7 +19,7 @@ class MyNavbar extends React.Component {
   render() {
     return (
       <div>
-        <Navbar color = "blue">
+        <Navbar color = "dark">
             <NavbarBrand className="mx-4">
                 <Link />
                 PHARMA2
