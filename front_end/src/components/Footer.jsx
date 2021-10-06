@@ -58,8 +58,7 @@ export class Footer extends Component {
                     <li>
                       <div class="cont">
                         <p>
-                          bewell-pharmacy@ahzplay.com{" "}
-                          <i class="fa fa-envelope-o"></i>
+                          bewell@pharmacy.com <i class="fa fa-envelope-o"></i>
                         </p>
                       </div>
                     </li>

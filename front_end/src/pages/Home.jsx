@@ -133,21 +133,23 @@ class Home extends React.Component {
                 <strong>Filter Products</strong>
               </div>
               <div className="card-body">
-                <label htmlFor="searchHandler">Drugs Name</label>
+                <label htmlFor="searchHandler">Name</label>
                 <input
                   onChange={this.searchHandler}
                   name="searchProductName"
                   type="text"
                   className="form-control mb-3"
                 />
-                <label htmlFor="searchCategory">Drugs Category </label>
+                <label htmlFor="searchCategory">Category</label>
                 <select
                   onChange={this.inputHandlerr}
                   name="searchCategory"
                   className="form-control"
                 >
-                  <option value="Kaos">Preciption Drugs</option>
-                  <option value="Celana">Non-Preception Drugs</option>
+                  <option value="Preception Drugs">Preciption Drugs</option>
+                  <option value="Non-Preception Drugs">
+                    Non-Preception Drugs
+                  </option>
                 </select>
                 <button
                   onClick={this.searchBtnHandler}
