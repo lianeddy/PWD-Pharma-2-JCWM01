@@ -35,7 +35,7 @@ componentDidMount() {
 }
 
 getData = () => {
-    Axios.get(`http://localhost:3300/user/getProfile/2`)
+    Axios.get(`http://localhost:3300/user/getProfile/${this.props.userGlobal.id_user}`)
         .then(res => {
             console.log(res.data)
             this.setState({ pharma2 : res.data })
