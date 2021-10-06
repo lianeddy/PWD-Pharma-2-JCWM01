@@ -25,6 +25,16 @@ module.exports = {
         })
     
     },
+    getProfile : (req, res) =>{
+        let scriptQuery = `select * from user where id_user = ${db.escape(req.params.id)};`
+       
+        db.query(scriptQuery,(err, results) =>{
+            if(err) res.status(500).send(err)
+            res.status(200).send(results)
+           
+        })
+
+    },
     addData : (req, res)=>{
         console.log(req.body);
         let {username, email, password, address, phone_number, fullname, gender, age, profile_picture} = req.body

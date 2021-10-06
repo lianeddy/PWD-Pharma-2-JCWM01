@@ -2,7 +2,7 @@ import Axios from 'axios'
 import React from 'react'
 import {URL_API} from '../../helper'
 import {connect} from 'react-redux'
-import {registerUser } from '../../redux/actions/user'
+
 import backgroundpharma from '../../img/pharma2.jpg'
 
 
@@ -121,12 +121,6 @@ class Register extends React.Component {
     }
     
 }
-const mapStateToProps = () => {
-    return {};
-  };
-  
-  const mapDispatchToProps = {
-    registerUser,
-  };
-  export default connect(mapStateToProps, mapDispatchToProps)(Register);
+
+  export default Register;
   

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import Axios from 'axios';
-import { loginUser } from "../../redux/actions/user";
+
 import { URL_API } from '../../helper';
 
 const Login = () => {
@@ -70,14 +70,6 @@ const Login = () => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    userGlobal: state.user,
-  }
-}
 
-const mapDispatchToProps = {
-  loginUser,
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;

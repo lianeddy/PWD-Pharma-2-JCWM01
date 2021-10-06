@@ -1,96 +1,166 @@
-import Axios from 'axios'
-import React from 'react'
-import {URL_API} from '../helper'
-import {connect} from 'react-redux'
+import React from 'react';
+import Axios from 'axios';
+import { Col, Button, Form, FormGroup, Label, Input, FormText, Table } from 'reactstrap';
 
 
-
-class Profil extends React.Component{
-    
-render(){
-    return (
-
-        <div className="container" style={{background:""}} >
-            <div className="row">
-                <div className="col-12 text-center my-5" >
-                    <h1>Profile page</h1>
-                </div>
-            </div>
-            <div className="row mt-5">
-                <div className="col-4 offset-4">
-                    <div className="card" style={{width:"400px "}}>
-                        <div className="card-body" style={{width:"400px"}}>
-                            <h5 className="font-weight-bold mb-3">register</h5>
-                            
-                                    <input
-                                    name="username"
-                                    onChange={this.inputHandler}
-                                    placeholder="username"
-                                    type="text"
-                                    className="form-control my-2"
-                                    />
-                                    <input
-                                    name="email"
-                                    onChange={this.inputHandler}
-                                    placeholder="email"
-                                    type="text"
-                                    className="form-control my-2"
-                                    />
-                                    <input
-                                    name="password"
-                                    onChange={this.inputHandler}
-                                    placeholder="password"
-                                    type="password"
-                                    className="form-control my-2"
-                                    />
-                                        <input
-                                    name="confPassword"
-                                    onChange={this.inputHandler}
-                                    placeholder="configuration password"
-                                    type="password"
-                                    className="form-control my-2"
-                                    />
-                                           <input
-                                    name="confPassword"
-                                    onChange={this.inputHandler}
-                                    placeholder="configuration password"
-                                    type="password"
-                                    className="form-control my-2"
-                                    />
-                                           <input
-                                    name="confPassword"
-                                    onChange={this.inputHandler}
-                                    placeholder="configuration password"
-                                    type="password"
-                                    className="form-control my-2"
-                                    />
-                                           <input
-                                    name="confPassword"
-                                    onChange={this.inputHandler}
-                                    placeholder="configuration password"
-                                    type="password"
-                                    className="form-control my-2"
-                                  
-                                    />
-                                    
-                            <div className="d-flex flex-row justify-content-between align-items-center">
-                                <button onClick={this.onBtnRegister} className="btn btn-primary mt-2" disabled={this.tryVerified}>
-                                    {this.tryVerified ? "Check Your Email" : "Register"}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            
-            </div>
-        </div>
-    
-    
-    )
-    
-};
-}
-
+class Profile extends React.Component{
        
 
-export default Profil
+constructor(props) {
+    super(props);
+    this.state = {
+        pharma2: [],
+        selectedID: null
+    }
+}
+
+componentDidMount() {
+    this.getData()
+}
+
+getData = () => {
+    Axios.get(`http://localhost:3300/user/getProfile/2`)
+        .then(res => {
+            console.log(res.data)
+            this.setState({ pharma2 : res.data })
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
+
+printData = () => {
+    return this.state.pharma2.map((item, index) => {
+        if (this.state.selectedID !== index) {
+            return (
+                <div className="container">
+                         <div className="col-12 text-center my-5">
+                             PROFILE PAGE
+                         </div>
+                         <div className="row mt-5">
+                             <div className="col-4 offset-4">
+                                 <div className="card" style={{backgroundColor:"#6495ED"}}>
+                                     <div className="card-body">
+                                         <div className="font-weight-bold mb-3">
+                                             <h5>profile</h5>
+                                             <Form>
+                                            <FormGroup>
+                                                {index + 1}
+                                            </FormGroup>
+                                            <FormGroup>
+                                                {item.username}
+                                            </FormGroup>
+                                            <FormGroup>
+                                            {item.email}
+                                            </FormGroup>
+                                            <FormGroup>
+                                            {item.address}
+                                            </FormGroup>
+                                            <FormGroup>
+                                            {item.phone_number}
+                                            </FormGroup>
+                                            <FormGroup>
+                                            {item.full_name}
+                                            </FormGroup>
+                                            <FormGroup>
+                                            {item.gender}
+                                            </FormGroup>
+                                            <FormGroup>
+                                            {item.age}
+                                            </FormGroup>
+                                            <FormGroup>
+                                            <Button onClick={() => this.setState({ selectedID: index })}>Edit </Button><Button >Delete</Button>
+                                            </FormGroup>
+
+
+                                        </Form>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                        
+                         </div>
+                  
+             
+                </div>
+               
+            )
+        } else {
+            return (
+                <div className="container">
+                         <div className="col-12 text-center my-5">
+                             PROFILE PAGE
+                         </div>
+                         <div className="row mt-5">
+                             <div className="col-4 offset-4">
+                                 <div className="card" style={{backgroundColor:"#6495ED"}}>
+                                     <div className="card-body">
+                                         <div className="font-weight-bold mb-3">
+                                             <h5>profile</h5>
+                                             <Form width="90vw" className="col-md-2">
+                        <FormGroup>
+                        <Input type="text" name="text" innerRef={(newUsername) => this.newUsername = newUsername} defaultValue={item.username} style={{width:"300px"}}/>
+                        </FormGroup>
+                        <FormGroup>
+                        <Input type="text" name="text" innerRef={(newEmail) => this.newEmail = newEmail} defaultValue={item.email} style={{width:"300px"}} />
+                        </FormGroup>
+                        <FormGroup>
+                        <Input type="text" name="text" innerRef={(newAddress) => this.newAddress = newAddress} defaultValue={item.address} style={{width:"300px"}} />
+                        </FormGroup>
+                        <FormGroup>
+                        <Input type="text" name="text" innerRef={(newPhoneN) => this.newPhoneN = newPhoneN} defaultValue={item.phone_number} style={{width:"300px"}} />
+                        </FormGroup>
+                        <FormGroup>
+                        <Input type="text" name="text" innerRef={(newFullN) => this.newFullN = newFullN} defaultValue={item.full_name} style={{width:"300px"}} />
+                        </FormGroup>
+                        <FormGroup>
+                        <Input type="select" name="select" id="exampleSelect" innerRef={(newGender) => this.newGender = newGender}>
+                        <option value={1}>Pria</option>
+                        <option value={2}>Wanita</option>
+                        </Input>
+                        </FormGroup>
+                        <FormGroup>
+                        {this.state.selectedID == null ? <><Button onClick={() => this.setState({ selectedID: index })}>Edit</Button><Button>Delete</Button></> :
+                        <><Button onClick={() => this.setState({ selectedID: null })}>No</Button><Button >Yes</Button></>}
+                        </FormGroup>
+                  
+                    </Form>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                        
+                         </div>
+                  
+             
+                </div>
+               
+               
+            )
+        }
+    })
+}
+
+render() {
+    //    console.log( this.posisi)
+    return (
+        <div className="row m-auto">
+            
+            <div className="col-md-10">
+                <Table >
+                   
+                  
+                    <tbody>
+                        {this.printData()}
+                    </tbody>
+                </Table>
+            </div>
+        </div>
+    );
+}
+}
+
+
+
+export default Profile;
