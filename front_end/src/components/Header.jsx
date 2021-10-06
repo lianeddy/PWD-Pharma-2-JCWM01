@@ -115,15 +115,8 @@ export class Header extends Component {
                         <a href="about.html">About us</a>
                       </li>
                       <li class="nav-item">
-                        <a href="courses.html">Courses</a>
-                        <ul class="sub-menu">
-                          <li>
-                            <a href="courses.html">Courses</a>
-                          </li>
-                          <li>
-                            <a href="courses-singel.html">Course Singel</a>
-                          </li>
-                        </ul>
+                        <a href="courses.html">History</a>
+                        <ul class="sub-menu"></ul>
                       </li>
                     </ul>
                   </div>
