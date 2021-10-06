@@ -1,19 +1,28 @@
 import {GET_USERS_DETAIL} from '../actions/user'
 const init_state = {
-    getUserDetail : false,
-    errorUserDetail : false
+    id_user: 0,
+    username: "",
+    email: "",
+    address: "",
+    phone_number: 0,
+    full_name: "",
+    gender: "",
+    age: 0,
+    profile_picture: "",
+    role: "",
+    status: "",
+    errMsg: ""
   };
   
   const reducer = (state = init_state, action) => {
     switch (action.type) {
-      case GET_USERS_DETAIL:
-        return {
-          ...state,
-          getUserDetail : action.payload.data,
-          errorUserDetail : action.payload.errorMessage
-        }
-        default :
-
+      case "USER_LOGIN":
+        return { ...state, ...action.payload };
+      case "USER_CHANGE_PASS":
+        return { ...state, ...action.payload };
+      case "USER_ERROR":
+          return { ...state, errMsg: action.payload };
+      default:
         return state;
     }
   };

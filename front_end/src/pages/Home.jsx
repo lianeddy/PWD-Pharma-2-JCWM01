@@ -1,9 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Home = () =>{
   return (
-    <div>
-        <h1>Home Page</h1>
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "50px" }}>
+      <h1>Home Page</h1>
     </div>
   )
 }

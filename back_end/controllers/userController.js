@@ -6,35 +6,70 @@ const transporter = require('../helper/nodemailer')
 module.exports = {
   getData: (req, res) => {
     req.body.password = Crypto.createHmac("sha1", "hash123").update(req.body.password).digest("hex")
-    let scriptQuery = `select * from user where email = ${db.escape(req.body.email)} and password = ${db.escape(req.body.password)};`
+    let scriptQuery = `SELECT * FROM user WHERE username = ${db.escape(req.body.username)} AND password = ${db.escape(req.body.password)};`
 
-        db.query(scriptQuery,(err, results) =>{
-            if(err) res.status(500).send(err)
-            
-            if(results[0]){
-                let {username, email,password, address, phone_number, fullname, gender, age, profile_picture, role, status} = results[0]
-                let token =  createToken({username, email,password, address, phone_number, fullname, gender, age, profile_picture, role, status})
-                if(status != "verified"){
-                    res.status(200).send({message: "your account not verified"})
-                }else{
-                    res.status(200).send({dataLogin : results[0], token, message : "login success"})
-                }
-            }
-            
-           
-        })
-    
-    },
-    getProfile : (req, res) =>{
-        let scriptQuery = `select * from user where id_user = ${db.escape(req.params.id)};`
-       
-        db.query(scriptQuery,(err, results) =>{
-            if(err) res.status(500).send(err)
-            res.status(200).send(results)
-           
-        })
+    db.query(scriptQuery, (err, results) => {
+      console.log(results)
+      if (err) return res.status(500).send(err)
+      if (results[0]) {
+        let { id_user, username, email, password, address, phone_number, full_name, gender, age, profile_picture, role, status } = results[0]
+        let token = createToken({ id_user, username, email, password, address, phone_number, full_name, gender, age, profile_picture, role, status })
+        if (status != "verified") {
+          return res.status(200).send({ dataLogin: 0, message: "Your account is not verified" })
+        } else {
+          return res.status(200).send({ dataLogin: results[0], token, message: "Login Success" })
+        }
+      } else {
+        // Jika tidak dapat data (user not found)
+        return res.status(200).send({ dataLogin: 1, message: "Login Failed" })
+      }
+    })
+  },
+  changePassword: (req, res) => {
+    // let newPassword = "12345"
+    // let updateQuery = `UPDATE user SET password = '${newPassword}' WHERE id_user = ${req.params.id}`
+    req.body.currentPass = Crypto.createHmac("sha1", "hash123").update(req.body.currentPass).digest("hex")
 
-    },
+    let selectQuery = `SELECT password FROM user WHERE id_user = ${db.escape(req.params.id)}`
+    console.log(selectQuery)
+
+    req.body.newPass = Crypto.createHmac("sha1", "hash123").update(req.body.newPass).digest("hex")
+
+    let updateQuery = `UPDATE user SET password = ${db.escape(req.body.newPass)} WHERE id_user = ${db.escape(req.params.id)}`
+    console.log(updateQuery)
+
+    db.query(selectQuery, (err, results) => {
+      if (err) {
+        console.log(err)
+        return res.status(500).send(err)
+      }
+
+      if (results[0].password == req.body.currentPass) {
+        db.query(updateQuery, (err2, results2) => {
+          if (err2) return res.status(500).send(err2)
+          return res.status(200).send(results2)
+        })
+      } else {
+        return res.status(500).json({ message: "Current Password is Wrong" })
+      }
+    })
+
+    // db.query(updateQuery, (err, results) => {
+    //   if (err) return res.status(500).send(err)
+    //   return res.status(200).send(results)
+    // })
+  },
+
+
+
+
+
+
+
+
+
+
+
     addData : (req, res)=>{
         console.log(req.body);
         let {username, email, password, address, phone_number, fullname, gender, age, profile_picture} = req.body

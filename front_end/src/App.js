@@ -10,17 +10,20 @@ import Login from './pages/auth/Login';
 import VerificationPage from './pages/auth/VerificationPage'
 import Navbar from './component/Navbar';
 import Profile from './pages/Profile'
+import ChangePass from './pages/ChangePass';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
     <BrowserRouter>
-    <Navbar/>
+      <Navbar />
       <Switch>
         <Route component={Profile} path="/profile/:id"/>
         <Route component={Login} path="/login" />
         
         <Route component={Register} path="/register"/>
         <Route component={VerificationPage} path="/authentication/:token" />
+        <Route component={ChangePass} path="/change-pass"/>
         <Route component={Home} path="/" />
       </Switch>
     </BrowserRouter>

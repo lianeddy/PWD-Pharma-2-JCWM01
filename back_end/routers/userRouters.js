@@ -8,5 +8,7 @@ routers.get('/getProfile/:id', userController.getProfile)
 routers.post('/register', userController.addData)
 routers.patch('/edit', userController.editData)
 routers.patch('/verified', auth, userController.verification)
+routers.post('/regis', userController.addData)
+routers.patch('/change/:id', userController.changePassword)
 
 module.exports = routers
