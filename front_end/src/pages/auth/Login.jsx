@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { onBtnLogin } from "../../redux/actions/user";
+import "../../assets/styles/background.css"
 
 class Login extends React.Component {
   state = {
@@ -23,7 +24,7 @@ class Login extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-12 text-center">
+          <div className="col-12 text-center mt-4">
             <h1>Log in now!</h1>
             <p className="lead">
               Log in now and start shopping in the most affordable <strong>pharmaceutical</strong> ecommerce
@@ -37,16 +38,16 @@ class Login extends React.Component {
         </div>
         <div className="row mt-5">
           <div className="col-4 offset-4">
-            <div className="card">
+            <div className="card" style={{ backgroundColor: "#6495ED" }}>
               <div className="card-body">
-                <h5 className="font-weight-bold mb-3">Log in</h5>
+                <h5 className="font-weight-bold mb-3" style={{ color: "white" }}>Log in</h5>
                 <input onChange={this.inputHandler} name="username" placeholder="Username" type="text" className="form-control my-2" />
                 <input onChange={this.inputHandler} name="password" placeholder="Password" type="password" className="form-control my-2" />
                 <div className="d-flex flex-row justify-content-between align-items-center">
-                  <button onClick={() => this.props.onBtnLogin(this.state)} className="btn btn-primary mt-2">
-                    Login
+                  <button onClick={() => this.props.onBtnLogin(this.state)} className="btn btn-light mt-2">
+                    <strong>Login</strong>
                   </button>
-                  <Link to="/register">Or register</Link>
+                  <Link to="/register" style={{ color: "white" }}>Or register</Link>
                 </div>
               </div>
             </div>

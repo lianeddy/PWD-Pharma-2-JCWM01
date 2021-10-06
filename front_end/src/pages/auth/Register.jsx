@@ -49,8 +49,8 @@ class Register extends React.Component {
     return (
       <div className="container" >
         <div className="row">
-            <div className="col-12 text-center my-5" >
-                <h1>Register now!</h1>
+            <div className="col-12 text-center mt-4" >
+              <h1>Register now!</h1>
             </div>
         </div>
         <div className="row mt-5">

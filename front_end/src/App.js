@@ -8,10 +8,12 @@ import Home from './pages/Home';
 import Register from './pages/auth/Register';
 import Login from './pages/auth/Login';
 import ChangePass from './pages/ChangePass';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
     <BrowserRouter>
+      <Navbar />
       <Switch>
         <Route component={Login} path="/login" />
         <Route component={Register} path="/register"/>

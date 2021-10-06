@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import Axios from 'axios';
 import { URL_API } from '../helper';
-// import { onBtnSubmit } from "../redux/actions/user";
 
 class ChangePass extends React.Component {
   state = {
@@ -44,6 +43,9 @@ class ChangePass extends React.Component {
   }
 
   render() {
+    if (!this.props.userGlobal.username) {
+      return <Redirect to="/" />
+    }
     return (
       <div className="container">
         <div className="row">
@@ -56,17 +58,17 @@ class ChangePass extends React.Component {
         </div>
         <div className="row mt-5">
           <div className="col-4 offset-4">
-            <div className="card">
+            <div className="card" style={{ backgroundColor: "#6495ED" }} >
               <div className="card-body">
-                <h5 className="font-weight-bold mb-3">Change Password</h5>
+                <h5 className="font-weight-bold mb-3" style={{ color: "white" }}>Change Password</h5>
                 <input onChange={this.inputHandler} name="currentPass" placeholder="Current password" type="password" className="form-control my-2" />
                 <input onChange={this.inputHandler} name="newPass" placeholder="New password" type="password" className="form-control my-2" />
                 <input onChange={this.inputHandler} name="confNewPass" placeholder="Confirm new password" type="password" className="form-control my-2" />
                 <div className="d-flex flex-row justify-content-between align-items-center">
-                  <button onClick={() => this.onBtnSubmit(this.state)} className="btn btn-primary mt-2">
-                    Submit
+                  <button onClick={() => this.onBtnSubmit(this.state)} className="btn btn-light mt-2">
+                    <strong>Submit</strong>
                   </button>
-                  <Link to="/">Cancel</Link>
+                  <Link to="/" style={{ color: "white" }}>Cancel</Link>
                 </div>
               </div>
             </div>
