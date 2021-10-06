@@ -1,15 +1,12 @@
 import React from 'react';
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-import Axios from 'axios';
-import { loginUser } from "../../redux/actions/user";
-import { URL_API } from '../../helper';
+import { onBtnLogin } from "../../redux/actions/user";
 
 class Login extends React.Component {
   state = {
     username: "",
-    password: "",
-    redirect: false
+    password: ""
   }
 
   inputHandler = (event) => {
@@ -19,33 +16,8 @@ class Login extends React.Component {
     this.setState({ [name]: value })
   }
 
-  onBtnLogin = ({ username, password }) => {
-    console.log(username, password)
-    if (username  == "" || password == "") {
-      alert("Fill in All the Form")
-    }
-
-    Axios.post(`${URL_API}/user/login`, {
-      username,
-      password
-    })
-    .then((res) => {
-      // if () {
-        alert("Login Succes")
-        console.log("Login Success ✔")
-        // console.log(res.data)
-        this.setState({redirect: true})
-      // } else if (this.state.redirect = false) {
-      //   alert("Username or Password is Wrong!")
-      // }
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  }
-
   render() {
-    if(this.state.redirect) {
+    if(this.props.userGlobal.id_user) {
       return <Redirect to="/" />
     }
     return (
@@ -56,6 +28,11 @@ class Login extends React.Component {
             <p className="lead">
               Log in now and start shopping in the most affordable <strong>pharmaceutical</strong> ecommerce
             </p>
+            {
+              this.props.userGlobal.errMsg ?
+              <div className="alert alert-danger">{this.props.userGlobal.errMsg}</div>
+              : null
+            }
           </div>
         </div>
         <div className="row mt-5">
@@ -66,7 +43,7 @@ class Login extends React.Component {
                 <input onChange={this.inputHandler} name="username" placeholder="Username" type="text" className="form-control my-2" />
                 <input onChange={this.inputHandler} name="password" placeholder="Password" type="password" className="form-control my-2" />
                 <div className="d-flex flex-row justify-content-between align-items-center">
-                  <button onClick={() => this.onBtnLogin(this.state)} className="btn btn-primary mt-2">
+                  <button onClick={() => this.props.onBtnLogin(this.state)} className="btn btn-primary mt-2">
                     Login
                   </button>
                   <Link to="/register">Or register</Link>
@@ -87,7 +64,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-  loginUser,
+  onBtnLogin,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

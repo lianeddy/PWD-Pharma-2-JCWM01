@@ -40,3 +40,74 @@ export const loginUser = ({ username, password }) => {
     })
   }
 }
+
+export const onBtnLogin = ({ username, password }) => {
+  return (dispatch) => {
+    console.log(username, password)
+    if (username  == "" || password == "") {
+      alert("Fill in All the Form")
+    }
+
+    Axios.post(`${URL_API}/user/login`, {
+      username,
+      password
+    })
+    .then((res) => {
+      if (res.data.dataLogin !== 1) {
+        if (res.data.dataLogin) {
+          alert("Login Succes")
+          console.log("Login Success ✔")
+          console.log(res.data)
+          localStorage.setItem("userDataEmmerce", res.data.dataLogin)
+          dispatch({
+            type: "USER_LOGIN",
+            payload: res.data.dataLogin
+          })
+        } else {
+          dispatch({
+            type: "USER_ERROR",
+            payload: "Your Account is not Verified. Please Verify your Account!"
+          })
+        }
+      } else {
+        dispatch({
+          type: "USER_ERROR",
+          payload: "Wrong Username or Password"
+        })
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+}
+
+// export const onBtnSubmit = ({currentPass, newPass, confNewPass}) => {
+//   // const {currentPass, newPass, confNewPass} = this.state
+//   // console.log(currentPass, newPass, confNewPass)
+
+//   return(dispatch) => {
+//     if (currentPass == "" || newPass == "" || confNewPass == "" ) {
+//       alert("Fill in All the Form")
+//     } else if (newPass !== confNewPass) {
+//       alert("New Password Confirmation is not Matched")
+//     } else {
+//       Axios.patch(`${URL_API}/user/change/${this.props.userGlobal.id_user}`, {
+//         newPass,
+//         currentPass
+//       })
+//       .then(res => {
+//         alert("Password Changed Successfully")
+//         console.log("Password Changed Successfully")
+//         dispatch({
+//           type: "USER_CHANGE_PASS",
+//           payload: res.data.dataLogin
+//         })
+//       })
+//       .catch(err => {
+//         alert("Your Current Password is Wrong")
+//         console.log(err)
+//       })
+//     }
+//   }
+// }

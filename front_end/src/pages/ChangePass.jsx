@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import Axios from 'axios';
 import { URL_API } from '../helper';
+// import { onBtnSubmit } from "../redux/actions/user";
 
 class ChangePass extends React.Component {
   state = {
@@ -18,8 +19,8 @@ class ChangePass extends React.Component {
     this.setState({ [name]: value })
   }
 
-  onBtnSubmit = () => {
-    const {currentPass, newPass, confNewPass} = this.state
+  onBtnSubmit = ({currentPass, newPass, confNewPass}) => {
+    // const {currentPass, newPass, confNewPass} = this.state
     // console.log(currentPass, newPass, confNewPass)
 
     if (currentPass == "" || newPass == "" || confNewPass == "" ) {
@@ -27,7 +28,7 @@ class ChangePass extends React.Component {
     } else if (newPass !== confNewPass) {
       alert("New Password Confirmation is not Matched")
     } else {
-      Axios.patch(`${URL_API}/user/edit/1`, {
+      Axios.patch(`${URL_API}/user/change/${this.props.userGlobal.id_user}`, {
         newPass,
         currentPass
       })
@@ -43,9 +44,6 @@ class ChangePass extends React.Component {
   }
 
   render() {
-    if(this.state.redirect) {
-      return <Redirect to="/" />
-    }
     return (
       <div className="container">
         <div className="row">
@@ -65,7 +63,7 @@ class ChangePass extends React.Component {
                 <input onChange={this.inputHandler} name="newPass" placeholder="New password" type="password" className="form-control my-2" />
                 <input onChange={this.inputHandler} name="confNewPass" placeholder="Confirm new password" type="password" className="form-control my-2" />
                 <div className="d-flex flex-row justify-content-between align-items-center">
-                  <button onClick={this.onBtnSubmit} className="btn btn-primary mt-2">
+                  <button onClick={() => this.onBtnSubmit(this.state)} className="btn btn-primary mt-2">
                     Submit
                   </button>
                   <Link to="/">Cancel</Link>
@@ -79,4 +77,14 @@ class ChangePass extends React.Component {
   }
 }
 
-export default ChangePass;
+const mapStateToProps = (state) => {
+  return {
+    userGlobal: state.user,
+  }
+}
+
+// const mapDispatchToProps = {
+//   onBtnSubmit,
+// }
+
+export default connect(mapStateToProps)(ChangePass);

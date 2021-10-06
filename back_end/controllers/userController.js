@@ -15,22 +15,25 @@ module.exports = {
         let { id_user, username, email, password, address, phone_number, full_name, gender, age, profile_picture, role, status } = results[0]
         let token = createToken({ id_user, username, email, password, address, phone_number, full_name, gender, age, profile_picture, role, status })
         if (status != "verified") {
-          return res.status(200).send({ message: "Your account is not verified" })
+          return res.status(200).send({ dataLogin: 0, message: "Your account is not verified" })
         } else {
           return res.status(200).send({ dataLogin: results[0], token, message: "Login Success" })
         }
-      } 
-      //   else {
-      //   // Jika tidak dapat data (user not found)
-      //   return res.status(200).send({ message: "Login Failed" })
-      // }
+      } else {
+        // Jika tidak dapat data (user not found)
+        return res.status(200).send({ dataLogin: 1, message: "Login Failed" })
+      }
     })
   },
   changePassword: (req, res) => {
     // let newPassword = "12345"
     // let updateQuery = `UPDATE user SET password = '${newPassword}' WHERE id_user = ${req.params.id}`
+    req.body.currentPass = Crypto.createHmac("sha1", "hash123").update(req.body.currentPass).digest("hex")
+
     let selectQuery = `SELECT password FROM user WHERE id_user = ${db.escape(req.params.id)}`
     console.log(selectQuery)
+
+    req.body.newPass = Crypto.createHmac("sha1", "hash123").update(req.body.newPass).digest("hex")
 
     let updateQuery = `UPDATE user SET password = ${db.escape(req.body.newPass)} WHERE id_user = ${db.escape(req.params.id)}`
     console.log(updateQuery)
