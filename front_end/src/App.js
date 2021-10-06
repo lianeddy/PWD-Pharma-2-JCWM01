@@ -8,15 +8,15 @@ import Home from './pages/Home';
 import Register from './pages/auth/Register';
 import Login from './pages/auth/Login';
 import VerificationPage from './pages/auth/VerificationPage'
-import Navbar from './component/Navbar';
+// import Navbar from './components/Navbar';
 import Profile from './pages/Profile'
 import ChangePass from './pages/ChangePass';
-import Navbar from './components/Navbar';
+
 
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
+      {/* <Navbar /> */}
       <Switch>
         <Route component={Profile} path="/profile/:id"/>
         <Route component={Login} path="/login" />

@@ -59,6 +59,16 @@ module.exports = {
     //   return res.status(200).send(results)
     // })
   },
+  getProfile : (req, res) =>{
+    let scriptQuery = `select * from user where id_user = ${db.escape(req.params.id)};`
+   
+    db.query(scriptQuery,(err, results) =>{
+        if(err) res.status(500).send(err)
+        res.status(200).send(results)
+       
+    })
+
+},
 
 
 

@@ -1,4 +1,4 @@
-import {GET_USERS_DETAIL} from '../actions/user'
+
 const init_state = {
     id_user: 0,
     username: "",
@@ -22,6 +22,8 @@ const init_state = {
         return { ...state, ...action.payload };
       case "USER_ERROR":
           return { ...state, errMsg: action.payload };
+      case "USER_EDIT_PROFILE":
+          return {...state, ...action.payload}
       default:
         return state;
     }

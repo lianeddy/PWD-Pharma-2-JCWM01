@@ -1,18 +1,34 @@
 import React from 'react';
 import Axios from 'axios';
 import { Col, Button, Form, FormGroup, Label, Input, FormText, Table } from 'reactstrap';
+import { connect } from 'react-redux';
 
 
 class Profile extends React.Component{
        
+state = {
+    address: "",
+    phone_number: 0,
+    full_name: "",
+    gender: "",
+    age: 0,
+    profile_picture: "",
+    role: "",
+    status: "",
+    pharma2 : [],
+    selectedID : null
 
-constructor(props) {
-    super(props);
-    this.state = {
-        pharma2: [],
-        selectedID: null
-    }
 }
+inputHandler = (event)=>{
+    const value = event.target.value 
+    const name = event.target.name 
+
+    this.setState({[name] : value})
+
+}
+
+
+
 
 componentDidMount() {
     this.getData()
@@ -161,6 +177,12 @@ render() {
 }
 }
 
+const mapStateToProps = (state) => {
+    return {
+      userGlobal: state.user,
+    }
+  }
 
 
-export default Profile;
+
+export default connect(mapStateToProps) (Profile);
