@@ -9,12 +9,14 @@ import Register from './pages/auth/Register';
 import Login from './pages/auth/Login';
 import VerificationPage from './pages/auth/VerificationPage'
 import Navbar from './component/Navbar';
+import Profile from './pages/Profile'
 
 function App() {
   return (
     <BrowserRouter>
     <Navbar/>
       <Switch>
+        <Route component={Profile} path="/profile"/>
         <Route component={Login} path="/login" />
         <Route component={Register} path="/register"/>
         <Route component={VerificationPage} path="/authentication/:token" />
