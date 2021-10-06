@@ -10,7 +10,8 @@ class Register extends React.Component {
        username : "",
        email : "",
        password : "",
-       confPassword : ""
+       confPassword : "",
+       tryVerified : false
     }
 
     inputHandler = (event) => {
@@ -40,7 +41,8 @@ class Register extends React.Component {
               })
                    //proses asyncronus
                 .then(() => {
-                  alert("berhasil mendapatkan users");
+                  alert("Register Success !!! check your EMAIL to verified");
+                  this.setState({tryVerified : true})
                 })
                 .catch(() => {
                   alert("gagal mendapatkan users");
@@ -97,9 +99,10 @@ class Register extends React.Component {
                                         type="password"
                                         className="form-control my-2"
                                         />
+                                        
                                 <div className="d-flex flex-row justify-content-between align-items-center">
-                                    <button onClick={this.onBtnRegister} className="btn btn-primary mt-2">
-                                        REGISTER
+                                    <button onClick={this.onBtnRegister} className="btn btn-primary mt-2" disabled={this.tryVerified}>
+                                        {this.tryVerified ? "Check Your Email" : "Register"}
                                     </button>
                                 </div>
                             </div>
