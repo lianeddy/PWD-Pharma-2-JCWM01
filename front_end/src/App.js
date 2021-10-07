@@ -18,13 +18,12 @@ function App() {
     <BrowserRouter>
       <Navbar />
       <Switch>
+        <Route component={Home} path="/" exact/>
         <Route component={Login} path="/login" />
-        <Route component={Home} path="/home" />
         <Route component={Register} path="/register" />
         <Route component={ChangePass} path="/change-pass" />
         <Route component={ResetPassEmail} path="/reset-pass-email" />
         <Route component={ResetPass} path="/resetpass" />
-        <Route component={Home} path="/" />
         <Route component={VerificationPage} path="/authentication/:token" />
       </Switch>
     </BrowserRouter>

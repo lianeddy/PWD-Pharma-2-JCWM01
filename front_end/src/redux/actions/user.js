@@ -58,7 +58,7 @@ export const onBtnLogin = ({ username, password }) => {
             alert("Login Succes");
             console.log("Login Success ✔");
             console.log(res.data);
-            localStorage.setItem("userDataEmmerce", res.data.dataLogin);
+            localStorage.setItem("userDataEmmerce", res.data.token);
             dispatch({
               type: "USER_LOGIN",
               payload: res.data.dataLogin,

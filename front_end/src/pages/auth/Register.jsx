@@ -125,7 +125,7 @@ const mapStateToProps = () => {
   };
   
   const mapDispatchToProps = {
-    registerUser,
+    // registerUser,
   };
   export default connect(mapStateToProps, mapDispatchToProps)(Register);
   
