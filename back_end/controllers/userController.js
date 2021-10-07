@@ -162,6 +162,15 @@ module.exports = {
             res.status(200).send(results)
         })
     },
+    changePhoto : (req, res) =>{
+
+      let updateQuery = `update user set profile_picture = ${req.body.profile_picture} where id_user = ${req.params.id};`
+      db.query(updateQuery,(err,result)=>{
+        if(err)res.status(500).send(err)
+        res.status(200).send(result)
+        
+      })
+  },
 
     deleteData : (req, res)=>{
         let deleteQuery = `delete from user where id_user = ${db.escape(req.params.id_user)};`

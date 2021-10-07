@@ -3,6 +3,7 @@ import Axios from 'axios';
 import { Col, Button, Form, FormGroup, Label, Input, FormText, Table } from 'reactstrap';
 import { connect } from 'react-redux';
 import { URL_API } from '../helper';
+import photoP from '../img/kosong.png'
 
 
 class Profile extends React.Component{
@@ -23,10 +24,23 @@ state = {
 inputHandler = (event)=>{
     const value = event.target.value 
     const name = event.target.name 
+    
+
 
     this.setState({[name] : value})
 
 }
+
+inputHandlerImg = (event)=>{
+    const upload = event.target.files[0]
+    const name = event.target.name
+
+    
+    this.setState({profile_picture : URL.createObjectURL(upload)})
+
+}
+
+
 
 
 
@@ -49,6 +63,8 @@ getData = () => {
             this.setState({gender : res.data.gender})
             this.setState({age : res.data.age})
             this.setState({profile_picture : res.data.profile_picture})
+           
+    
         })
         .catch(err => {
             console.log(err)
@@ -58,14 +74,15 @@ getData = () => {
 
 
 onBtnSave = () => {
-    const {address, phone_number,full_name, gender, age} = this.state
-    console.log(address, phone_number, full_name, gender, age);
+    const {address, phone_number,full_name, gender, age, profile_picture} = this.state
+    console.log(address, phone_number, full_name, gender, age, profile_picture);
     Axios.patch(`${URL_API}/user/edit/2`,{
         address ,
         phone_number,
         full_name,
         gender,
-        age
+        age,
+        profile_picture
     })
     .then(()=>{
         alert('Profile Change Successfully')
@@ -75,7 +92,22 @@ onBtnSave = () => {
     .catch(err =>{
         console.log(err);
     })
-console.log(this.inputHandler);
+}
+
+onBtnSaveImg = () =>{
+    const {profile_picture} = this.state
+    console.log(profile_picture);
+    Axios.patch(`${URL_API}/user/changePhoto/2`,{
+        profile_picture
+    })
+    .then(()=>{
+        alert('profile picture Saved')
+        this.getData()
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
+    
 
 }
 
@@ -95,6 +127,19 @@ printData = () => {
                                      <div className="card-body">
                                          <div className="font-weight-bold mb-3">
                                              {/* image */}
+                                             <div className="dflex justify-content-center align-items-center" style={{height:"45vh"}}>
+                                            <div>
+                                            <img name="img"  src={item.profile_picture} className= "img-thumbnail" alt="" />
+                                                
+                                                
+                                            </div>
+                                            <div className="my-3">
+                                                <label htmlFor="formFile" className="form-label">Upload Image Here</label>
+                                                <input onChange={this.inputHandlerImg} type="file" className="form-control" id="formFile" accept="image/*"/>
+                                                <button onClick={this.onBtnSave} className="btn btn-primary w-100 mt-2">SAVE</button>
+                                            </div>
+                                        </div>
+
                                        
                                              
                                              <h5>profile</h5>
