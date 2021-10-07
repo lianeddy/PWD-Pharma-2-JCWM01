@@ -33,6 +33,8 @@ inputHandler = (event)=>{
 
 componentDidMount() {
     this.getData()
+    
+
 }
 
 getData = () => {
@@ -47,12 +49,15 @@ getData = () => {
         })
 }
 
-onBtnSave = (address, phoneNumber, fullName, gender) => {
+onBtnSave = () => {
+    const {address, phone_number,full_name, gender, age} = this.state
+    console.log(address, phone_number, full_name, gender, age);
     Axios.patch(`${URL_API}/user/edit/1`,{
-        address,
-        phoneNumber,
-        fullName,
-        gender
+        address ,
+        phone_number,
+        full_name,
+        gender,
+        age
     })
     .then(()=>{
         alert('Profile Change Successfully')
@@ -61,7 +66,7 @@ onBtnSave = (address, phoneNumber, fullName, gender) => {
     .catch(err =>{
         console.log(err);
     })
-
+console.log(this.inputHandler);
 
 }
 
@@ -79,45 +84,61 @@ printData = () => {
                                  <div className="card" style={{backgroundColor:"#6495ED"}}>
                                      <div className="card-body">
                                          <div className="font-weight-bold mb-3">
+                                             
                                              <h5>profile</h5>
                                              <Form>
-                                            <div className="container my-2 " style={{backgroundColor:"white", borderRadius:"5px"}}>
+                                             <td>
+                                             <label htmlFor="">Username</label>
+                                            <tr><div className="container my-2 " style={{backgroundColor:"white", borderRadius:"5px"}}>
+                                                
                                             <FormGroup>
                                                 {item.username}
                                             </FormGroup>
 
-                                            </div>
+                                            </div></tr>
+                                            <label htmlFor="">Email</label>
                                             <div className="container my-2" style={{backgroundColor:"white", borderRadius:"5px"}}>
+                                            
                                             <FormGroup>
                                             {item.email}
                                             </FormGroup>
 
                                             </div>
-                                            <div className="container my-2" style={{backgroundColor:"white", borderRadius:"5px"}}>
+                                            <label htmlFor="">Address</label>
+                                            <tr><div className="container my-2" style={{backgroundColor:"white", borderRadius:"5px"}}>
+                                            
                                             <FormGroup>
                                             {item.address}
                                             </FormGroup>
 
-                                            </div>
+                                            </div></tr>
+                                            <label htmlFor="">Phone Number</label>
                                             <div className="container my-2" style={{backgroundColor:"white", borderRadius:"5px"}}>
+                                            
                                             <FormGroup>
                                             {item.phone_number}
                                             </FormGroup>
 
                                             </div>
+                                            <label htmlFor="">Full Name</label>
                                             <div className="container my-2" style={{backgroundColor:"white", borderRadius:"5px"}}>
+                                            
                                             <FormGroup>
                                             {item.full_name}
                                             </FormGroup>
 
                                             </div>
+                                            <label htmlFor="">Gender</label>
                                             <div className="container my-2" style={{backgroundColor:"white", borderRadius:"5px"}}>
+                                            
                                             <FormGroup>
                                             {item.gender}
                                             </FormGroup>
 
                                             </div>
+                                            <label htmlFor="">Age</label>
                                             <div className="container my-2" style={{backgroundColor:"white", borderRadius:"5px"}}>
+                                            
                                             <FormGroup>
                                             {item.age}
                                             </FormGroup>
@@ -131,10 +152,12 @@ printData = () => {
                                             
                                             
                                             <FormGroup>
-                                            <Button onClick={() => this.setState({ selectedID: index })}>Edit </Button><Button >Delete</Button>
+                                            <Button className={"btn btn-success mx-2"} onClick={() => this.setState({ selectedID: index })}>Edit </Button><Button className ={"btn btn-primary"} >Delete</Button>
                                             </FormGroup>
 
 
+                                             </td>
+                                            
                                         </Form>
                                          </div>
                                      </div>
@@ -161,29 +184,39 @@ printData = () => {
                                              <h5>profile</h5>
                                              <Form width="90vw" className="col-md-2">
                         <FormGroup>
+                            <label htmlFor="">username</label>
                         <Input disabled="true" type="text" name="username" innerRef={(newUsername) => this.newUsername = newUsername} defaultValue={item.username} style={{width:"300px"}}/>
                         </FormGroup>
                         <FormGroup>
+                        <label htmlFor="">Email</label>
                         <Input disabled="true" type="text" name="email" innerRef={(newEmail) => this.newEmail = newEmail} defaultValue={item.email} style={{width:"300px"}} />
                         </FormGroup>
                         <FormGroup>
-                        <Input onChange={this.inputHandler} type="text" name="address" innerRef={(newAddress) => this.newAddress = newAddress} defaultValue={item.address} style={{width:"300px"}} />
+                        <label htmlFor="">Address</label>
+                        <Input onChange={this.inputHandler} type="text" name="address"  defaultValue={item.address} style={{width:"300px"}} />
                         </FormGroup>
                         <FormGroup>
-                        <Input onChange={this.inputHandler} type="text" name="phoneNumber" innerRef={(newPhoneN) => this.newPhoneN = newPhoneN} defaultValue={item.phone_number} style={{width:"300px"}} />
+                        <label htmlFor="">Phone_Number</label>
+                        <Input onChange={this.inputHandler} type="text" name="phone_number"  defaultValue={item.phone_number} style={{width:"300px"}} />
                         </FormGroup>
                         <FormGroup>
-                        <Input onChange={this.inputHandler} type="text" name="fullName" innerRef={(newFullN) => this.newFullN = newFullN} defaultValue={item.full_name} style={{width:"300px"}} />
+                        <label htmlFor="">Full_Name</label>
+                        <Input onChange={this.inputHandler} type="text" name="full_name"  defaultValue={item.full_name} style={{width:"300px"}} />
                         </FormGroup>
                         <FormGroup>
-                        <Input onChange={this.inputHandler} type="select" name="gender" id="exampleSelect" innerRef={(newGender) => this.newGender = newGender}>
-                        <option value={1}>Pria</option>
-                        <option value={2}>Wanita</option>
+                        <label htmlFor="">Gender</label>
+                        <Input style={{width:"100px"}} onChange={this.inputHandler} type="select" name="gender" id="exampleSelect" >
+                        <option value={"Pria"}>Pria</option>
+                        <option value={"Wanita"}>Wanita</option>
                         </Input>
                         </FormGroup>
                         <FormGroup>
+                        <label htmlFor="">Age</label>
+                        <Input onChange={this.inputHandler} type="text" name="age"   defaultValue={item.age} style={{width:"300px"}} />
+                        </FormGroup>
+                        <FormGroup>
                         {this.state.selectedID == null ? <><Button onClick={() => this.setState({ selectedID: index })}>Edit</Button><Button>Delete</Button></> :
-                        <><Button onClick={() => this.setState({ selectedID: null })}>No</Button><Button onClick={() => this.onBtnSave(this.state)} >Yes</Button></>}
+                        <><Button onClick={() => this.setState({ selectedID: null })}>kembali</Button><Button onClick={() => this.onBtnSave(this.state) } >Yes</Button></>}
                         </FormGroup>
                   
                     </Form>
