@@ -27,7 +27,6 @@ class Register extends React.Component {
 
     onBtnRegister = () => {
         const {username, email, password, confPassword } = this.state;
-        console.log(username, email, password, confPassword);
 
         if(username == "" || email == "" || password == "" || confPassword == ""){
             alert('fill in all the form')

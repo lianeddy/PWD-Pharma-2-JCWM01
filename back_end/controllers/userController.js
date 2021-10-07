@@ -67,7 +67,7 @@ module.exports = {
                         from : 'admin <sodikin.purwadhika@gmail.com>',
                         to : `${email}`,
                         subject : 'verification account',
-                        html: `<a href='http://localhost:3000/authentication/${token}'>click here for verification your account</a>`
+                        html: `<h3>Welcome to the pharma website, click the verification link below to continue using the website</h3><a href='http://localhost:3000/authentication/${token}'>click here for verification your account</a>`
                     }
                     transporter.sendMail(mail,(errMail, resMail)=>{
                         if(errMail){
