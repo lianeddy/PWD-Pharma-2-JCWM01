@@ -12,6 +12,7 @@ import Navbar from "./components/Navbar";
 import ResetPassEmail from "./pages/ResetPassEmail";
 import ResetPass from "./pages/ResetPass";
 import VerificationPage from "./pages/auth/VerificationPage";
+import Admin from "./pages/Admin";
 
 import { connect } from 'react-redux';
 import { userKeepLogin, checkStorage } from './redux/actions/user';
@@ -42,6 +43,7 @@ class App extends React.Component {
             <Route component={ResetPassEmail} path="/reset-pass-email" />
             <Route component={ResetPass} path="/resetpass" />
             <Route component={VerificationPage} path="/authentication/:token" />
+            <Route component={Admin} path="/admin" />
           </Switch>
         </BrowserRouter>
       )
