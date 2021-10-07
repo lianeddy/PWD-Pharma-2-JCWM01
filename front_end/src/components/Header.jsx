@@ -30,7 +30,7 @@ export class Header extends Component {
                 </li>
                 <li>
                   <img src={iconEmail} alt="icon" />
-                  <span>bewell-pharmacy@ahzplay.com</span>
+                  <span>bewell@pharmacy.com</span>
                 </li>
               </ul>
             </div>
@@ -115,13 +115,13 @@ export class Header extends Component {
                         <a href="about.html">About us</a>
                       </li>
                       <li class="nav-item">
-                        <a href="courses.html">Courses</a>
+                        <a href="courses.html">Contoh</a>
                         <ul class="sub-menu">
                           <li>
-                            <a href="courses.html">Courses</a>
+                            <a href="courses.html">Contoh 1</a>
                           </li>
                           <li>
-                            <a href="courses-singel.html">Course Singel</a>
+                            <a href="courses-singel.html">Contoh 2</a>
                           </li>
                         </ul>
                       </li>

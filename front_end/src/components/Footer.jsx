@@ -31,28 +31,6 @@ export class Footer extends Component {
                     medical needs, we also accept doctor's prescriptions. Stay
                     Healthy and Happy Shopping !
                   </p>
-                  <ul class="mt-20">
-                    <li>
-                      <a href="#">
-                        <i class="fa fa-facebook-f"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i class="fa fa-twitter"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i class="fa fa-google-plus"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i class="fa fa-instagram"></i>
-                      </a>
-                    </li>
-                  </ul>
                 </div>
               </div>
 
@@ -80,8 +58,7 @@ export class Footer extends Component {
                     <li>
                       <div class="cont">
                         <p>
-                          bewell-pharmacy@ahzplay.com{" "}
-                          <i class="fa fa-envelope-o"></i>
+                          bewell@pharmacy.com <i class="fa fa-envelope-o"></i>
                         </p>
                       </div>
                     </li>
