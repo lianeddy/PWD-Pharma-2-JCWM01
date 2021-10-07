@@ -94,24 +94,6 @@ onBtnSave = () => {
     })
 }
 
-onBtnSaveImg = () =>{
-    const {profile_picture} = this.state
-    console.log(profile_picture);
-    Axios.patch(`${URL_API}/user/changePhoto/2`,{
-        profile_picture
-    })
-    .then(()=>{
-        alert('profile picture Saved')
-        this.getData()
-    })
-    .catch((err)=>{
-        console.log(err);
-    })
-    
-
-}
-
-
 printData = () => {
     return this.state.pharma2.map((item, index) => {
         if (this.state.selectedID !== index) {
@@ -127,22 +109,20 @@ printData = () => {
                                      <div className="card-body">
                                          <div className="font-weight-bold mb-3">
                                              {/* image */}
-                                             <div className="dflex justify-content-center align-items-center" style={{height:"45vh"}}>
+                                             <div className="dflex justify-content-center align-items-center" >
                                             <div>
-                                            <img name="img"  src={item.profile_picture} className= "img-thumbnail" alt="" />
+                                            <img name="img"  src={item.profile_picture} className= "img-thumbnail d-grid gap-2 col-9 mx-auto"  alt="" style={{borderRadius:"50%", width:"315px", height: "300px"}} />
                                                 
                                                 
                                             </div>
-                                            <div className="my-3">
-                                                <label htmlFor="formFile" className="form-label">Upload Image Here</label>
-                                                <input onChange={this.inputHandlerImg} type="file" className="form-control" id="formFile" accept="image/*"/>
-                                                <button onClick={this.onBtnSave} className="btn btn-primary w-100 mt-2">SAVE</button>
-                                            </div>
+                                           
                                         </div>
 
                                        
+                                             <div className= "d-grid gap-2 col-9 mx-auto">
+                                             <h5 >Your Profile</h5>
+                                             </div>
                                              
-                                             <h5>profile</h5>
                                              <Form>
                                            
                                              <label className={"d-grid gap-2 col-9 mx-auto"}>Username</label>
@@ -231,9 +211,23 @@ printData = () => {
                                  <div className="card" style={{backgroundColor:"#6495ED"}}>
                                      <div className="card-body">
                                          <div className="font-weight-bold mb-3">
+                                         <div className="dflex justify-content-center align-items-center" style={{height:"50vh"}}>
+                                            <div>
+                                            <img name="img"  src={item.profile_picture} className= "img-thumbnail d-grid gap-2 col-9 mx-auto" alt="" style={{borderRadius:"50%", width:"315px", height: "300px"}}/>
+                                                
+                                                
+                                            </div>
+                                            <div className="my-3">
+                                                <label htmlFor="formFile" className="form-label">Upload Image Here</label>
+                                                <input onChange={this.inputHandlerImg} type="file" className="form-control" id="formFile" accept="image/*"/>
+                                                <button onClick={this.onBtnSave} className="btn btn-primary w-100 mt-2">SAVE</button>
+                                            </div>
+                                    
+                                        </div>
+
                                              
-                                             <h5>profile</h5>
-                                             <Form>
+                                             
+                                             <Form >
                                            
                                              <label className={"d-grid gap-2 col-9 mx-auto"}>Username</label>
                                             
