@@ -3,10 +3,6 @@ import ProductCard from "../components/ProductCard";
 import Axios from "axios";
 import { URL_API } from "../helper";
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 7d0965fe070e1c28861d5686dbe3d6bcfa28bdf9
 class Home extends React.Component {
   state = {
     productList: [],
@@ -20,17 +16,6 @@ class Home extends React.Component {
   };
 
   fetchproducts = () => {
-<<<<<<< HEAD
-    const {searchProductName} = this.state;
-    let dataPage = this.page;
-    let dataRows = this.itemPerPage;//isset($param['rows']) ? intval($param['rows']) : 9;
-    let offset = (dataPage-1)*dataRows;
-
-    const headers= {
-       'Access-Control-Allow-Origin': '*',
-       'Content-type': 'application/json',
-      };
-=======
     const { searchProductName } = this.state;
     let dataPage = this.page;
     let dataRows = this.itemPerPage; //isset($param['rows']) ? intval($param['rows']) : 9;
@@ -40,7 +25,6 @@ class Home extends React.Component {
       "Access-Control-Allow-Origin": "*",
       "Content-type": "application/json",
     };
->>>>>>> 7d0965fe070e1c28861d5686dbe3d6bcfa28bdf9
     Axios.post(`${URL_API}/user/fetchProducts`, {
       limit: 5,
     })
@@ -61,13 +45,9 @@ class Home extends React.Component {
     const beginningIndex = (this.state.page - 1) * this.state.itemPerPage;
     let filtered = [];
     filtered = this.state.productList.filter((val) => {
-<<<<<<< HEAD
-      return val.product_name.toLowerCase().includes(this.state.searchProductName.toLowerCase());
-=======
       return val.product_name
         .toLowerCase()
         .includes(this.state.searchProductName.toLowerCase());
->>>>>>> 7d0965fe070e1c28861d5686dbe3d6bcfa28bdf9
     });
     let rawData = [...filtered];
     console.log(rawData);
@@ -153,38 +133,22 @@ class Home extends React.Component {
                 <strong>Filter Products</strong>
               </div>
               <div className="card-body">
-<<<<<<< HEAD
-                <label htmlFor="searchHandler">Product Name</label>
-=======
                 <label htmlFor="searchHandler">Name</label>
->>>>>>> 7d0965fe070e1c28861d5686dbe3d6bcfa28bdf9
                 <input
                   onChange={this.searchHandler}
                   name="searchProductName"
                   type="text"
                   className="form-control mb-3"
                 />
-<<<<<<< HEAD
-                <label htmlFor="searchCategory">Product Category </label>
-=======
-                <label htmlFor="searchCategory">Category</label>
->>>>>>> 7d0965fe070e1c28861d5686dbe3d6bcfa28bdf9
+                <label htmlFor="searchCategory">Category </label>
                 <select
                   onChange={this.inputHandlerr}
                   name="searchCategory"
                   className="form-control"
                 >
-<<<<<<< HEAD
-                  <option value="">All Items</option>
-                  <option value="Kaos">Kaos</option>
-                  <option value="Celana">Celana</option>
-                  <option value="Aksesoris">Aksesoris</option>
-=======
-                  <option value="Preception Drugs">Preciption Drugs</option>
-                  <option value="Non-Preception Drugs">
-                    Non-Preception Drugs
-                  </option>
->>>>>>> 7d0965fe070e1c28861d5686dbe3d6bcfa28bdf9
+                  <option value="">All Drugs</option>
+                  <option value="Kaos">Prescriptions</option>
+                  <option value="Celana">Non-prescriptions</option>
                 </select>
                 <button
                   onClick={this.searchBtnHandler}
@@ -244,17 +208,6 @@ class Home extends React.Component {
       </div>
     );
   }
-<<<<<<< HEAD
-=======
-=======
-const Home = () =>{
-  return (
-    <div>
-        <h1>Home Page</h1>
-    </div>
-  )
->>>>>>> parent of be5605f (paginate)
->>>>>>> 7d0965fe070e1c28861d5686dbe3d6bcfa28bdf9
 }
 
 export default Home;
