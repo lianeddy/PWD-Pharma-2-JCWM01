@@ -53,7 +53,7 @@ componentDidMount() {
 
 getData = () => {
     // Axios.get(`http://localhost:3300/user/getProfile/$this.globalState.id_user`)
-    Axios.get(`http://localhost:3300/user/getProfile/2`)
+    Axios.get(`http://localhost:3300/user/getProfile/1`)
         .then(res => {
             console.log(res.data)
             this.setState({ pharma2 : res.data })
@@ -76,7 +76,7 @@ getData = () => {
 onBtnSave = () => {
     const {address, phone_number,full_name, gender, age, profile_picture} = this.state
     console.log(address, phone_number, full_name, gender, age, profile_picture);
-    Axios.patch(`${URL_API}/user/edit/2`,{
+    Axios.patch(`${URL_API}/user/edit/1`,{
         address ,
         phone_number,
         full_name,
