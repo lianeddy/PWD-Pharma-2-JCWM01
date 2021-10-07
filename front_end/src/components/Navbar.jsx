@@ -13,6 +13,7 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { logoutUser } from "../redux/actions/user";
 
 class MyNavbar extends React.Component {
   render() {
@@ -51,7 +52,7 @@ class MyNavbar extends React.Component {
                       : null
                     }
                     <DropdownItem divider />
-                    <DropdownItem>
+                    <DropdownItem onClick={this.props.logoutUser}>
                       Logout
                     </DropdownItem>
                   </DropdownMenu>
@@ -77,4 +78,8 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(MyNavbar);
+const mapDispatchToProps = {
+  logoutUser
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyNavbar);

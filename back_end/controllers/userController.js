@@ -30,6 +30,7 @@ module.exports = {
           role,
           status,
         } = results[0];
+
         let token = createToken({
           id_user,
           username,
@@ -44,10 +45,11 @@ module.exports = {
           role,
           status,
         });
+
         if (status != "verified") {
           return res
             .status(200)
-            .send({ dataLogin: null, message: "Your account is not verified" });
+            .send({ dataLogin: null, token: null, message: "Your account is not verified" });
         } else {
           return res
             .status(200)
@@ -55,7 +57,7 @@ module.exports = {
         }
       } else {
         // Jika tidak dapat data (user not found)
-        return res.status(200).send({ dataLogin: 1, message: "Login Failed" });
+        return res.status(200).send({ dataLogin: 1, token: null, message: "Login Failed" });
       }
     });
   },
@@ -145,6 +147,51 @@ module.exports = {
           if (err2) return res.status(500).send(err2);
           return res.status(200).send(results2);
         });
+      }
+    });
+  },
+  keepLogin: (req, res) => {
+    let scriptQuery = `SELECT * FROM user WHERE id_user = ${db.escape(req.body.id_user)};`;
+
+    db.query(scriptQuery, (err, results) => {
+      console.log(results);
+      if (err) return res.status(500).send(err);
+      if (results[0]) {
+        let {
+          id_user,
+          username,
+          email,
+          password,
+          address,
+          phone_number,
+          full_name,
+          gender,
+          age,
+          profile_picture,
+          role,
+          status,
+        } = results[0];
+
+        let token = createToken({
+          id_user,
+          username,
+          email,
+          password,
+          address,
+          phone_number,
+          full_name,
+          gender,
+          age,
+          profile_picture,
+          role,
+          status,
+        });
+
+        return res.status(200).send({ dataLogin: results[0], token, message: "Keep Login Success" });
+        
+      } else {
+        // Jika tidak dapat data (user not found)
+        return res.status(200).send({ dataLogin: null, token: null, message: "Keep Login Failed" });
       }
     });
   },

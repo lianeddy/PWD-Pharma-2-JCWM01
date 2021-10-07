@@ -18,7 +18,7 @@ export const onBtnLogin = ({ username, password }) => {
             alert("Login Succes");
             console.log("Login Success ✔");
             console.log(res.data);
-            localStorage.setItem("userDataEmmerce", res.data.token);
+            localStorage.setItem("userDataEmmerce", JSON.stringify(res.data.dataLogin));
             dispatch({
               type: "USER_LOGIN",
               payload: res.data.dataLogin,
@@ -74,3 +74,36 @@ export const submitBtnResetEmail = ({ email }) => {
   };
 };
 
+export const logoutUser = () => {
+  localStorage.removeItem("userDataEmmerce")
+
+  return {
+    type: "USER_LOGOUT"
+  }
+}
+
+export const userKeepLogin = (userData) => {
+  return (dispatch) => {
+    Axios.post(`${URL_API}/user/keep-login`, {
+      id_user: userData.id_user
+    })
+    .then((res) => {
+      localStorage.setItem("userDataEmmerce", JSON.stringify(res.data.dataLogin))
+
+      dispatch({
+        type: "USER_LOGIN",
+        payload: res.data.dataLogin
+      })
+    })
+    .catch((err) => {
+      alert("Error has occurred")
+      console.log(err)
+    })
+  }
+}
+
+export const checkStorage = () => {
+  return {
+    type: "CHECK_STORAGE",
+  }
+}

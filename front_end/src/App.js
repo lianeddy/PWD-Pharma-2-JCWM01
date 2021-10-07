@@ -13,21 +13,57 @@ import ResetPassEmail from "./pages/ResetPassEmail";
 import ResetPass from "./pages/ResetPass";
 import VerificationPage from "./pages/auth/VerificationPage";
 
-function App() {
-  return (
-    <BrowserRouter>
-      <Navbar />
-      <Switch>
-        <Route component={Home} path="/" exact/>
-        <Route component={Login} path="/login" />
-        <Route component={Register} path="/register" />
-        <Route component={ChangePass} path="/change-pass" />
-        <Route component={ResetPassEmail} path="/reset-pass-email" />
-        <Route component={ResetPass} path="/resetpass" />
-        <Route component={VerificationPage} path="/authentication/:token" />
-      </Switch>
-    </BrowserRouter>
-  );
+import { connect } from 'react-redux';
+import { userKeepLogin, checkStorage } from './redux/actions/user';
+
+class App extends React.Component {
+
+  componentDidMount() {
+    const userLocalStorage = localStorage.getItem("userDataEmmerce")
+
+    if (userLocalStorage) {
+      const userData = JSON.parse(userLocalStorage)
+      this.props.userKeepLogin(userData)
+    } else {
+      this.props.checkStorage()
+    }
+  }
+
+  render() {
+    if (this.props.userGlobal.storageIsChecked) {
+      return (
+        <BrowserRouter>
+          <Navbar />
+          <Switch>
+            <Route component={Home} path="/" exact/>
+            <Route component={Login} path="/login" />
+            <Route component={Register} path="/register" />
+            <Route component={ChangePass} path="/change-pass" />
+            <Route component={ResetPassEmail} path="/reset-pass-email" />
+            <Route component={ResetPass} path="/resetpass" />
+            <Route component={VerificationPage} path="/authentication/:token" />
+          </Switch>
+        </BrowserRouter>
+      )
+    }
+
+    return (
+      <div>
+        Loading...
+      </div>
+    )
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    userGlobal: state.user
+  }
+}
+
+const mapDispatchToProps = {
+  userKeepLogin,
+  checkStorage
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

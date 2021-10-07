@@ -10,5 +10,6 @@ routers.patch("/resetpass/:id", userController.resetPass);
 routers.post("/register", userController.addData);
 routers.patch("/edit", userController.editData);
 routers.patch("/verified", auth, userController.verification);
+routers.post("/keep-login", userController.keepLogin)
 
 module.exports = routers;
