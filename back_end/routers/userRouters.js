@@ -10,4 +10,5 @@ routers.patch('/edit/:id', userController.changeProfile)
 routers.patch('/verified', auth, userController.verification)
 routers.patch('/change/:id', userController.changePassword)
 
+
 module.exports = routers

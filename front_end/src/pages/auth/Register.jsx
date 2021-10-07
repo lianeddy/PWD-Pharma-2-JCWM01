@@ -60,9 +60,7 @@ class Register extends React.Component {
     render(){
         return (
             
-            <div className="container" >
-                 
-                
+            <div className="container"  >
                 <div className="row">
                     <div className="col-12 text-center my-5" >
                         <h1>Register page</h1>
@@ -71,7 +69,7 @@ class Register extends React.Component {
                 <div className="row mt-5">
                     <div className="col-4 offset-4">
                         <div className="card" style={{backgroundColor:"#6495ED"}}>
-                            <div className="card-body">
+                            <div className="card-body" >
                                 <h5 className="font-weight-bold mb-3">register</h5>
                                 
                                         <input
@@ -104,7 +102,7 @@ class Register extends React.Component {
                                         />
                                         
                                 <div className="d-flex flex-row justify-content-between align-items-center">
-                                    <button onClick={this.onBtnRegister} className="btn btn-primary mt-2" disabled={this.tryVerified}>
+                                    <button onClick={this.onBtnRegister} className="btn btn-success mx-10" disabled={this.tryVerified}>
                                         {this.tryVerified ? "Check Your Email" : "Register"}
                                     </button>
                                 </div>

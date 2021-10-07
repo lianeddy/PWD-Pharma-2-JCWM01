@@ -157,12 +157,12 @@ module.exports = {
         }
     
         let updateQuery = `update user set ${dataUpdate} where id_user = ${req.params.id};`
-        console.log(updateQuery);
         db.query(updateQuery,(err, results) =>{
             if(err)res.status(500).send(err)
             res.status(200).send(results)
         })
     },
+
     deleteData : (req, res)=>{
         let deleteQuery = `delete from user where id_user = ${db.escape(req.params.id_user)};`
         db.query(deleteQuery,(err, results)=>{
