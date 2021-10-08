@@ -10,6 +10,7 @@ routers.patch("/edit/:id", userController.changeProfile);
 routers.patch("/verified", auth, userController.verification);
 routers.patch("/change/:id", userController.changePassword);
 routers.post("/reset-email", userController.resetEmailPass);
+routers.post("/keep-login", userController.keepLogin);
 routers.patch("/resetpass/:id", userController.resetPass);
 
 module.exports = routers;

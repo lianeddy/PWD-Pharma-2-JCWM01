@@ -1,33 +1,31 @@
 import Axios from "axios";
 import { URL_API } from "../../helper";
 
+export const GET_USERS_DETAIL = "GET_USERS_DETAIL";
 
-export const GET_USERS_DETAIL = "GET_USERS_DETAIL"
-
-export const getUserDetail = (id) =>{
-  return (dispatch) =>{
+export const getUserDetail = (id) => {
+  return (dispatch) => {
     Axios.get(`${URL_API}/user/getProfile`)
-    .then((res)=>{
-      dispatch({
-        type : GET_USERS_DETAIL,
-        payload : {
-          data : res.data,
-          errorMessage : false
-        }
+      .then((res) => {
+        dispatch({
+          type: GET_USERS_DETAIL,
+          payload: {
+            data: res.data,
+            errorMessage: false,
+          },
+        });
       })
-    })
-    .catch((error)=>{
-      dispatch({
-        type : GET_USERS_DETAIL,
-        payload : {
-          data : false,
-          errorMessage : error.message
-        }
-      })
-    })
-  }
-
-}
+      .catch((error) => {
+        dispatch({
+          type: GET_USERS_DETAIL,
+          payload: {
+            data: false,
+            errorMessage: error.message,
+          },
+        });
+      });
+  };
+};
 
 // export const loginUser = ({ username, password }) => {
 //   return (dispatch) => {
@@ -80,17 +78,27 @@ export const onBtnLogin = ({ username, password }) => {
       username,
       password,
     })
-    .then((res) => {
-      if (res.data.dataLogin !== 1) {
-        if (res.data.dataLogin) {
-          alert("Login Succes")
-          console.log("Login Success ✔")
-          console.log(res.data)
-          localStorage.setItem("userDataEmmerce", res.data.dataLogin)
-          dispatch({
-            type: "USER_LOGIN",
-            payload: res.data.dataLogin
-          })
+      .then((res) => {
+        if (res.data.dataLogin !== 1) {
+          if (res.data.dataLogin) {
+            alert("Login Succes");
+            console.log("Login Success ✔");
+            console.log(res.data);
+            localStorage.setItem(
+              "userDataEmmerce",
+              JSON.stringify(res.data.dataLogin)
+            );
+            dispatch({
+              type: "USER_LOGIN",
+              payload: res.data.dataLogin,
+            });
+          } else {
+            dispatch({
+              type: "USER_ERROR",
+              payload:
+                "Your Account is not Verified. Please Verify your Account!",
+            });
+          }
         } else {
           dispatch({
             type: "USER_ERROR",
@@ -135,63 +143,39 @@ export const submitBtnResetEmail = ({ email }) => {
   };
 };
 
-// export const submitBtnResetPass = ({newPass, confNewPass}) => {
-//   return (dispatch) => {
-//     if (newPass == "" || confNewPass == "") {
-//       return alert("Fill in All the Form")
-//     }
+export const logoutUser = () => {
+  localStorage.removeItem("userDataEmmerce");
 
-//     // Axios.post(`${URL_API}/user/reset-email`, {
-//     //   email
-//     // })
-//     // .then(res => {
-//     //   if (res.data.dataUser) {
-//     //     console.log("Email Exists")
-//     //     console.log(res.data)
-//     //     alert("Continue to reset password")
-//     //     dispatch({
-//     //       type: "RESET_EMAIL_PASS",
-//     //       payload: res.data.dataUser
-//     //     })
-//     //   } else {
-//     //     dispatch({
-//     //       type: "RESET_EMAIL_ERROR",
-//     //       payload: "Your Email doesn't Exist"
-//     //     })
-//     //   }
-//     // })
-//     // .catch(err => {
-//     //   console.log(err)
-//     // })
-//   }
-// }
+  return {
+    type: "USER_LOGOUT",
+  };
+};
 
-// export const onBtnSubmit = ({currentPass, newPass, confNewPass}) => {
-//   // const {currentPass, newPass, confNewPass} = this.state
-//   // console.log(currentPass, newPass, confNewPass)
+export const userKeepLogin = (userData) => {
+  return (dispatch) => {
+    Axios.post(`${URL_API}/user/keep-login`, {
+      id_user: userData.id_user,
+    })
+      .then((res) => {
+        localStorage.setItem(
+          "userDataEmmerce",
+          JSON.stringify(res.data.dataLogin)
+        );
 
-//   return(dispatch) => {
-//     if (currentPass == "" || newPass == "" || confNewPass == "" ) {
-//       alert("Fill in All the Form")
-//     } else if (newPass !== confNewPass) {
-//       alert("New Password Confirmation is not Matched")
-//     } else {
-//       Axios.patch(`${URL_API}/user/change/${this.props.userGlobal.id_user}`, {
-//         newPass,
-//         currentPass
-//       })
-//       .then(res => {
-//         alert("Password Changed Successfully")
-//         console.log("Password Changed Successfully")
-//         dispatch({
-//           type: "USER_CHANGE_PASS",
-//           payload: res.data.dataLogin
-//         })
-//       })
-//       .catch(err => {
-//         alert("Your Current Password is Wrong")
-//         console.log(err)
-//       })
-//     }
-//   }
-// }
+        dispatch({
+          type: "USER_LOGIN",
+          payload: res.data.dataLogin,
+        });
+      })
+      .catch((err) => {
+        alert("Error has occurred");
+        console.log(err);
+      });
+  };
+};
+
+export const checkStorage = () => {
+  return {
+    type: "CHECK_STORAGE",
+  };
+};
