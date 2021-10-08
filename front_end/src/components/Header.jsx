@@ -94,36 +94,13 @@ export class Header extends Component {
                   >
                     <ul class="navbar-nav mr-auto">
                       <li class="nav-item">
-                        <a class="active" href="index-2.html">
-                          Home
-                        </a>
-                        <ul class="sub-menu">
-                          <li>
-                            <a class="active" href="index-2.html">
-                              Home 01
-                            </a>
-                          </li>
-                          <li>
-                            <a href="index-3.html">Home 02</a>
-                          </li>
-                          <li>
-                            <a href="index-4.html">Home 03</a>
-                          </li>
-                        </ul>
+                        <a href="index-2.html">Home</a>
                       </li>
                       <li class="nav-item">
-                        <a href="about.html">About us</a>
+                        <a href="about.html">Prescriptions Drugs</a>
                       </li>
                       <li class="nav-item">
-                        <a href="courses.html">Contoh</a>
-                        <ul class="sub-menu">
-                          <li>
-                            <a href="courses.html">Contoh 1</a>
-                          </li>
-                          <li>
-                            <a href="courses-singel.html">Contoh 2</a>
-                          </li>
-                        </ul>
+                        <a href="courses.html">About us</a>
                       </li>
                     </ul>
                   </div>
@@ -169,7 +146,7 @@ export class Header extends Component {
                           class="main-btn"
                           href="#"
                         >
-                          Read More
+                          Register Now
                         </a>
                       </li>
                       <li>
@@ -179,7 +156,7 @@ export class Header extends Component {
                           class="main-btn main-btn-2"
                           href="#"
                         >
-                          Get Started
+                          Login
                         </a>
                       </li>
                     </ul>

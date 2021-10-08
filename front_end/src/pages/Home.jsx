@@ -2,6 +2,7 @@ import React from "react";
 import ProductCard from "../components/ProductCard";
 import Axios from "axios";
 import { URL_API } from "../helper";
+import imageSlider1 from "../img/edubin/slider/slider1.jpg";
 
 class Home extends React.Component {
   state = {
@@ -112,6 +113,13 @@ class Home extends React.Component {
     this.setState({ searchProductName: value });
   };
 
+  categoryHandler = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    console.log("Set " + name + " category id " + value);
+    this.setState({ [name]: value });
+  };
+
   sortingHandler = (event) => {
     console.log("Set Order by " + event.target.value);
     const name = event.target.name;
@@ -140,15 +148,15 @@ class Home extends React.Component {
                   type="text"
                   className="form-control mb-3"
                 />
-                <label htmlFor="searchCategory">Category </label>
+                <label htmlFor="searchCategory">Category</label>
                 <select
                   onChange={this.inputHandlerr}
                   name="searchCategory"
                   className="form-control"
                 >
                   <option value="">All Drugs</option>
-                  <option value="Kaos">Prescriptions</option>
-                  <option value="Celana">Non-prescriptions</option>
+                  <option value="Kaos">Liquid</option>
+                  <option value="Celana">Tablet</option>
                 </select>
                 <button
                   onClick={this.searchBtnHandler}

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, Redirect } from "react-router-dom";
 
 import "../css/edubin/slick.css";
 import "../css/edubin/animate.css";
@@ -44,9 +45,14 @@ class ProductCard extends React.Component {
         </div>
         <div class="cont">
           <div class="name">
-            <a href="shop-singel.html">
+            <Link
+              to={{
+                pathname: "/productDetail",
+                state: { productId: this.props.productData.id_product },
+              }}
+            >
               <h6>{this.props.productData.product_name}</h6>
-            </a>
+            </Link>
             <span>
               {this.props.productData.stock} {this.props.productData.unit}
             </span>
