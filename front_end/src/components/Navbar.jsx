@@ -36,6 +36,9 @@ class MyNavbar extends React.Component {
                   </DropdownToggle>
                   <DropdownMenu right>
                     <DropdownItem>
+                      <Link to="/profile">Profile</Link>
+                    </DropdownItem>
+                    <DropdownItem>
                       <Link to="/cart">Cart</Link>
                     </DropdownItem>
                     <DropdownItem>
