@@ -3,6 +3,9 @@ import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import { onBtnLogin } from "../../redux/actions/user";
 import "../../assets/styles/background.css";
+import Axios from 'axios';
+
+import { URL_API } from '../../helper';
 
 class Login extends React.Component {
   state = {
@@ -61,14 +64,6 @@ class Login extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    userGlobal: state.user,
-  }
-}
 
-const mapDispatchToProps = {
-  onBtnLogin,
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;

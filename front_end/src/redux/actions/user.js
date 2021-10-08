@@ -1,6 +1,34 @@
 import Axios from "axios";
 import { URL_API } from "../../helper";
 
+
+export const GET_USERS_DETAIL = "GET_USERS_DETAIL"
+
+export const getUserDetail = (id) =>{
+  return (dispatch) =>{
+    Axios.get(`${URL_API}/user/getProfile`)
+    .then((res)=>{
+      dispatch({
+        type : GET_USERS_DETAIL,
+        payload : {
+          data : res.data,
+          errorMessage : false
+        }
+      })
+    })
+    .catch((error)=>{
+      dispatch({
+        type : GET_USERS_DETAIL,
+        payload : {
+          data : false,
+          errorMessage : error.message
+        }
+      })
+    })
+  }
+
+}
+
 // export const loginUser = ({ username, password }) => {
 //   return (dispatch) => {
 //     Axios.post(`${URL_API}/user/login`, {
@@ -52,24 +80,17 @@ export const onBtnLogin = ({ username, password }) => {
       username,
       password,
     })
-      .then((res) => {
-        if (res.data.dataLogin !== 1) {
-          if (res.data.dataLogin) {
-            alert("Login Succes");
-            console.log("Login Success ✔");
-            console.log(res.data);
-            localStorage.setItem("userDataEmmerce", res.data.token);
-            dispatch({
-              type: "USER_LOGIN",
-              payload: res.data.dataLogin,
-            });
-          } else {
-            dispatch({
-              type: "USER_ERROR",
-              payload:
-                "Your Account is not Verified. Please Verify your Account!",
-            });
-          }
+    .then((res) => {
+      if (res.data.dataLogin !== 1) {
+        if (res.data.dataLogin) {
+          alert("Login Succes")
+          console.log("Login Success ✔")
+          console.log(res.data)
+          localStorage.setItem("userDataEmmerce", res.data.dataLogin)
+          dispatch({
+            type: "USER_LOGIN",
+            payload: res.data.dataLogin
+          })
         } else {
           dispatch({
             type: "USER_ERROR",

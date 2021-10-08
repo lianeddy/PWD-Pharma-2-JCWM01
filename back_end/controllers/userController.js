@@ -269,7 +269,6 @@ module.exports = {
     for (let prop in req.body) {
       dataUpdate.push(`${prop} = ${db.escape(req.body[prop])}`);
     }
-
     let updateQuery = `update user set ${dataUpdate} where id_user = ${req.params.id};`;
     console.log(updateQuery);
     db.query(updateQuery, (err, results) => {
@@ -277,6 +276,19 @@ module.exports = {
       res.status(200).send(results);
     });
   },
+  changeProfile :(req, res)=>{
+    let dataUpdate = []
+    for(let prop in req.body){
+        dataUpdate.push(`${prop} = ${db.escape(req.body[prop])}`)
+    }
+
+    let updateQuery = `update user set ${dataUpdate} where id_user = ${req.params.id};`
+    db.query(updateQuery,(err, results) =>{
+        if(err)res.status(500).send(err)
+        res.status(200).send(results)
+    })
+},
+
   deleteData: (req, res) => {
     let deleteQuery = `delete from user where id_user = ${db.escape(
       req.params.id_user
@@ -286,4 +298,12 @@ module.exports = {
       res.status(200).send(results);
     });
   },
+  getProfile : (req, res) =>{
+    let scriptQuery = `select * from user where id_user = ${db.escape(req.params.id)};`
+   
+    db.query(scriptQuery,(err, results) =>{
+        if(err) res.status(500).send(err)
+        res.status(200).send(results)
+       
+    })
 };

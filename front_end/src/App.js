@@ -12,19 +12,21 @@ import Navbar from "./components/Navbar";
 import ResetPassEmail from "./pages/ResetPassEmail";
 import ResetPass from "./pages/ResetPass";
 import VerificationPage from "./pages/auth/VerificationPage";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
       <Switch>
-        <Route component={Home} path="/" exact/>
+        <Route component={Home} path="/" exact />
         <Route component={Login} path="/login" />
         <Route component={Register} path="/register" />
         <Route component={ChangePass} path="/change-pass" />
         <Route component={ResetPassEmail} path="/reset-pass-email" />
         <Route component={ResetPass} path="/resetpass" />
         <Route component={VerificationPage} path="/authentication/:token" />
+        <Route component={Profile} path="/profile/:id" />
       </Switch>
     </BrowserRouter>
   );
