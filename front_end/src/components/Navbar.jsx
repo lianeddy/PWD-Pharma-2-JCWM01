@@ -35,24 +35,26 @@ class MyNavbar extends React.Component {
                     Pages
                   </DropdownToggle>
                   <DropdownMenu right>
-                    <DropdownItem>
-                      <Link to="/profile">Profile</Link>
-                    </DropdownItem>
-                    <DropdownItem>
-                      <Link to="/cart">Cart</Link>
-                    </DropdownItem>
-                    <DropdownItem>
-                      <Link to="/history">History</Link>
-                    </DropdownItem>
-                    <DropdownItem>
-                      <Link to="/change-pass">Change Password</Link>
-                    </DropdownItem>
                     {
                       this.props.userGlobal.role === "admin" ?
                       <DropdownItem>
                         <Link to="/admin">Admin</Link>
                       </DropdownItem>
-                      : null
+                      : 
+                      <>
+                        <DropdownItem>
+                          <Link to="/profile">Profile</Link>
+                        </DropdownItem>
+                        <DropdownItem>
+                          <Link to="/cart">Cart</Link>
+                        </DropdownItem>
+                        <DropdownItem>
+                          <Link to="/history">History</Link>
+                        </DropdownItem>
+                        <DropdownItem>
+                          <Link to="/change-pass">Change Password</Link>
+                        </DropdownItem>
+                      </>
                     }
                     <DropdownItem divider />
                     <DropdownItem onClick={this.props.logoutUser}>

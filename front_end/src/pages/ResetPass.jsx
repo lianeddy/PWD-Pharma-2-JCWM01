@@ -31,6 +31,7 @@ class ResetPass extends React.Component {
         alert("Password has been Reset")
         console.log("Password has been Reset")
         this.setState({ redirect: true })
+        window.location.reload()
       })
       .catch(err => {
         alert("Reset Password Failed")

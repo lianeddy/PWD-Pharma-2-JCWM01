@@ -12,7 +12,7 @@ import Navbar from "./components/Navbar";
 import ResetPassEmail from "./pages/ResetPassEmail";
 import ResetPass from "./pages/ResetPass";
 import VerificationPage from "./pages/auth/VerificationPage";
-import Admin from "./pages/Admin";
+import Admin from "./pages/admin/Admin";
 import Cart from "./pages/Cart";
 import History from "./pages/History";
 import Profile from "./pages/Profile";
