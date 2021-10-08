@@ -13,6 +13,8 @@ import ResetPassEmail from "./pages/ResetPassEmail";
 import ResetPass from "./pages/ResetPass";
 import VerificationPage from "./pages/auth/VerificationPage";
 import Admin from "./pages/Admin";
+import Cart from "./pages/Cart";
+import History from "./pages/History";
 
 import { connect } from 'react-redux';
 import { userKeepLogin, checkStorage } from './redux/actions/user';
@@ -44,6 +46,8 @@ class App extends React.Component {
             <Route component={ResetPass} path="/resetpass" />
             <Route component={VerificationPage} path="/authentication/:token" />
             <Route component={Admin} path="/admin" />
+            <Route component={Cart} path="/cart" />
+            <Route component={History} path="/history" />
           </Switch>
         </BrowserRouter>
       )
