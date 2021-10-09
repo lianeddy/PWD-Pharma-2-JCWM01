@@ -49,7 +49,6 @@ class Profile extends React.Component {
     // Axios.get(`http://localhost:3300/user/getProfile/$this.props.globalState.id_user`)
     Axios.get(`http://localhost:3300/user/getProfile/1`)
       .then((res) => {
-        console.log(res.data);
         this.setState({ pharma2: res.data });
         
         this.setState({ address: res.data.address });
@@ -63,18 +62,22 @@ class Profile extends React.Component {
       });
   };
 
-  onImgPreview = (e) =>{
-      const{profile_picture}= this.state
-      Axios.patch(`${URL_API}/user/edit/1`,{
-          profile_picture
-      })
-      .then(()=>{
-          this.getData()
-          alert("profile_picture has been change")
-      })
-      .catch((err)=>{
-          console.log(err);
-      })
+  onImgPreview = () =>{
+      if(this.state.profile_picture){
+          let formData = new FormData()
+
+
+          
+          formData.append('file', JSON.stringify(this.state.profile_picture))
+          Axios.patch(`${URL_API}/upload/uploadimg/1`,formData)
+          .then(res =>{
+              alert(res.data.message)
+              this.getData()
+          })
+          .catch(err =>{
+              console.log(err);
+          })
+      }
   }
 
   onBtnSave = () => {
@@ -293,6 +296,7 @@ class Profile extends React.Component {
                             
                           />
                         </div>
+                        <button className="btn btn-primary" onClick={this.onImgPreview}>review</button>
                       </div>
 
                       <Form>
