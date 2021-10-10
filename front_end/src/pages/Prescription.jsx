@@ -6,6 +6,23 @@ import { URL_API } from '../helper';
 
 
 class Prescription extends React.Component {
+    state ={
+        commentar : "",
+        prescription_image : ""
+
+    }
+
+
+    previewFile = (e) =>{
+        if (e.target.files[0]){
+            this.setState({prescription_image : e.target.files[0].name, addFIle : e.target.files[0]})
+            let preview = document.getElementById("prescriptionPreview")
+
+        }
+
+    }
+
+
     render() {
         
         return (
@@ -18,6 +35,7 @@ class Prescription extends React.Component {
                            <div className="dflex justify-content-left align-items-left"></div>
                            <div>
                                <img src="https://1.bp.blogspot.com/-MczTCQ9Dz6k/UMkh7ogEeDI/AAAAAAAAC-U/rAihOLNbvCw/s1600/buahbuahan3.jpg" 
+                               id = "prescriptionPreview"
                                alt=""
                                className= "img-thumbnail d-grid gap-2 col-9 mx-auto" 
                                style={{width:"1000px", height:"500px"}}/>
