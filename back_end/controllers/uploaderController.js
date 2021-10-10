@@ -38,5 +38,14 @@ module.exports=({
             res.status(500).send(error)
 
         }
+    },
+    getProfileImage : (req, res)=>{
+        let sqlGet = `select profile_picture from user where id_user = ${db.escape(req.params.id)};`
+        db.query(sqlGet,(err, results)=>{
+            if(err){
+                res.status(500).send(err)
+            }
+            res.status(200).send(results)
+        })
     }
 })

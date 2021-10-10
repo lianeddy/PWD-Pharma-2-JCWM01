@@ -79,6 +79,16 @@ class Profile extends React.Component {
       }
   }
 
+  getProfileImage = () =>{
+      Axios.get(`${URL_API}/upload/get`)
+      .then(res =>{
+          this.setState({profile_picture : res.data.profile_picture})
+      })
+      .catch(err =>{
+          console.log(err);
+      })
+  }
+
   onBtnAddImg = () =>{
     this.onBtnSave()
     this.onImgPreview()
@@ -131,7 +141,7 @@ class Profile extends React.Component {
                         <div>
                             <img
                             name="img"
-                            
+                            src= {URL_API + item.profile_picture}
                             id = "imgpreview"
                             className="img-thumbnail d-grid gap-2 col-9 mx-auto"
                             alt=""
@@ -283,7 +293,7 @@ class Profile extends React.Component {
                             <img
                             name="img"
                            id = "imgpreview"
-                           src = {item.profile_picture}
+                           src = {URL_API + item.profile_picture}
                             className="img-thumbnail d-grid gap-2 col-9 mx-auto"
                             alt=""
                             style={{
