@@ -15,11 +15,16 @@ class Prescription extends React.Component {
                         <div style={{ width: '90%' }} className="m-auto">
                             <h1 className="display-4">Your Prescription</h1>
                             <p className="lead" style={{fontSize:"30px"}}>Upload this prescription and wait for our admin to prepare your order</p>
-                           
+                           <div className="dflex justify-content-left align-items-left"></div>
+                           <div>
+                               <img src="https://1.bp.blogspot.com/-MczTCQ9Dz6k/UMkh7ogEeDI/AAAAAAAAC-U/rAihOLNbvCw/s1600/buahbuahan3.jpg" 
+                               alt=""
+                               className= "img-thumbnail d-grid gap-2 col-9 mx-auto" 
+                               style={{width:"1000px", height:"500px"}}/>
+                           </div>
                         </div>
                     </div>
                     <di className="col-md-3">
-                        <img id="imgpreview" width="100%" />
                     </di>
                     <div className="col-md-3 p-4 bg-dark text-white text-left" style={{borderRadius: "30px"}}>
                         <form>
