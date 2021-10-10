@@ -95,6 +95,20 @@ getData = () => {
             console.log(err)
         })
 }
+  getProfileImage = () =>{
+      Axios.get(`${URL_API}/upload/get`)
+      .then(res =>{
+          this.setState({profile_picture : res.data.profile_picture})
+      })
+      .catch(err =>{
+          console.log(err);
+      })
+  }
+
+  onBtnAddImg = () =>{
+    this.onBtnSave()
+    this.onImgPreview()
+  }
 
   onBtnAddfile = (e) =>{
     if (e.target.files[0]){
@@ -138,136 +152,136 @@ onBtnSave = () => {
             <div className="col-12 text-center my-5">PROFILE PAGE</div>
             <div className="row mt-5">
               <div className="col-4 offset-4">
-                <div className="card" style={{ backgroundColor: "#6495ED" }}>
+                <div className="card" style={{ backgroundColor: "#6495ED", width : "500px" }}>
                   <div className="card-body">
                     <div className="font-weight-bold mb-3">
                       {/* image */}
-                      <div className="dflex justify-content-center align-items-center">
-                        <div>
+                      <div className="align-items-center justify-content-center">
+                        
                             <img
                             name="img"
-                            
+                            src= {URL_API + item.profile_picture}
                             id = "imgpreview"
-                            className="img-thumbnail d-grid gap-2 col-9 mx-auto"
+                            className="justify-content-center"
                             alt=""
                             style={{
                               borderRadius: "50%",
-                              width: "315px",
+                              width: "300px",
                               height: "300px",
                             }}
                           />
 
 
                          
-                        </div>
+                        
                       </div>
 
-                      <div className="d-grid gap-2 col-9 mx-auto">
+                      <div className="d-grid gap-2 col-9 ">
                         <h5>Your Profile</h5>
                       </div>
 
                       <Form>
-                        <label className={"d-grid gap-2 col-9 mx-auto"}>
+                        <label className={"d-grid gap-2 my-1"}>
                           Username
                         </label>
 
                         <FormGroup>
                           <Input
-                            className={"d-grid gap-2 col-6 mx-auto"}
+                            className={"justify-content-center align-items-center my-1"}
                             disabled="true"
                             type="text"
                             defaultValue={item.username}
-                            style={{ width: "300px" }}
+                            style={{ width: "400px" }}
                           />
                         </FormGroup>
 
-                        <label className={"d-grid gap-2 col-9 mx-auto"}>
+                        <label className={"d-grid gap-2 my-1"}>
                           Email
                         </label>
 
                         <FormGroup>
                           <Input
-                            className={"d-grid gap-2 col-6 mx-auto"}
+                            className={"justify-content-center my-2"}
                             disabled="true"
                             type="text"
                             defaultValue={item.email}
-                            style={{ width: "300px" }}
+                            style={{ width: "400px" }}
                           />
                         </FormGroup>
 
-                        <label className={"d-grid gap-2 col-9 mx-auto"}>
+                        <label className={"d-grid gap-2 mx-auto"}>
                           Address
                         </label>
 
                         <FormGroup>
                           <Input
-                            className={"d-grid gap-2 col-6 mx-auto"}
+                            className={"justify-content-center align-items-center"}
                             disabled="true"
                             type="text"
                             defaultValue={item.address}
-                            style={{ width: "300px" }}
+                            style={{ width: "400px" }}
                           />
                         </FormGroup>
 
-                        <label className={"d-grid gap-2 col-9 mx-auto"}>
+                        <label className={"d-grid gap-2 mx-auto"}>
                           Phone Number
                         </label>
 
                         <FormGroup>
                           <Input
-                            className={"d-grid gap-2 col-6 mx-auto"}
+                            className={"justify-content-center align-items-center "}
                             disabled="true"
                             type="text"
                             defaultValue={item.phone_number}
-                            style={{ width: "300px" }}
+                            style={{ width: "400px" }}
                           />
                         </FormGroup>
 
-                        <label className={"d-grid gap-2 col-9 mx-auto"}>
+                        <label className={"d-grid gap-2 mx-auto"}>
                           Full Name
                         </label>
 
                         <FormGroup>
                           <Input
-                            className={"d-grid gap-2 col-6 mx-auto"}
+                            className={"justify-content-center align-items-center"}
                             disabled="true"
                             type="text"
                             defaultValue={item.full_name}
-                            style={{ width: "300px" }}
+                            style={{ width: "400px" }}
                           />
                         </FormGroup>
 
-                        <label className={"d-grid gap-2 col-9 mx-auto"}>
+                        <label className={"d-grid gap-2 mx-auto"}>
                           Gender
                         </label>
 
                         <FormGroup>
                           <Input
-                            className={"d-grid gap-2 col-6 mx-auto"}
+                            className={"justify-content-center align-items-center"}
                             disabled="true"
                             type="text"
                             defaultValue={item.gender}
-                            style={{ width: "300px" }}
+                            style={{ width: "400px" }}
                           />
                         </FormGroup>
 
-                        <label className={"d-grid gap-2 col-9 mx-auto"}>
+                        <label className={"d-grid gap-2 mx-auto"}>
                           Age
                         </label>
 
                         <FormGroup>
                           <Input
-                            className={"d-grid gap-2 col-6 mx-auto"}
+                            className={"justify-content-center align-items-center"}
                             disabled="true"
                             type="text"
                             defaultValue={item.age}
-                            style={{ width: "300px" }}
+                            style={{ width: "400px" }}
                           />
                         </FormGroup>
 
                         <FormGroup>
                           <Button
-                            className={"d-grid gap-2 col-6 mx-auto my-3"}
+                            className="d-grid gap-2 col-6 my-2 btn btn btn-success"
                             onClick={() => this.setState({ selectedID: index, profile_picture : item.profile_picture })}
                           >
                             Edit{" "}
@@ -287,23 +301,23 @@ onBtnSave = () => {
             <div className="col-12 text-center my-5">PROFILE PAGE</div>
             <div className="row mt-5">
               <div className="col-4 offset-4">
-                <div className="card" style={{ backgroundColor: "#6495ED" }}>
+                <div className="card" style={{ backgroundColor: "#6495ED", width:"500px" }}>
                   <div className="card-body">
                     <div className="font-weight-bold mb-3">
                       <div
                         className="dflex justify-content-center align-items-center"
-                        style={{ height: "50vh" }}
+                        style={{ height: "40vh" }}
                       >
                         <div>
                             <img
                             name="img"
                            id = "imgpreview"
-                           src = {item.profile_picture}
-                            className="img-thumbnail d-grid gap-2 col-9 mx-auto"
+                           src = {URL_API + item.profile_picture}
+                            className="justify-content-center"
                             alt=""
                             style={{
                               borderRadius: "50%",
-                              width: "315px",
+                              width: "300px",
                               height: "300px",
                             }}
                           />
@@ -324,13 +338,13 @@ onBtnSave = () => {
                       </div>
 
                       <Form>
-                        <label className={"d-grid gap-2 col-9 mx-auto"}>
+                        <label className={"d-grid gap-2 my-1"}>
                           Username
                         </label>
 
                         <FormGroup>
                           <Input
-                            className={"d-grid gap-2 col-6 mx-auto"}
+                            className={"justify-content-center align-items-center"}
                             disabled="true"
                             type="text"
                             name="username"
@@ -338,75 +352,75 @@ onBtnSave = () => {
                               (this.newUsername = newUsername)
                             }
                             defaultValue={item.username}
-                            style={{ width: "300px" }}
+                            style={{ width: "400px" }}
                           />
                         </FormGroup>
 
-                        <label className={"d-grid gap-2 col-9 mx-auto"}>
+                        <label className={"d-grid gap-2 my-1"}>
                           Email
                         </label>
 
                         <FormGroup>
                           <Input
-                            className={"d-grid gap-2 col-6 mx-auto"}
+                            className={"justify-content-center align-items-center"}
                             disabled="true"
                             type="text"
                             name="email"
                             innerRef={(newEmail) => (this.newEmail = newEmail)}
                             defaultValue={item.email}
-                            style={{ width: "300px" }}
+                            style={{ width: "400px" }}
                           />
                         </FormGroup>
 
-                        <label className={"d-grid gap-2 col-9 mx-auto"}>
+                        <label className={"d-grid gap-2 my-1"}>
                           Address
                         </label>
 
                         <FormGroup>
                           <Input
-                            className={"d-grid gap-2 col-6 mx-auto"}
+                            className={"justify-content-center align-items-center"}
                             onChange={this.inputHandler}
-                            type="text"
+                            type="textarea"
                             name="address"
                             value={this.state.address}
                             defaultValue={item.address}
-                            style={{ width: "300px" }}
+                            style={{ width: "400px" }}
                           />
                         </FormGroup>
 
-                        <label className={"d-grid gap-2 col-9 mx-auto"}>
+                        <label className={"d-grid gap-2 my-1"}>
                           Phone Number
                         </label>
 
                         <FormGroup>
                           <Input
-                            className={"d-grid gap-2 col-6 mx-auto"}
+                            className={"justify-content-center align-items-center"}
                             onChange={this.inputHandler}
                             type="text"
                             name="phone_number"
                             value={this.state.phone_number}
                             defaultValue={item.phone_number}
-                            style={{ width: "300px" }}
+                            style={{ width: "400px" }}
                           />
                         </FormGroup>
 
-                        <label className={"d-grid gap-2 col-9 mx-auto"}>
+                        <label className={"d-grid gap-2 my-1"}>
                           Full Name
                         </label>
 
                         <FormGroup>
                           <Input
-                            className={"d-grid gap-2 col-6 mx-auto"}
+                            className={"justify-content-center align-items-center"}
                             onChange={this.inputHandler}
                             type="text"
                             name="full_name"
                             value={this.state.full_name}
                             defaultValue={item.full_name}
-                            style={{ width: "300px" }}
+                            style={{ width: "400px" }}
                           />
                         </FormGroup>
 
-                        <label className={"d-grid gap-2 col-9 mx-auto"}>
+                        <label className={"d-grid gap-2 my-1"}>
                           Gender
                         </label>
 
@@ -426,19 +440,19 @@ onBtnSave = () => {
                           </Input>
                         </FormGroup>
 
-                        <label className={"d-grid gap-2 col-9 mx-auto"}>
+                        <label className={"d-grid gap-2 my-1"}>
                           Age
                         </label>
 
                         <FormGroup>
                           <Input
-                            className={"d-grid gap-2 col-6 mx-auto"}
+                            className={"justify-content-center align-items-center"}
                             onChange={this.inputHandler}
                             type="text"
                             name="age"
                             defaultValue={item.age}
                             value={this.state.age}
-                            style={{ width: "300px" }}
+                            style={{ width: "400px" }}
                           />
                         </FormGroup>
 
@@ -457,22 +471,18 @@ onBtnSave = () => {
                           ) : (
                             <>
                               <Button
-                                className={
-                                  "d-grid gap-2 col-6 mx-auto my-2 btn warning "
-                                }
+                                className={" gap-2 col-6 my-2 btn warning "}
                                 onClick={() =>
                                   this.setState({ selectedID: null })
                                 }
                               >
-                                kembali
+                                Back
                               </Button>
                               <Button
-                                className={
-                                  "d-grid gap-2 col-6 mx-auto my-2 btn btn btn-success"
-                                }
+                                className={"d-grid gap-2 col-6 my-2 btn btn btn-success"}
                                 onClick={() => this.onBtnAddImg(this.state)}
                               >
-                                Yes
+                                Save Change
                               </Button>
                             </>
                           )}
