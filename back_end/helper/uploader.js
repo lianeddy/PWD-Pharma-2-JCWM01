@@ -17,7 +17,7 @@ module.exports = {
             }else{
                 fs.mkdir(pathDir, {recursive:true}, err => cb(err, pathDir))
             }
-        },
+        }, 
         filename:(req, file, cb)=>{
             let ext = file.originalname.split('.')
             let filename = fileNamePrefix + Date.now()+'.'+ext[ext.length - 1]

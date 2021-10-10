@@ -30,8 +30,7 @@ class Profile extends React.Component {
   inputHandler = (event) => {
     const value = event.target.value;
     const name = event.target.name;
-    const upload = event.target.files[0];
-    this.setState({ [name]: value, profile_picture : URL.createObjectURL(upload)});
+    this.setState({ [name]: value});
   };
 
 //   inputHandlerImg = (event) => {
@@ -63,12 +62,12 @@ class Profile extends React.Component {
   };
 
   onImgPreview = () =>{
-      if(this.state.profile_picture){
+      if(this.state.addFile){
           let formData = new FormData()
 
 
           
-          formData.append('file', JSON.stringify(this.state.profile_picture))
+          formData.append('file', this.state.addFile)
           Axios.patch(`${URL_API}/upload/uploadimg/1`,formData)
           .then(res =>{
               alert(res.data.message)
@@ -78,6 +77,20 @@ class Profile extends React.Component {
               console.log(err);
           })
       }
+  }
+
+  onBtnAddImg = () =>{
+    this.onBtnSave()
+    this.onImgPreview()
+  }
+
+  onBtnAddfile = (e) =>{
+    if (e.target.files[0]){
+      this.setState({profile_picture : e.target.files[0].name, addFile : e.target.files[0]})
+      let preview = document.getElementById("imgpreview")
+      preview.src = URL.createObjectURL(e.target.files[0])
+    }
+
   }
 
   onBtnSave = () => {
@@ -119,7 +132,7 @@ class Profile extends React.Component {
                             <img
                             name="img"
                             
-                            src={item.profile_picture}
+                            id = "imgpreview"
                             className="img-thumbnail d-grid gap-2 col-9 mx-auto"
                             alt=""
                             style={{
@@ -267,13 +280,10 @@ class Profile extends React.Component {
                         style={{ height: "50vh" }}
                       >
                         <div>
-                            {
-                                
-                            }
                             <img
                             name="img"
-                           
-                            src={this.state.profile_picture}
+                           id = "imgpreview"
+                           src = {item.profile_picture}
                             className="img-thumbnail d-grid gap-2 col-9 mx-auto"
                             alt=""
                             style={{
@@ -288,7 +298,7 @@ class Profile extends React.Component {
                             Upload Image Here
                           </label>
                           <input
-                            onChange={this.inputHandler}
+                            onChange={this.onBtnAddfile}
                             type="file"
                             className="form-control"
                             id="formFile"
@@ -296,7 +306,6 @@ class Profile extends React.Component {
                             
                           />
                         </div>
-                        <button className="btn btn-primary" onClick={this.onImgPreview}>review</button>
                       </div>
 
                       <Form>
@@ -446,7 +455,7 @@ class Profile extends React.Component {
                                 className={
                                   "d-grid gap-2 col-6 mx-auto my-2 btn btn btn-success"
                                 }
-                                onClick={() => this.onBtnSave(this.state)}
+                                onClick={() => this.onBtnAddImg(this.state)}
                               >
                                 Yes
                               </Button>
