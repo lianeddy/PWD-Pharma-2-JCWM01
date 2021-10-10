@@ -15,11 +15,32 @@ class Prescription extends React.Component {
 
     previewFile = (e) =>{
         if (e.target.files[0]){
-            this.setState({prescription_image : e.target.files[0].name, addFIle : e.target.files[0]})
+            this.setState({prescription_image : e.target.files[0].name, addFile : e.target.files[0]})
             let preview = document.getElementById("prescriptionPreview")
+            preview.src = URL.createObjectURL(e.target.files[0])
 
         }
 
+    }
+
+    onImageUpload = ()=>{
+        if(this.state.addFile) {
+            let formData = new FormData()
+
+            let obj = {
+                description : this.inputDescription.value
+        }
+        
+        formData.append('data', JSON.stringify(obj))
+        formData.append('file', this.state.addFile)
+        Axios.post(`${URL_API}/upload/uploadPrescription/1`,formData)
+        .then(res =>{
+            alert(res.data.message)
+        })
+        .catch(err =>{
+            console.log(err);
+        })
+    }
     }
 
 
@@ -34,7 +55,8 @@ class Prescription extends React.Component {
                             <p className="lead" style={{fontSize:"30px"}}>Upload this prescription and wait for our admin to prepare your order</p>
                            <div className="dflex justify-content-left align-items-left"></div>
                            <div>
-                               <img src="https://1.bp.blogspot.com/-MczTCQ9Dz6k/UMkh7ogEeDI/AAAAAAAAC-U/rAihOLNbvCw/s1600/buahbuahan3.jpg" 
+                               <img 
+                               
                                id = "prescriptionPreview"
                                alt=""
                                className= "img-thumbnail d-grid gap-2 col-9 mx-auto" 
@@ -46,20 +68,17 @@ class Prescription extends React.Component {
                     </di>
                     <div className="col-md-3 p-4 bg-dark text-white text-left" style={{borderRadius: "30px"}}>
                         <form>
-                            <div className="form-group">
-                                <label htmlFor="title">Title</label>
-                                <input type="text" className="form-control" id="title" aria-describedby="emailHelp"  />
-                            </div>
+                            
                             <div className="form-group">
                                 <label htmlFor="description">Description</label>
-                                <textarea type="textarea" className="form-control" id="description" aria-describedby="emailHelp" style={{height: "300px"}} />
+                                <textarea type="textarea" className="form-control" id="description" aria-describedby="emailHelp" style={{height: "300px"}} ref={elemen => this.inputDescription = elemen} />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="img">Image</label>
-                                <input type="file" className="form-control" id="img" aria-describedby="emailHelp" onChange={this.onBtAddFile} />
+                                <input type="file" className="form-control" id="img" aria-describedby="emailHelp" onChange= {this.previewFile} />
                             </div>
                         </form>
-                        <button type="button" className="btn btn-primary float-right" >Add Data</button>
+                        <button type="button" onClick={this.onImageUpload} className="btn btn-primary float-right" >Add Data</button>
                     </div>
                 </div>
                 <div className="row container m-auto">
