@@ -10,7 +10,7 @@ class Admin extends React.Component {
   
     return (
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "50px" }}>
-        <h1>Admin Page</h1>
+        <h1>Admin Dashboard</h1>
       </div>
     )
   }

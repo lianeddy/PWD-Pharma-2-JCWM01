@@ -19,6 +19,7 @@ import Profile from "./pages/Profile";
 
 import { connect } from 'react-redux';
 import { userKeepLogin, checkStorage } from './redux/actions/user';
+import SalesReport from "./pages/admin/SalesReport";
 
 class App extends React.Component {
 
@@ -50,6 +51,7 @@ class App extends React.Component {
             <Route component={Cart} path="/cart" />
             <Route component={History} path="/history" />
             <Route component={Profile} path="/profile" />
+            <Route component={SalesReport} path="/sales" />
           </Switch>
         </BrowserRouter>
       )
