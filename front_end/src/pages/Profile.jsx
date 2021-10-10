@@ -137,7 +137,7 @@ class Profile extends React.Component {
                   className="rounded-circle mt-5"
                   width="150px"
                   src={URL_API + item.profile_picture}
-                  style={{height:"200px"}}
+                  style={{height:"150px"}}
                   />
 
                   <span> {item.full_name}</span>
@@ -253,7 +253,7 @@ class Profile extends React.Component {
                   className="rounded-circle mt-5"
                   width="150px"
                   src={URL_API + item.profile_picture}
-                  style={{height:"200px"}}
+                  style={{height:"150px"}}
                   />
 
                 <input
