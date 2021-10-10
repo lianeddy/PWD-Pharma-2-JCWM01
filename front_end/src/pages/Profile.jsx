@@ -30,15 +30,13 @@ class Profile extends React.Component {
   inputHandler = (event) => {
     const value = event.target.value;
     const name = event.target.name;
-    this.setState({ [name]: value});
+    this.setState({ [name]: value });
   };
 
-//   inputHandlerImg = (event) => {
-    
-   
+  //   inputHandlerImg = (event) => {
 
-//     this.setState({ profile_picture: URL.createObjectURL(upload) });
-//   };
+  //     this.setState({ profile_picture: URL.createObjectURL(upload) });
+  //   };
 
   componentDidMount() {
     this.getData();
@@ -49,7 +47,7 @@ class Profile extends React.Component {
     Axios.get(`http://localhost:3300/user/getProfile/1`)
       .then((res) => {
         this.setState({ pharma2: res.data });
-        
+
         this.setState({ address: res.data.address });
         this.setState({ phone_number: res.data.phone_number });
         this.setState({ full_name: res.data.full_name });
@@ -61,47 +59,48 @@ class Profile extends React.Component {
       });
   };
 
-  onImgPreview = () =>{
-      if(this.state.addFile){
-          let formData = new FormData()
+  onImgPreview = () => {
+    if (this.state.addFile) {
+      let formData = new FormData();
 
-
-          
-          formData.append('file', this.state.addFile)
-          Axios.patch(`${URL_API}/upload/uploadimg/1`,formData)
-          .then(res =>{
-              alert(res.data.message)
-              this.getData()
-          })
-          .catch(err =>{
-              console.log(err);
-          })
-      }
-  }
-
-  getProfileImage = () =>{
-      Axios.get(`${URL_API}/upload/get`)
-      .then(res =>{
-          this.setState({profile_picture : res.data.profile_picture})
-      })
-      .catch(err =>{
+      formData.append("file", this.state.addFile);
+      Axios.patch(`${URL_API}/upload/uploadimg/1`, formData)
+        .then((res) => {
+          alert(res.data.message);
+          this.getData();
+        })
+        .catch((err) => {
           console.log(err);
-      })
-  }
-
-  onBtnAddImg = () =>{
-    this.onBtnSave()
-    this.onImgPreview()
-  }
-
-  onBtnAddfile = (e) =>{
-    if (e.target.files[0]){
-      this.setState({profile_picture : e.target.files[0].name, addFile : e.target.files[0]})
-      let preview = document.getElementById("imgpreview")
-      preview.src = URL.createObjectURL(e.target.files[0])
+        });
     }
+  };
 
-  }
+  getProfileImage = () => {
+    Axios.get(`${URL_API}/upload/get`)
+      .then((res) => {
+        this.setState({ profile_picture: res.data.profile_picture });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  onBtnSaveAll = () => {
+    this.onBtnSave();
+    this.onImgPreview();
+    this.getData()
+  };
+
+  onBtnAddfile = (e) => {
+    if (e.target.files[0]) {
+      this.setState({
+        profile_picture: e.target.files[0].name,
+        addFile: e.target.files[0],
+      });
+      let preview = document.getElementById("imgpreview");
+      preview.src = URL.createObjectURL(e.target.files[0]);
+    }
+  };
 
   onBtnSave = () => {
     const { address, phone_number, full_name, gender, age, profile_picture } =
@@ -118,7 +117,7 @@ class Profile extends React.Component {
       .then(() => {
         alert("Profile Change Successfully");
         this.getData();
-        this.setState({selectedID : null})
+        this.setState({ selectedID: null });
       })
       .catch((err) => {
         console.log(err);
@@ -129,288 +128,222 @@ class Profile extends React.Component {
     return this.state.pharma2.map((item, index) => {
       if (this.state.selectedID !== index) {
         return (
-          <div className="container">
-            <div className="col-12 text-center my-5">PROFILE PAGE</div>
-            <div className="row mt-5">
-              <div className="col-4 offset-4">
-                <div className="card" style={{ backgroundColor: "#6495ED", width : "500px" }}>
-                  <div className="card-body">
-                    <div className="font-weight-bold mb-3">
-                      {/* image */}
-                      <div className="align-items-center justify-content-center">
-                        
-                            <img
-                            name="img"
-                            src= {URL_API + item.profile_picture}
-                            id = "imgpreview"
-                            className="justify-content-center"
-                            alt=""
-                            style={{
-                              borderRadius: "50%",
-                              width: "300px",
-                              height: "300px",
-                            }}
-                          />
+          <div className="container rounded bg-white mt-5 mb-5 " >
+            <div className="row">
+              <div className="col-md-3 border-right" style={{backgroundColor:"#6495ED" , borderRadius: "10px"}}>
+                <div className="d-flex flex-column align-items-center text-center p-3 py-5">
+                <img
+                  id ="imgpreview"
+                  className="rounded-circle mt-5"
+                  width="150px"
+                  src={URL_API + item.profile_picture}
+                  style={{height:"200px"}}
+                  />
 
-
-                         
-                        
-                      </div>
-
-                      <div className="d-grid gap-2 col-9 ">
-                        <h5>Your Profile</h5>
-                      </div>
-
-                      <Form>
-                        <label className={"d-grid gap-2 my-1"}>
-                          Username
-                        </label>
-
-                        <FormGroup>
-                          <Input
-                            className={"justify-content-center align-items-center my-1"}
-                            disabled="true"
-                            type="text"
-                            defaultValue={item.username}
-                            style={{ width: "400px" }}
-                          />
-                        </FormGroup>
-
-                        <label className={"d-grid gap-2 my-1"}>
-                          Email
-                        </label>
-
-                        <FormGroup>
-                          <Input
-                            className={"justify-content-center my-2"}
-                            disabled="true"
-                            type="text"
-                            defaultValue={item.email}
-                            style={{ width: "400px" }}
-                          />
-                        </FormGroup>
-
-                        <label className={"d-grid gap-2 mx-auto"}>
-                          Address
-                        </label>
-
-                        <FormGroup>
-                          <Input
-                            className={"justify-content-center align-items-center"}
-                            disabled="true"
-                            type="text"
-                            defaultValue={item.address}
-                            style={{ width: "400px" }}
-                          />
-                        </FormGroup>
-
-                        <label className={"d-grid gap-2 mx-auto"}>
-                          Phone Number
-                        </label>
-
-                        <FormGroup>
-                          <Input
-                            className={"justify-content-center align-items-center "}
-                            disabled="true"
-                            type="text"
-                            defaultValue={item.phone_number}
-                            style={{ width: "400px" }}
-                          />
-                        </FormGroup>
-
-                        <label className={"d-grid gap-2 mx-auto"}>
-                          Full Name
-                        </label>
-
-                        <FormGroup>
-                          <Input
-                            className={"justify-content-center align-items-center"}
-                            disabled="true"
-                            type="text"
-                            defaultValue={item.full_name}
-                            style={{ width: "400px" }}
-                          />
-                        </FormGroup>
-
-                        <label className={"d-grid gap-2 mx-auto"}>
-                          Gender
-                        </label>
-
-                        <FormGroup>
-                          <Input
-                            className={"justify-content-center align-items-center"}
-                            disabled="true"
-                            type="text"
-                            defaultValue={item.gender}
-                            style={{ width: "400px" }}
-                          />
-                        </FormGroup>
-
-                        <label className={"d-grid gap-2 mx-auto"}>
-                          Age
-                        </label>
-
-                        <FormGroup>
-                          <Input
-                            className={"justify-content-center align-items-center"}
-                            disabled="true"
-                            type="text"
-                            defaultValue={item.age}
-                            style={{ width: "400px" }}
-                          />
-                        </FormGroup>
-
-                        <FormGroup>
-                          <Button
-                            className="d-grid gap-2 col-6 my-2 btn btn btn-success"
-                            onClick={() => this.setState({ selectedID: index, profile_picture : item.profile_picture })}
-                          >
-                            Edit{" "}
-                          </Button>
-                        </FormGroup>
-                      </Form>
+                  <span> {item.full_name}</span>
+                </div>
+              </div>
+              <div className="col-md-5 border-right" style={{ backgroundColor:"#6495ED", borderRadius: "10px"}}>
+                <div className="p-3 py-5">
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <h4 className="text-right">Profile</h4>
+                  </div>
+                  <div className="row mt-2">
+                    <div className="col-md-6">
+                      <label className="labels">Username</label>
+                      <input
+                        type="text"
+                        disabled="true"
+                        defaultValue={item.username}
+                        className="form-control"
+                        placeholder="username"
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <label className="labels">Email</label>
+                      <input
+                        type="text"
+                        disabled="true"
+                        defaultValue={item.email}
+                        className="form-control"
+                        placeholder="surname"
+                      />
+                    </div>
+                  </div>
+                  <div className="row mt-3">
+                    <div className="col-md-12">
+                      <label className="labels">Address</label>
+                      <input
+                        type="text-area"
+                        disabled="true"
+                        className="form-control"
+                        placeholder="enter phone number"
+                        defaultValue={item.address}
+                      />
+                    </div>
+                    <div className="col-md-12">
+                      <label className="labels">Phone Number</label>
+                      <input
+                        type="text"
+                        disabled="true"
+                        className="form-control"
+                        placeholder="enter address line 1"
+                        defaultValue={item.phone_number}
+                      />
+                    </div>
+                    <div className="col-md-12">
+                      <label className="labels">Fullname</label>
+                      <input
+                        type="text"
+                        disabled="true"
+                        className="form-control"
+                        placeholder="enter address line 2"
+                        defaultValue={item.full_name}
+                      />
+                    </div>
+                    <div className="col-md-12">
+                      <label className="labels">Gender</label>
+                      <input
+                        type="text"
+                        disabled="true"
+                        className="form-control"
+                        placeholder="enter address line 2"
+                        defaultValue={item.gender}
+                      />
+                    </div>
+                    <div className="col-md-12">
+                      <label className="labels">Age</label>
+                      <input
+                        type="text"
+                        disabled="true"
+                        className="form-control"
+                        placeholder="enter address line 2"
+                        defaultValue={item.age}
+                      />
+                      <div className="mt-5 text-center">
+              <button
+                className="btn btn-primary profile-button"
+                type="button"
+                onClick={() =>
+                  this.setState({
+                    selectedID: index,
+                    profile_picture: item.profile_picture,
+                  })
+                }
+              >
+                Edit Profile
+              </button>
+            </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+            
           </div>
         );
       } else {
         return (
-          <div className="container">
-            <div className="col-12 text-center my-5">PROFILE PAGE</div>
-            <div className="row mt-5">
-              <div className="col-4 offset-4">
-                <div className="card" style={{ backgroundColor: "#6495ED", width:"500px" }}>
-                  <div className="card-body">
-                    <div className="font-weight-bold mb-3">
-                      <div
-                        className="dflex justify-content-center align-items-center"
-                        style={{ height: "40vh" }}
-                      >
-                        <div>
-                            <img
-                            name="img"
-                           id = "imgpreview"
-                           src = {URL_API + item.profile_picture}
-                            className="justify-content-center"
-                            alt=""
-                            style={{
-                              borderRadius: "50%",
-                              width: "300px",
-                              height: "300px",
-                            }}
-                          />
-                        </div>
-                        <div className="my-3">
-                          <label htmlFor="formFile" className="form-label">
-                            Upload Image Here
-                          </label>
-                          <input
+          <div className="container rounded bg-white mt-5 mb-5">
+          <div className="row">
+            <div className="col-md-3 border-right"  style={{backgroundColor:"#6495ED" , borderRadius: "10px"}}>
+              <div className="d-flex flex-column align-items-center text-center p-3 py-5">
+                <img
+                  id ="imgpreview"
+                  className="rounded-circle mt-5"
+                  width="150px"
+                  src={URL_API + item.profile_picture}
+                  style={{height:"200px"}}
+                  />
+
+                <input
                             onChange={this.onBtnAddfile}
                             type="file"
                             className="form-control"
                             id="formFile"
                             accept="image/*"
-                            
                           />
-                        </div>
-                      </div>
-
-                      <Form>
-                        <label className={"d-grid gap-2 my-1"}>
-                          Username
-                        </label>
-
-                        <FormGroup>
-                          <Input
-                            className={"justify-content-center align-items-center"}
-                            disabled="true"
-                            type="text"
-                            name="username"
-                            innerRef={(newUsername) =>
-                              (this.newUsername = newUsername)
-                            }
-                            defaultValue={item.username}
-                            style={{ width: "400px" }}
-                          />
-                        </FormGroup>
-
-                        <label className={"d-grid gap-2 my-1"}>
-                          Email
-                        </label>
-
-                        <FormGroup>
-                          <Input
-                            className={"justify-content-center align-items-center"}
-                            disabled="true"
-                            type="text"
-                            name="email"
-                            innerRef={(newEmail) => (this.newEmail = newEmail)}
-                            defaultValue={item.email}
-                            style={{ width: "400px" }}
-                          />
-                        </FormGroup>
-
-                        <label className={"d-grid gap-2 my-1"}>
-                          Address
-                        </label>
-
-                        <FormGroup>
-                          <Input
-                            className={"justify-content-center align-items-center"}
-                            onChange={this.inputHandler}
-                            type="textarea"
-                            name="address"
-                            value={this.state.address}
-                            defaultValue={item.address}
-                            style={{ width: "400px" }}
-                          />
-                        </FormGroup>
-
-                        <label className={"d-grid gap-2 my-1"}>
-                          Phone Number
-                        </label>
-
-                        <FormGroup>
-                          <Input
-                            className={"justify-content-center align-items-center"}
-                            onChange={this.inputHandler}
-                            type="text"
-                            name="phone_number"
-                            value={this.state.phone_number}
-                            defaultValue={item.phone_number}
-                            style={{ width: "400px" }}
-                          />
-                        </FormGroup>
-
-                        <label className={"d-grid gap-2 my-1"}>
-                          Full Name
-                        </label>
-
-                        <FormGroup>
-                          <Input
-                            className={"justify-content-center align-items-center"}
-                            onChange={this.inputHandler}
-                            type="text"
-                            name="full_name"
-                            value={this.state.full_name}
-                            defaultValue={item.full_name}
-                            style={{ width: "400px" }}
-                          />
-                        </FormGroup>
-
-                        <label className={"d-grid gap-2 my-1"}>
-                          Gender
-                        </label>
-
-                        <FormGroup>
-                          <Input
+              </div>
+            </div>
+            <div className="col-md-5 border-right" style={{ backgroundColor:"#6495ED", borderRadius: "10px"}}>
+              <div className="p-3 py-5">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h4 className="text-right">Profile</h4>
+                </div>
+                <div className="row mt-2">
+                  <div className="col-md-6">
+                    <label className="labels">Username</label>
+                    <input
+                      type="text"
+                      name = "username"
+                      disabled="true"
+                      innerRef={(newUsername) =>
+                        (this.newUsername = newUsername)
+                      }
+                      defaultValue={item.username}
+                      className="form-control"
+                      placeholder="username"
+                    />
+                  </div>
+                  <div className="col-md-6">
+                    <label className="labels">Email</label>
+                    <input
+                      type="text"
+                      disabled="true"
+                      name = "email"
+                      defaultValue={item.email}
+                      innerRef={(newEmail) => (this.newEmail = newEmail)}
+                      className="form-control"
+                      placeholder="surname"
+                    />
+                  </div>
+                </div>
+                <div className="row mt-3">
+                  <div className="col-md-12">
+                    <label className="labels">Address</label>
+                    <input
+                      type="text-area"
+                      onChange={this.inputHandler}
+                      name="address"
+                      value={this.state.address}
+                      className="form-control"
+                      placeholder="enter phone number"
+                      defaultValue={item.address}
+                    />
+                  </div>
+                  <div className="col-md-12">
+                    <label className="labels">Phone Number</label>
+                    <input
+                      type="text"
+                      onChange={this.inputHandler}
+                      name="phone_number"
+                      value={this.state.phone_number}
+                      className="form-control"
+                      placeholder="enter "
+                      defaultValue={item.phone_number}
+                    />
+                  </div>
+                  <div className="col-md-12">
+                    <label className="labels">Fullname</label>
+                    <input
+                      type="text"
+                      onChange={this.inputHandler}
+                      name="full_name"
+                      value={this.state.full_name}
+                      className="form-control"
+                      placeholder="enter address line 2"
+                      defaultValue={item.full_name}
+                    />
+                  </div>
+                  <div className="col-md-12">
+                    <label className="labels">Gender</label>
+                    <FormGroup>
+                    <Input
                             className={"d-grid mx-4"}
                             style={{ width: "100px" }}
                             onChange={this.inputHandler}
                             value={this.state.gender}
+                            defaultValue={item.gender}
                             type="select"
                             name="gender"
                             id="exampleSelect"
@@ -419,62 +352,44 @@ class Profile extends React.Component {
                             <option value={"Pria"}>Pria</option>
                             <option value={"Wanita"}>Wanita</option>
                           </Input>
-                        </FormGroup>
-
-                        <label className={"d-grid gap-2 my-1"}>
-                          Age
-                        </label>
-
-                        <FormGroup>
-                          <Input
-                            className={"justify-content-center align-items-center"}
-                            onChange={this.inputHandler}
-                            type="text"
-                            name="age"
-                            defaultValue={item.age}
-                            value={this.state.age}
-                            style={{ width: "400px" }}
-                          />
-                        </FormGroup>
-
-                        <FormGroup>
-                          {this.state.selectedID == null ? (
-                            <>
-                              <Button
-                                onClick={() =>
-                                  this.setState({ selectedID: index })
-                                }
-                              >
-                                Edit
-                              </Button>
-                              <Button>Delete</Button>
-                            </>
-                          ) : (
-                            <>
-                              <Button
-                                className={" gap-2 col-6 my-2 btn warning "}
+                    </FormGroup>
+                    
+                       
+                  </div>
+                  <div className="col-md-12">
+                    <label className="labels">Age</label>
+                    <input
+                      type="text"
+                      onChange={this.inputHandler}
+                      className="form-control"
+                      placeholder="enter address line 2"
+                      defaultValue={item.age}
+                    />
+                    <div className="mt-5 text-center">
+                    <button
+                                className={"btn gap-2 col-6 my-2 btn-warning "}
                                 onClick={() =>
                                   this.setState({ selectedID: null })
                                 }
                               >
                                 Back
-                              </Button>
-                              <Button
-                                className={"d-grid gap-2 col-6 my-2 btn btn btn-success"}
-                                onClick={() => this.onBtnAddImg(this.state)}
+                              </button>
+                              <button
+                                className={
+                                  "d-grid gap-2 col-6 my-2 btn btn btn-success"
+                                }
+                                onClick={() => this.onBtnSaveAll(this.state)}
                               >
                                 Save Change
-                              </Button>
-                            </>
-                          )}
-                        </FormGroup>
-                      </Form>
-                    </div>
+                              </button>
+          </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          
+        </div>
         );
       }
     });
