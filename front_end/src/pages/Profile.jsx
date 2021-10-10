@@ -129,11 +129,6 @@ onBtnSave = () => {
         gender,
         age
     })
-    .then(()=>{
-        alert('Profile Change Successfully')
-        this.getData()
-        
-    })
       .then(() => {
         alert("Profile Change Successfully");
         this.getData();
