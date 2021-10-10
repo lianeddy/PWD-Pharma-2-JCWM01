@@ -28,7 +28,7 @@ module.exports=({
                         res.status(500).send(err)
                     }
                     console.log(sqlUpdate);
-                    res.status(200).send({results})
+                    res.status(200)
                 })
 
             })
