@@ -186,7 +186,7 @@ module.exports = {
   },
 
   //--------
-  fetchProducts: (req, res) => {
+  getProduct: (req, res) => {
     let { limit } = req.body;
     let scriptQuery = `select * from product`;
     db.query(scriptQuery, (err, results) => {

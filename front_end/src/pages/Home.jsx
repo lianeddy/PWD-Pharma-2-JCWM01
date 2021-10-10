@@ -1,8 +1,7 @@
 import React from "react";
 import ProductCard from "../components/ProductCard";
 import Axios from "axios";
-import { URL_API } from "../helper";
-import imageSlider1 from "../img/edubin/slider/slider1.jpg";
+//import { URL_API } from "../helper";
 
 class Home extends React.Component {
   state = {
@@ -13,29 +12,19 @@ class Home extends React.Component {
     itemPerPage: 6,
     searchProductName: "",
     searchCategory: "",
-    sortBy: "default",
+    sortBy: "",
   };
 
+  // melakukan panggilan ke API
   fetchproducts = () => {
-    const { searchProductName } = this.state;
-    let dataPage = this.page;
-    let dataRows = this.itemPerPage; //isset($param['rows']) ? intval($param['rows']) : 9;
-    let offset = (dataPage - 1) * dataRows;
+    Axios.get("http://localhost:3300/product/get")
 
-    const headers = {
-      "Access-Control-Allow-Origin": "*",
-      "Content-type": "application/json",
-    };
-    Axios.post(`${URL_API}/user/fetchProducts`, {
-      limit: 5,
-    })
       .then((result) => {
         this.setState({
           productList: result.data,
           maxPage: Math.ceil(result.data.length / this.state.itemPerPage),
           filteredProductList: result.data,
         });
-        this.setState({ productList: result.data });
       })
       .catch(() => {
         alert("Terjadi kesalahan di server");
@@ -44,27 +33,16 @@ class Home extends React.Component {
 
   renderProducts = () => {
     const beginningIndex = (this.state.page - 1) * this.state.itemPerPage;
-    let filtered = [];
-    filtered = this.state.productList.filter((val) => {
-      return val.product_name
-        .toLowerCase()
-        .includes(this.state.searchProductName.toLowerCase());
-    });
-    let rawData = [...filtered];
-    console.log(rawData);
-
+    let rawData = [...this.state.filteredProductList];
     const compareString = (a, b) => {
       if (a.product_name < b.product_name) {
         return -1;
       }
-
       if (a.product_name > b.product_name) {
         return 1;
       }
-
       return 0;
     };
-
     switch (this.state.sortBy) {
       case "lowPrice":
         rawData.sort((a, b) => a.product_price - b.product_price);
@@ -79,7 +57,7 @@ class Home extends React.Component {
         rawData.sort((a, b) => compareString(b, a));
         break;
       default:
-        rawData = rawData;
+        rawData = [...this.state.filteredProductList];
         break;
     }
 
@@ -87,44 +65,42 @@ class Home extends React.Component {
       beginningIndex,
       beginningIndex + this.state.itemPerPage
     );
-
     return currentData.map((val) => {
       return <ProductCard productData={val} />;
     });
   };
-
   nextPagehandler = () => {
-    console.log("Next Page Clicked");
+    // console.log("Next Page Clicked");
     if (this.state.page < this.state.maxPage) {
       this.setState({ page: this.state.page + 1 });
     }
   };
 
   prevPagehandler = () => {
-    console.log("Previous Page Clicked");
+    // console.log("Previous Page Clicked");
     if (this.state.page > 1) {
       this.setState({ page: this.state.page - 1 });
     }
   };
 
-  searchHandler = (event) => {
-    console.log("Search Product " + event.target.value);
-    const value = event.target.value;
-    this.setState({ searchProductName: value });
-  };
-
-  categoryHandler = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    console.log("Set " + name + " category id " + value);
-    this.setState({ [name]: value });
-  };
-
-  sortingHandler = (event) => {
-    console.log("Set Order by " + event.target.value);
+  //search dan sortby
+  inputHandler = (event) => {
+    // console.log("Search Product " + event.target.value);
     const name = event.target.name;
     const value = event.target.value;
     this.setState({ [name]: value });
+  };
+
+  searchButtonHandler = () => {
+    const filteredProductList = this.state.productList.filter((val) => {
+      return val.product_name.toLowerCase().includes(this.state.searchProductName.toLowerCase())&&
+        val.category.toLowerCase().includes(this.state.searchCategory.toLowerCase());
+    });
+    this.setState({
+      filteredProductList,
+      maxPage: Math.ceil(filteredProductList.length / this.state.itemPerPage),
+      page: 1,
+    });
   };
 
   componentDidMount() {
@@ -135,31 +111,32 @@ class Home extends React.Component {
     return (
       <div className="container mt-5">
         <div className="row">
+          {/* untuk kolom yang ada disebelah kiri */}
           <div className="col-3">
             <div className="card">
               <div className="card-header">
                 <strong>Filter Products</strong>
               </div>
               <div className="card-body">
-                <label htmlFor="searchHandler">Name</label>
+                <label htmlFor="searchProductName">Name</label>
                 <input
-                  onChange={this.searchHandler}
+                  onChange={this.inputHandler}
                   name="searchProductName"
                   type="text"
                   className="form-control mb-3"
                 />
                 <label htmlFor="searchCategory">Category</label>
                 <select
-                  onChange={this.inputHandlerr}
+                  onChange={this.inputHandler}
                   name="searchCategory"
                   className="form-control"
                 >
                   <option value="">All Drugs</option>
-                  <option value="Kaos">Liquid</option>
-                  <option value="Celana">Tablet</option>
+                  <option value="liquid">Liquid</option>
+                  <option value="tablet">Tablet</option>
                 </select>
                 <button
-                  onClick={this.searchBtnHandler}
+                  onClick={this.searchButtonHandler}
                   className="btn btn-primary mt-3"
                 >
                   Search
@@ -171,9 +148,9 @@ class Home extends React.Component {
                 <strong>Sort Products</strong>
               </div>
               <div className="card-body">
-                <label htmlFor="searchCategory">Sort by</label>
+                <label htmlFor="sortBy">Sort by</label>
                 <select
-                  onChange={this.sortingHandler}
+                  onChange={this.inputHandler}
                   name="sortBy"
                   className="form-control"
                 >
@@ -207,6 +184,7 @@ class Home extends React.Component {
               </div>
             </div>
           </div>
+          {/* untuk kolom disebelah kanan */}
           <div className="col-9">
             <div className="d-flex flex-wrap flex-row text-end">
               {this.renderProducts()}

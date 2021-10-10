@@ -14,22 +14,6 @@ import "../css/edubin/responsive.css";
 class ProductCard extends React.Component {
   render() {
     return (
-      /*
-      <div className="card product-card" style={{padding: 5, marginLeft: 2, marginRight: 2, marginBottom: 4}}>
-        <img src={this.props.productData.product_image} alt="" />
-        <div className="mt-2">
-          <div>
-            <h6>{this.props.productData.product_name}</h6>
-            <span className="text-muted">
-              Rp. {this.props.productData.product_price}
-            </span>
-          </div>
-          <div className="d-flex flex-row justify-content-end">
-            <button className="btn btn-primary mt-2">Add to cart </button>
-          </div>
-        </div>
-      </div>
-      */
       <div class="singel-publication">
         <div class="image">
           <img src={this.props.productData.product_image} alt="Publication" />
