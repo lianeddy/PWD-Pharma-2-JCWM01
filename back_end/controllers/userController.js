@@ -49,7 +49,11 @@ module.exports = {
         if (status != "verified") {
           return res
             .status(200)
-            .send({ dataLogin: null, token: null, message: "Your account is not verified" });
+            .send({
+              dataLogin: null,
+              token: null,
+              message: "Your account is not verified",
+            });
         } else {
           return res
             .status(200)
@@ -57,7 +61,9 @@ module.exports = {
         }
       } else {
         // Jika tidak dapat data (user not found)
-        return res.status(200).send({ dataLogin: 1, token: null, message: "Login Failed" });
+        return res
+          .status(200)
+          .send({ dataLogin: 1, token: null, message: "Login Failed" });
       }
     });
   },
@@ -151,7 +157,9 @@ module.exports = {
     });
   },
   keepLogin: (req, res) => {
-    let scriptQuery = `SELECT * FROM user WHERE id_user = ${db.escape(req.body.id_user)};`;
+    let scriptQuery = `SELECT * FROM user WHERE id_user = ${db.escape(
+      req.body.id_user
+    )};`;
 
     db.query(scriptQuery, (err, results) => {
       console.log(results);
@@ -187,11 +195,18 @@ module.exports = {
           status,
         });
 
-        return res.status(200).send({ dataLogin: results[0], token, message: "Keep Login Success" });
-        
+        return res
+          .status(200)
+          .send({
+            dataLogin: results[0],
+            token,
+            message: "Keep Login Success",
+          });
       } else {
         // Jika tidak dapat data (user not found)
-        return res.status(200).send({ dataLogin: null, token: null, message: "Keep Login Failed" });
+        return res
+          .status(200)
+          .send({ dataLogin: null, token: null, message: "Keep Login Failed" });
       }
     });
   },
@@ -281,20 +296,16 @@ module.exports = {
           transporter.sendMail(mail, (errMail, resMail) => {
             if (errMail) {
               console.log(errMail);
-              res
-                .status(500)
-                .send({
-                  Message: "registration fail ",
-                  success: false,
-                  err: errMail,
-                });
-            }
-            res
-              .status(200)
-              .send({
-                Message: "registration succes check your email",
-                success: true,
+              res.status(500).send({
+                Message: "registration fail ",
+                success: false,
+                err: errMail,
               });
+            }
+            res.status(200).send({
+              Message: "registration succes check your email",
+              success: true,
+            });
           });
         });
       }
@@ -311,6 +322,25 @@ module.exports = {
       res.status(200).send({ message: "verified account", success: true });
     });
   },
+  changeProfile: (req, res) => {
+    let dataUpdate = [];
+    for (let prop in req.body) {
+      dataUpdate.push(`${prop} = ${db.escape(req.body[prop])}`);
+    }
+
+    let updateQuery = `update user set ${dataUpdate} where id_user = ${req.params.id};`;
+    db.query(updateQuery, (err, results) => {
+      if (err) res.status(500).send(err);
+      res.status(200).send(results);
+    });
+  },
+  changePhoto: (req, res) => {
+    let updateQuery = `update user set profile_picture = ${req.body.profile_picture} where id_user = ${req.params.id};`;
+    db.query(updateQuery, (err, result) => {
+      if (err) res.status(500).send(err);
+      res.status(200).send(result);
+    });
+  },
   editData: (req, res) => {
     let dataUpdate = [];
     for (let prop in req.body) {
@@ -323,18 +353,18 @@ module.exports = {
       res.status(200).send(results);
     });
   },
-  changeProfile :(req, res)=>{
-    let dataUpdate = []
-    for(let prop in req.body){
-        dataUpdate.push(`${prop} = ${db.escape(req.body[prop])}`)
+  changeProfile: (req, res) => {
+    let dataUpdate = [];
+    for (let prop in req.body) {
+      dataUpdate.push(`${prop} = ${db.escape(req.body[prop])}`);
     }
 
-    let updateQuery = `update user set ${dataUpdate} where id_user = ${req.params.id};`
-    db.query(updateQuery,(err, results) =>{
-        if(err)res.status(500).send(err)
-        res.status(200).send(results)
-    })
-},
+    let updateQuery = `update user set ${dataUpdate} where id_user = ${req.params.id};`;
+    db.query(updateQuery, (err, results) => {
+      if (err) res.status(500).send(err);
+      res.status(200).send(results);
+    });
+  },
 
   deleteData: (req, res) => {
     let deleteQuery = `delete from user where id_user = ${db.escape(
@@ -345,13 +375,14 @@ module.exports = {
       res.status(200).send(results);
     });
   },
-  getProfile : (req, res) =>{
-    let scriptQuery = `select * from user where id_user = ${db.escape(req.params.id)};`
-   
-    db.query(scriptQuery,(err, results) =>{
-        if(err) res.status(500).send(err)
-        res.status(200).send(results)
-       
-    })
-  }
+  getProfile: (req, res) => {
+    let scriptQuery = `select * from user where id_user = ${db.escape(
+      req.params.id
+    )};`;
+
+    db.query(scriptQuery, (err, results) => {
+      if (err) res.status(500).send(err);
+      res.status(200).send(results);
+    });
+  },
 };
