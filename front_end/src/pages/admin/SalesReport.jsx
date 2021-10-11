@@ -14,6 +14,7 @@ class SalesReport extends React.Component {
   
   componentDidMount() {
     this.getData()
+    this.countRevenue()
   }
 
   getData = () => {
@@ -22,7 +23,7 @@ class SalesReport extends React.Component {
       this.setState({ dbreport: res.data.results })
     })
     .catch(err => {
-      alert("Cannot get Data")
+      alert("Cannot Get Data")
       console.log(err)
     })
   }
@@ -52,6 +53,18 @@ class SalesReport extends React.Component {
     })
   }
 
+  countRevenue = () => {
+    Axios.get(`${URL_API}/admin/revenue`)
+    .then(res => {
+      this.setState({ revenue: res.data.results[0].total_revenue })
+      // console.log(res.data)
+    })
+    .catch(err => {
+      alert("Cannot Count Revenue")
+      console.log(err)
+    })
+  }
+
   render() {
     if (this.props.userGlobal.role !== "admin") {
       return <Redirect to="/" />
@@ -60,27 +73,27 @@ class SalesReport extends React.Component {
     return (
       <>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "50px", marginBottom: "30px" }}>
-          <h1>Sales Report Page</h1>
+          <h1>Sales Report</h1>
         </div>
         <div className="row m-auto" style={{ alignItems: "center", justifyContent: "center" }}>
-          <div className="col-md-18">
+          <div className="col-md-18 mx-2 text-center">
             <Table>
-              <thead>
+              <thead className="thead-light">
                 <tr>
                   <th>#</th>
                   <th>Username</th>
-                  <th>Transaction ID</th>
-                  <th>Cart ID</th>
-                  <th>Custom ID</th>
-                  <th>Product Name</th>
+                  <th>Transaction_ID</th>
+                  <th>Cart_ID</th>
+                  <th>Custom_ID</th>
+                  <th>Productame</th>
                   <th>Price</th>
                   <th>Qty</th>
                   <th>Tax</th>
-                  <th>Total Price</th>
+                  <th>Total_Price</th>
                   <th>Date</th>
                   <th>Payment</th>
                   <th>Expedition</th>
-                  <th>Shipping Cost</th>
+                  <th>Shipping_Cost</th>
                   <th>Image</th>
                   <th>Status</th>
                 </tr>
@@ -91,8 +104,9 @@ class SalesReport extends React.Component {
             </Table>
           </div>
         </div>
-        <div>
-          
+        <div style={{ marginLeft: "50px" }}>
+          <h3>Revenue : Rp {this.state.revenue} </h3>
+          {/* {this.countRevenue()} */}
         </div>
       </>
     )
