@@ -8,7 +8,8 @@ import { URL_API } from '../helper';
 class Prescription extends React.Component {
     state ={
         commentar : "",
-        prescription_image : ""
+        prescription_image : "",
+        doneUpload : false
 
     }
 
@@ -28,7 +29,7 @@ class Prescription extends React.Component {
             let formData = new FormData()
 
             let obj = {
-                description : this.inputDescription.value
+                commentar : this.inputCommentar.value
         }
         
         formData.append('data', JSON.stringify(obj))
@@ -36,6 +37,7 @@ class Prescription extends React.Component {
         Axios.post(`${URL_API}/upload/uploadPrescription/1`,formData)
         .then(res =>{
             alert(res.data.message)
+            this.setState({doneUpload : true})
         })
         .catch(err =>{
             console.log(err);
@@ -52,7 +54,12 @@ class Prescription extends React.Component {
                     <div className="col-md-6">
                         <div style={{ width: '90%' }} className="m-auto">
                             <h1 className="display-4">Your Prescription</h1>
+                            {
+                                this.state.doneUpload ? 
+                                <p className="lead" style={{fontSize:"30px"}}>Success Upload your prescription, Check your transaction to check your prescription transaction</p> :
+
                             <p className="lead" style={{fontSize:"30px"}}>Upload this prescription and wait for our admin to prepare your order</p>
+                            }
                            <div className="dflex justify-content-left align-items-left"></div>
                            <div>
                                <img 
@@ -60,18 +67,18 @@ class Prescription extends React.Component {
                                id = "prescriptionPreview"
                                alt=""
                                className= "img-thumbnail d-grid gap-2 col-9 mx-auto" 
-                               style={{width:"1000px", height:"500px"}}/>
+                               style={{width:"700px", height:"500px", backgroundColor:"#00008B"}}/>
                            </div>
                         </div>
                     </div>
                     <di className="col-md-3">
                     </di>
-                    <div className="col-md-3 p-4 bg-dark text-white text-left" style={{borderRadius: "30px"}}>
+                    <div className="col-md-3 p-4 text-white text-left" style={{backgroundColor:"#00008B", borderRadius: "30px"}}>
                         <form>
                             
                             <div className="form-group">
-                                <label htmlFor="description">Description</label>
-                                <textarea type="textarea" className="form-control" id="description" aria-describedby="emailHelp" style={{height: "300px"}} ref={elemen => this.inputDescription = elemen} />
+                                <label htmlFor="description">Commentar</label>
+                                <textarea type="textarea" className="form-control" id="commentar" aria-describedby="emailHelp" style={{height: "300px"}} ref={elemen => this.inputCommentar = elemen} />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="img">Image</label>

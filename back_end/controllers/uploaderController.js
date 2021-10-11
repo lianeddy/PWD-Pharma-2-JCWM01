@@ -52,7 +52,7 @@ module.exports=({
                 const filepath = file ? path + '/' + file[0].filename : null
 
                 let data = JSON.parse(req.body.data)
-                data.image = filepath
+                data.prescription_img = filepath
 
                 let sqlInsert = `insert into prescription values (null, ${db.escape(req.params.id)}, ${db.escape(data.commentar)}, ${db.escape(filepath)});`
                 db.query(sqlInsert, (err, results)=>{
