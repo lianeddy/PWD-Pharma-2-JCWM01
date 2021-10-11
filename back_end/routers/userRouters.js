@@ -12,5 +12,6 @@ routers.patch("/change/:id", userController.changePassword);
 routers.post("/reset-email", userController.resetEmailPass);
 routers.post("/keep-login", userController.keepLogin);
 routers.patch("/resetpass/:id", userController.resetPass);
+routers.patch("/changePhoto/:id", userController.changePhoto);
 
 module.exports = routers;
