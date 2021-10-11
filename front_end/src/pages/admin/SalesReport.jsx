@@ -7,51 +7,51 @@ import { Col, Button, Form, FormGroup, Label, Input, FormText, Table } from 'rea
 class SalesReport extends React.Component {
   state = {
     pharma2: [],
-    selectedID: null
+    // selectedID: null
   }
   
-
   componentDidMount() {
     this.getData()
   }
 
   getData = () => {
-    Axios.get('http://localhost:3300/karyawan/get')
+    Axios.get('http://localhost:3300/report/get')
     .then(res => {
       this.setState({ pharma2: res.data })
     })
     .catch(err => {
+      // alert("Cannot get Data")
       console.log(err)
     })
   }
 
-  onBtnAdd = () => {
-    // console.log({
-    //   nama: this.nama.value,
-    //   usia: parseInt(this.usia.value),
-    //   email: this.email.value,
-    //   berat: parseFloat(this.berat.value),
-    //   kota: this.kota.value,
-    //   tahun: this.tahun.value,
-    //   idposisi: parseInt(this.posisi.value)
-    // })
-    Axios.post('http://localhost:3300/karyawan/add-karyawan', {
-      nama: this.nama.value,
-      usia: parseInt(this.usia.value),
-      email: this.email.value,
-      berat: parseFloat(this.berat.value),
-      kota: this.kota.value,
-      tahun: this.tahun.value,
-      idposisi: parseInt(this.posisi.value)
-    })
-    .then(res => {
-      console.log(res.data)
-      this.getData()
-    })
-    .catch(err => {
-      console.log(err)
-    })
-  }
+  // onBtnAdd = () => {
+  //   // console.log({
+  //   //   nama: this.nama.value,
+  //   //   usia: parseInt(this.usia.value),
+  //   //   email: this.email.value,
+  //   //   berat: parseFloat(this.berat.value),
+  //   //   kota: this.kota.value,
+  //   //   tahun: this.tahun.value,
+  //   //   idposisi: parseInt(this.posisi.value)
+  //   // })
+  //   Axios.post('http://localhost:3300/karyawan/add-karyawan', {
+  //     nama: this.nama.value,
+  //     usia: parseInt(this.usia.value),
+  //     email: this.email.value,
+  //     berat: parseFloat(this.berat.value),
+  //     kota: this.kota.value,
+  //     tahun: this.tahun.value,
+  //     idposisi: parseInt(this.posisi.value)
+  //   })
+  //   .then(res => {
+  //     console.log(res.data)
+  //     this.getData()
+  //   })
+  //   .catch(err => {
+  //     console.log(err)
+  //   })
+  // }
 
   printData = () => {
     return this.state.pharma2.map((item, index) => {
