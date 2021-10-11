@@ -128,9 +128,9 @@ class Profile extends React.Component {
     return this.state.pharma2.map((item, index) => {
       if (this.state.selectedID !== index) {
         return (
-          <div className="container rounded bg-white mt-5 mb-5 " >
+          <div className="container rounded mt-5 mb-5 "  >
             <div className="row">
-              <div className="col-md-3 border-right" style={{backgroundColor:"#6495ED" , borderRadius: "10px"}}>
+              <div className="col-md-3 border-right" style={{backgroundColor:"#00008B",  borderRadius: "10px"}}>
                 <div className="d-flex flex-column align-items-center text-center p-3 py-5">
                 <img
                   id ="imgpreview"
@@ -140,17 +140,17 @@ class Profile extends React.Component {
                   style={{height:"150px"}}
                   />
 
-                  <span> {item.full_name}</span>
+                  <span style={{color:"white"}}> {item.full_name}</span>
                 </div>
               </div>
-              <div className="col-md-5 border-right" style={{ backgroundColor:"#6495ED", borderRadius: "10px"}}>
+              <div className="col-md-5 border-right" style={{backgroundColor:"#00008B", borderRadius: "10px"}}>
                 <div className="p-3 py-5">
                   <div className="d-flex justify-content-between align-items-center mb-3">
-                    <h4 className="text-right">Profile</h4>
+                    <h4 className="text-right" style={{color:"white"}}>Profile</h4>
                   </div>
                   <div className="row mt-2">
                     <div className="col-md-6">
-                      <label className="labels">Username</label>
+                      <label className="labels" style={{color:"white"}}>Username</label>
                       <input
                         type="text"
                         disabled="true"
@@ -160,7 +160,7 @@ class Profile extends React.Component {
                       />
                     </div>
                     <div className="col-md-6">
-                      <label className="labels">Email</label>
+                      <label className="labels" style={{color:"white"}}>Email</label>
                       <input
                         type="text"
                         disabled="true"
@@ -172,7 +172,7 @@ class Profile extends React.Component {
                   </div>
                   <div className="row mt-3">
                     <div className="col-md-12">
-                      <label className="labels">Address</label>
+                      <label className="labels" style={{color:"white"}}>Address</label>
                       <input
                         type="text-area"
                         disabled="true"
@@ -182,7 +182,7 @@ class Profile extends React.Component {
                       />
                     </div>
                     <div className="col-md-12">
-                      <label className="labels">Phone Number</label>
+                      <label className="labels" style={{color:"white"}}>Phone Number</label>
                       <input
                         type="text"
                         disabled="true"
@@ -192,7 +192,7 @@ class Profile extends React.Component {
                       />
                     </div>
                     <div className="col-md-12">
-                      <label className="labels">Fullname</label>
+                      <label className="labels" style={{color:"white"}}>Fullname</label>
                       <input
                         type="text"
                         disabled="true"
@@ -202,7 +202,7 @@ class Profile extends React.Component {
                       />
                     </div>
                     <div className="col-md-12">
-                      <label className="labels">Gender</label>
+                      <label className="labels" style={{color:"white"}}>Gender</label>
                       <input
                         type="text"
                         disabled="true"
@@ -212,7 +212,7 @@ class Profile extends React.Component {
                       />
                     </div>
                     <div className="col-md-12">
-                      <label className="labels">Age</label>
+                      <label className="labels" style={{color:"white"}}>Age</label>
                       <input
                         type="text"
                         disabled="true"
@@ -246,7 +246,7 @@ class Profile extends React.Component {
         return (
           <div className="container rounded bg-white mt-5 mb-5">
           <div className="row">
-            <div className="col-md-3 border-right"  style={{backgroundColor:"#6495ED" , borderRadius: "10px"}}>
+            <div className="col-md-3 border-right"   style={{backgroundColor:"#00008B", borderRadius: "10px"}}>
               <div className="d-flex flex-column align-items-center text-center p-3 py-5">
                 <img
                   id ="imgpreview"
@@ -265,14 +265,14 @@ class Profile extends React.Component {
                           />
               </div>
             </div>
-            <div className="col-md-5 border-right" style={{ backgroundColor:"#6495ED", borderRadius: "10px"}}>
+            <div className="col-md-5 border-right" style={{backgroundColor:"#00008B", borderRadius: "10px"}}>
               <div className="p-3 py-5">
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h4 className="text-right">Profile</h4>
+                  <h4 className="text-right" style={{color:"white"}}>Profile</h4>
                 </div>
                 <div className="row mt-2">
                   <div className="col-md-6">
-                    <label className="labels">Username</label>
+                    <label className="labels" style={{color:"white"}}>Username</label>
                     <input
                       type="text"
                       name = "username"
@@ -286,7 +286,7 @@ class Profile extends React.Component {
                     />
                   </div>
                   <div className="col-md-6">
-                    <label className="labels">Email</label>
+                    <label className="labels" style={{color:"white"}}>Email</label>
                     <input
                       type="text"
                       disabled="true"
@@ -300,7 +300,7 @@ class Profile extends React.Component {
                 </div>
                 <div className="row mt-3">
                   <div className="col-md-12">
-                    <label className="labels">Address</label>
+                    <label className="labels" style={{color:"white"}}>Address</label>
                     <input
                       type="text-area"
                       onChange={this.inputHandler}
@@ -312,7 +312,7 @@ class Profile extends React.Component {
                     />
                   </div>
                   <div className="col-md-12">
-                    <label className="labels">Phone Number</label>
+                    <label className="labels" style={{color:"white"}}>Phone Number</label>
                     <input
                       type="text"
                       onChange={this.inputHandler}
@@ -324,7 +324,7 @@ class Profile extends React.Component {
                     />
                   </div>
                   <div className="col-md-12">
-                    <label className="labels">Fullname</label>
+                    <label className="labels" style={{color:"white"}}>Fullname</label>
                     <input
                       type="text"
                       onChange={this.inputHandler}
@@ -336,10 +336,10 @@ class Profile extends React.Component {
                     />
                   </div>
                   <div className="col-md-12">
-                    <label className="labels">Gender</label>
+                    <label className="labels" style={{color:"white"}}>Gender</label>
                     <FormGroup>
                     <Input
-                            className={"d-grid mx-4"}
+                            className={"d-grid mx-4 form-control"}
                             style={{ width: "100px" }}
                             onChange={this.inputHandler}
                             value={this.state.gender}
@@ -357,7 +357,7 @@ class Profile extends React.Component {
                        
                   </div>
                   <div className="col-md-12">
-                    <label className="labels">Age</label>
+                    <label className="labels" style={{color:"white"}}>Age</label>
                     <input
                       type="text"
                       onChange={this.inputHandler}
@@ -398,7 +398,7 @@ class Profile extends React.Component {
   render() {
     //    console.log( this.posisi)
     return (
-      <div className="row m-auto">
+      <div className="row m-auto" >
         <div className="col-md-10">
           <Table>
             <tbody>{this.printData()}</tbody>
