@@ -3,8 +3,8 @@ const { db } = require("../database");
 module.exports = {
   getData: (req, res) => {
     let scriptQuery = "Select * from product;";
-    if (req.query.idobat) {
-      scriptQuery = `Select * from obat where id_product = ${db.escape(
+    if (req.query.id_product) {
+      scriptQuery = `Select * from product where id_product = ${db.escape(
         req.query.id_product
       )};`;
     }
@@ -22,9 +22,10 @@ module.exports = {
       stock,
       unit,
       product_image,
+      product_image_detail,
       expired_date,
       bottle_volume,
-      category_id,
+      category,
     } = req.body;
     let insertQuery = `Insert into product values (null, ${db.escape(
       product_name
@@ -32,7 +33,7 @@ module.exports = {
       stock
     )}, ${db.escape(unit)}, ${db.escape(product_image)}, ${db.escape(
       expired_date
-    )}, ${db.escape(bottle_volume)}, ${db.escape(category_id)});`;
+    )}, ${db.escape(bottle_volume)}, ${db.escape(category)});`;
     console.log(insertQuery);
     db.query(insertQuery, (err, results) => {
       if (err) res.status(500).send(err);
@@ -47,4 +48,15 @@ module.exports = {
       );
     });
   },
+  getProduct: (req, res) => {
+    let { limit } = req.body;
+    let scriptQuery = `select * from product`;
+    db.query(scriptQuery, (err, results) => {
+      if (err) res.status(500).send(err);
+      console.log(limit);
+      console.log(results);
+      res.status(200).send(results);
+    });
+  },
+ 
 };

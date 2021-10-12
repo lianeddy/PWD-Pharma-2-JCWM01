@@ -184,25 +184,5 @@ module.exports = {
       res.status(200).send(results);
     });
   },
-
-  //--------
-  getProduct: (req, res) => {
-    let { limit } = req.body;
-    let scriptQuery = `select * from product`;
-    db.query(scriptQuery, (err, results) => {
-      if (err) res.status(500).send(err);
-      console.log(limit);
-      console.log(results);
-      res.status(200).send(results);
-    });
-  },
-  getProduct: (req, res) => {
-    let { productId } = req.body;
-    let scriptQuery = `select a.*, b.name category from product a left join category b on a.category_id = b.id  where id_product = ${productId}`;
-    db.query(scriptQuery, (err, results) => {
-      if (err) res.status(500).send(err);
-      console.log(results);
-      res.status(200).send(results);
-    });
-  },
+  
 };

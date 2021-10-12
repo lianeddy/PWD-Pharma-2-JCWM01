@@ -110,10 +110,10 @@ export class Header extends Component {
                 <div class="right-icon text-right">
                   <ul>
                     <li>
-                      <a href="#">
+                      {/* <a href="#"> */}
                         <i class="fa fa-shopping-bag"></i>
                         <span>0</span>
-                      </a>
+                      {/* </a> */}
                     </li>
                   </ul>
                 </div>

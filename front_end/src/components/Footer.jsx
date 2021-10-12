@@ -22,9 +22,9 @@ export class Footer extends Component {
               <div class="col-lg-6 col-md-6">
                 <div class="footer-about mt-40">
                   <div class="logo">
-                    <a href="#">
+                    {/* <a href="#"> */}
                       <img src={logo} alt="Logo" width={150} />
-                    </a>
+                    {/* </a> */}
                   </div>
                   <p>
                     Be Well Pharmacy is an online Pharmacy that provides various

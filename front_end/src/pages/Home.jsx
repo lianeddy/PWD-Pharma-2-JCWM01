@@ -1,7 +1,7 @@
 import React from "react";
 import ProductCard from "../components/ProductCard";
 import Axios from "axios";
-//import { URL_API } from "../helper";
+
 
 class Home extends React.Component {
   state = {
@@ -70,23 +70,20 @@ class Home extends React.Component {
     });
   };
   nextPagehandler = () => {
-    // console.log("Next Page Clicked");
-    if (this.state.page < this.state.maxPage) {
+       if (this.state.page < this.state.maxPage) {
       this.setState({ page: this.state.page + 1 });
     }
   };
 
   prevPagehandler = () => {
-    // console.log("Previous Page Clicked");
-    if (this.state.page > 1) {
+       if (this.state.page > 1) {
       this.setState({ page: this.state.page - 1 });
     }
   };
 
   //search dan sortby
   inputHandler = (event) => {
-    // console.log("Search Product " + event.target.value);
-    const name = event.target.name;
+       const name = event.target.name;
     const value = event.target.value;
     this.setState({ [name]: value });
   };
