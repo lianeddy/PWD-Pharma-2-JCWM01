@@ -37,9 +37,14 @@ class MyNavbar extends React.Component {
                   <DropdownMenu right>
                     {
                       this.props.userGlobal.role === "admin" ?
-                      <DropdownItem>
-                        <Link to="/admin">Admin</Link>
-                      </DropdownItem>
+                      <> 
+                        <DropdownItem>
+                          <Link to="/admin">Admin</Link>
+                        </DropdownItem>
+                        <DropdownItem>
+                          <Link to="/sales">Sales Report</Link>
+                        </DropdownItem>
+                      </>
                       : 
                       <>
                         <DropdownItem>
