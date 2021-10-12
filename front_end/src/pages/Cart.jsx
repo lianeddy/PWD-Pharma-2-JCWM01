@@ -82,7 +82,7 @@ printData = () =>{
             {item.product_name}
           </td>
           <td className="align-middle">
-          {item.product_price}
+          Rp.{item.product_price}
           </td>
           <td className="align-middle">
             <img src={item.product_image} alt="" style={{height : "125px"}}/>
@@ -96,7 +96,7 @@ printData = () =>{
             }
           </td>
           <td className="align-middle">
-          {item.total}
+          Rp.{item.total}
           </td>
           <td className="align-middle">
           {
