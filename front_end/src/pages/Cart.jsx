@@ -1,30 +1,123 @@
 import React from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
+import { URL_API } from "../helper";
+import Axios from 'axios'
+import { NavItem, Button } from "reactstrap";
 
 class Cart extends React.Component {
+  
+
   state = {
-    isCheckoutMode: true,
-    paymentMethod: "",
-    expedition: "",
-    payment: 0,
+    dbcart: [],
+    id_cart : 0,
+    editQtyChecked : false,
+    cart_qty : 0,
+    total : 0
   }
 
-  inputHandler = (e) => {
-    const { name, value } = e.target
+  inputHandler = (e) =>{
+    const value = e.target.value;
+    const name = e.target.name;
+    this.setState({ [name]: value });
+  }
+  
+ 
 
-    this.setState({ [name]: value })
+  getData = () => {
+    Axios.get(`${URL_API}/cart/getCart/1`)
+    .then(res => {
+      this.setState({
+        dbcart: res.data.results,
+        cart_qty : res.data.cart_qty,
+        total : res.data.total })
+    })
+    .catch(err => {
+      alert("Cannot Get Data")
+      console.log(err)
+    })
   }
 
-  checkoutModeToggle = () => {
-    this.setState({ isCheckoutMode: !this.state.isCheckoutMode })
+  updateQty = (cartId) =>{
+    const {cart_qty} = this.state
+    this.setState({editQtyChecked : false})
+    Axios.patch(`${URL_API}/cart/updateQty/${cartId}`,{
+      cart_qty
+    })
+    .then(()=>{
+      this.getData()
+      alert("berhasil update Quantity")
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
   }
+
+  deleteBtnHandler = (cartId) =>{
+    Axios.delete(`${URL_API}/cart/deleteCart/${cartId}`)
+    .then(()=>{
+
+      alert('berhasil delete gambar')
+      this.getData()
+    })
+    .catch(()=>{
+      alert("terjadi kesalahan di server")
+    })
+
+  }
+componentDidMount() {
+  this.getData()
+
+}
+
+printData = () =>{
+  return this.state.dbcart.map((item, index) =>{
+    
+    return(
+      <tr>
+        <td className="align-middle">
+            {index + 1}
+          </td>
+          <td className="align-middle">
+            {item.product_name}
+          </td>
+          <td className="align-middle">
+          {item.product_price}
+          </td>
+          <td className="align-middle">
+            <img src={item.product_image} alt="" style={{height : "125px"}}/>
+          </td>
+          <td className="align-middle">
+            {this.state.editQtyChecked ? 
+            <input onChange={(e)=> this.inputHandler(e)} name ="cart_qty"  defaultValue={item.cart_qty} type="number" style={{width : "50px"}}/>
+            :
+            <input name ="cart_qty" disabled="true" defaultValue={item.cart_qty} type="number" style={{width : "50px"}}/>
+            
+            }
+          </td>
+          <td className="align-middle">
+          {item.total}
+          </td>
+          <td className="align-middle">
+          {
+          !this.state.editQtyChecked ?
+           <><button className="btn btn-primary" onClick={() => this.setState({ editQtyChecked: true })}>Edit</button><button className="btn btn-danger">Delete</button></> :
+            <><button onClick={()=> this.updateQty(item.id_cart)} className="btn btn-primary" >Save</button></>}
+            
+          </td>
+        </tr>
+    )
+     })
+
+}
+
 
   render() {
-    if (!this.props.userGlobal.username) {
-      return <Redirect to="/" />
-    }
-  
+    
+    
+
+
+
     return (
       <div className="p-5 text-center">
         <h1>Cart</h1>
@@ -33,6 +126,7 @@ class Cart extends React.Component {
             <table className="table">
               <thead className="thead-light">
                 <tr>
+                  <th>no</th>
                   <th>Product</th>
                   <th>Price</th>
                   <th>Image</th>
@@ -43,28 +137,7 @@ class Cart extends React.Component {
               </thead>
               <tbody>
                 {/* {this.renderCart()} */}
-                <tr>
-                  <td className="align-middle">
-                    paracetamol
-                  </td>
-                  <td className="align-middle">
-                    Rp 10000
-                  </td>
-                  <td className="align-middle">
-                    Image Here
-                  </td>
-                  <td className="align-middle">
-                    3 mg
-                  </td>
-                  <td className="align-middle">
-                    Rp 30000
-                  </td>
-                  <td className="align-middle">
-                    <button className="btn btn-danger">
-                      Delete
-                    </button>
-                  </td>
-                </tr>
+                {this.printData()}
               </tbody>
               <tfoot className="bg-light">
                 <tr>
@@ -77,63 +150,10 @@ class Cart extends React.Component {
               </tfoot>
             </table>
           </div>
-          {
-            this.state.isCheckoutMode ?
-            <div className="col-3">
-              {/* Form Checkout */}
-              <div className="card text-left">
-                <div className="card-header">
-                  <strong>Order Summary</strong>
-                </div>
-                <div className="card-body">
-                  <div className="d-flex my-2 flex-row justify-content-between align-items-center">
-                    <span className="font-weight-bold">Subtotal Price</span>
-                    <span>Rp 30000</span>
-                  </div>
-                  <div className="d-flex my-2 flex-row justify-content-between align-items-center">
-                    <span className="font-weight-bold">Tax Fee (10%)</span>
-                    <span>Rp 3000</span>
-                  </div>
-                  <div className="d-flex my-2 flex-row justify-content-between align-items-center">
-                    <span className="font-weight-bold">Total Price</span>
-                    <span>Rp 33000</span>
-                  </div>
-                </div>
-                <div className="card-body border-top">
-                  <label htmlFor="paymentMethod">Payment Method</label>
-                  <br />
-                  <select className="custom-select" multiple>
-                    <option value="bank" selected>Bank Transfer</option>
-                    <option value="gopay">Gopay</option>
-                    <option value="ovo">Ovo</option>
-                    <option value="paypal">Paypal</option>
-                  </select>
-                  <br />
-                  <br />
-                  {/* <input onChange={this.inputHandler} type="text" className="form-control mb-3" name="paymentMethod" /> */}
-                  <label htmlFor="expedition">Shipping</label>
-                  <br />
-                  <select className="form-control">
-                    <option value="jne">JNE</option>
-                    <option value="jnt">J&T</option>
-                    <option value="tiki">TIKI</option>
-                    <option value="anteraja">Anter Aja</option>
-                  </select>
-                  {/* <input onChange={this.inputHandler} type="text" className="form-control" name="expedition" /> */}
-                </div>
-                <div className="card-footer">
-                  <div className="d-flex flex-row justify-content-between align-items-center">
-                    <input onChange={this.inputHandler} className="form-control mx-1" type="number" name="payment" />
-                    <button onClick={this.payBtnHandler} className="btn btn-success mx-1">Pay</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            : null
-          }
         </div>
       </div>
     )
+ 
   }
 }
 
