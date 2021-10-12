@@ -34,20 +34,15 @@ class SalesReport extends React.Component {
         <tr>
           <td>{index+1}</td>
           <td>{item.username}</td>
-          <td>{item.id_transaction}</td>
-          <td>{item.id_cart}</td>
-          <td>{item.id_custom_order}</td>
           <td>{item.product_name}</td>
           <td>{item.product_price}</td>
           <td>{item.qty} {item.unit}</td>
           <td>{item.tax}</td>
           <td>{item.total_price}</td>
           <td>{item.date}</td>
-          <td>{item.payment_method}</td>
-          <td>{item.expedition_name}</td>
+          {/* <td>{item.payment_method}</td> */}
+          {/* <td>{item.expedition_name}</td> */}
           <td>{item.shipping_cost}</td>
-          <td>{item.image}</td>
-          <td>{item.status} ✔</td>
         </tr>
       )
     })
@@ -80,22 +75,17 @@ class SalesReport extends React.Component {
             <Table className="table-striped table-hover">
               <thead className="thead-dark">
                 <tr>
-                  <th>#</th>
+                  <th>No.</th>
                   <th>Username</th>
-                  <th>Transaction_ID</th>
-                  <th>Cart_ID</th>
-                  <th>Custom_ID</th>
-                  <th>Productame</th>
+                  <th>Product</th>
                   <th>Price</th>
-                  <th>Qty</th>
+                  <th>Quantity</th>
                   <th>Tax</th>
-                  <th>Total_Price</th>
+                  <th>Total Price</th>
                   <th>Date</th>
-                  <th>Payment</th>
-                  <th>Expedition</th>
-                  <th>Shipping_Cost</th>
-                  <th>Image</th>
-                  <th>Status</th>
+                  {/* <th>Payment</th> */}
+                  {/* <th>Shipping</th> */}
+                  <th>Shipping Cost</th>
                 </tr>
               </thead>
               <tbody>
@@ -104,7 +94,7 @@ class SalesReport extends React.Component {
             </Table>
           </div>
         </div>
-        <div style={{ marginLeft: "100px", marginTop: "40px" }}>
+        <div style={{ marginLeft: "380px", marginTop: "40px" }}>
           <h3>Revenue : Rp {this.state.revenue} </h3>
           {/* {this.countRevenue()} */}
         </div>
