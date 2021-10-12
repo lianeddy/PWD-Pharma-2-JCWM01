@@ -16,10 +16,11 @@ import Admin from "./pages/admin/Admin";
 import Cart from "./pages/Cart";
 import History from "./pages/History";
 import Profile from "./pages/Profile";
+import SalesReport from "./pages/admin/SalesReport";
+import UploadPayment from "./pages/UploadPayment";
 
 import { connect } from 'react-redux';
 import { userKeepLogin, checkStorage } from './redux/actions/user';
-import SalesReport from "./pages/admin/SalesReport";
 
 class App extends React.Component {
 
@@ -52,6 +53,7 @@ class App extends React.Component {
             <Route component={History} path="/history" />
             <Route component={Profile} path="/profile" />
             <Route component={SalesReport} path="/sales" />
+            <Route component={UploadPayment} path="/upload-payment" />
           </Switch>
         </BrowserRouter>
       )

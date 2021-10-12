@@ -39,7 +39,7 @@ class SalesReport extends React.Component {
           <td>{item.id_custom_order}</td>
           <td>{item.product_name}</td>
           <td>{item.product_price}</td>
-          <td>{item.qty}</td>
+          <td>{item.qty} {item.unit}</td>
           <td>{item.tax}</td>
           <td>{item.total_price}</td>
           <td>{item.date}</td>
@@ -47,7 +47,7 @@ class SalesReport extends React.Component {
           <td>{item.expedition_name}</td>
           <td>{item.shipping_cost}</td>
           <td>{item.image}</td>
-          <td>{item.status}</td>
+          <td>{item.status} ✔</td>
         </tr>
       )
     })
@@ -77,8 +77,8 @@ class SalesReport extends React.Component {
         </div>
         <div className="row m-auto" style={{ alignItems: "center", justifyContent: "center" }}>
           <div className="col-md-18 mx-2 text-center">
-            <Table>
-              <thead className="thead-light">
+            <Table className="table-striped table-hover">
+              <thead className="thead-dark">
                 <tr>
                   <th>#</th>
                   <th>Username</th>
@@ -104,7 +104,7 @@ class SalesReport extends React.Component {
             </Table>
           </div>
         </div>
-        <div style={{ marginLeft: "50px" }}>
+        <div style={{ marginLeft: "100px", marginTop: "40px" }}>
           <h3>Revenue : Rp {this.state.revenue} </h3>
           {/* {this.countRevenue()} */}
         </div>
