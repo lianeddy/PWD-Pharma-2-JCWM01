@@ -39,6 +39,36 @@ module.exports=({
 
         }
     },
+    uploadPrescription : (req, res) =>{
+        try{
+            let path = `/prescription`
+            const upload = uploader(path,`IMG`).fields([{name : 'file'}])
+            upload(req, res, (error)=>{
+                if(error){
+                    console.log(error);
+                    res.status(500).send(error)
+                }
+                const { file} = req.files
+                const filepath = file ? path + '/' + file[0].filename : null
+
+                let data = JSON.parse(req.body.data)
+                data.prescription_img = filepath
+
+                let sqlInsert = `insert into prescription values (null, ${db.escape(req.params.id)}, ${db.escape(data.commentar)}, ${db.escape(filepath)});`
+                db.query(sqlInsert, (err, results)=>{
+                    if(err){
+                        console.log(err);
+                        fs.unlinkSync(`./public` + filepath)
+                        res.status(500).send(err)
+                    }
+                    res.status(200).send({message : "upload Prescription Success"})
+                })
+            })
+        }catch(error) {
+            console.log(error);
+            res.status(500).send(error)
+        }
+    },
     getProfileImage : (req, res)=>{
         let sqlGet = `select profile_picture from user where id_user = ${db.escape(req.params.id)};`
         db.query(sqlGet,(err, results)=>{
