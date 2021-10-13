@@ -13,7 +13,8 @@ class Cart extends React.Component {
     id_cart : 0,
     editQtyChecked : false,
     cart_qty : 0,
-    total : 0
+    total : 0,
+    stock : 0
   }
 
   inputHandler = (e) =>{
@@ -30,13 +31,16 @@ class Cart extends React.Component {
       this.setState({
         dbcart: res.data.results,
         cart_qty : res.data.cart_qty,
-        total : res.data.total })
+        total : res.data.total,
+        stock : res.data.stock })
     })
     .catch(err => {
       alert("Cannot Get Data")
       console.log(err)
     })
   }
+
+
 
   updateQty = (cartId) =>{
     const {cart_qty} = this.state
@@ -57,7 +61,7 @@ class Cart extends React.Component {
     Axios.delete(`${URL_API}/cart/deleteCart/${cartId}`)
     .then(()=>{
 
-      alert('berhasil delete gambar')
+      alert('berhasil delete cart')
       this.getData()
     })
     .catch(()=>{
@@ -88,12 +92,13 @@ printData = () =>{
             <img src={item.product_image} alt="" style={{height : "125px"}}/>
           </td>
           <td className="align-middle">
-            {this.state.editQtyChecked ? 
-            <input onChange={(e)=> this.inputHandler(e)} name ="cart_qty"  defaultValue={item.cart_qty} type="number" style={{width : "50px"}}/>
+            {!this.state.editQtyChecked ? 
+            <input className="align-middle" name ="cart_qty" min="1" disabled="true" defaultValue={item.cart_qty} type="number" style={{width : "40px"}}  max={item.bottle_stock}/>
             :
-            <input name ="cart_qty" disabled="true" defaultValue={item.cart_qty} type="number" style={{width : "50px"}}/>
+            <input className="align-middle" onChange={(e)=> this.inputHandler(e)} min="1" name ="cart_qty"  defaultValue={item.cart_qty} type="number" style={{width : "40px"}} max={item.bottle_stock}/>
             
             }
+            bottle
           </td>
           <td className="align-middle">
           Rp.{item.total}
@@ -101,7 +106,7 @@ printData = () =>{
           <td className="align-middle">
           {
           !this.state.editQtyChecked ?
-           <><button className="btn btn-primary" onClick={() => this.setState({ editQtyChecked: true })}>Edit</button><button className="btn btn-danger">Delete</button></> :
+           <><button className="btn btn-primary" onClick={() => this.setState({ editQtyChecked: true })}>Edit</button><button onClick={() => this.deleteBtnHandler(item.id_cart)} className="btn btn-danger">Delete</button></> :
             <><button onClick={()=> this.updateQty(item.id_cart)} className="btn btn-primary" >Save</button></>}
             
           </td>
