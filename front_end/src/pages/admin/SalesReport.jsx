@@ -8,13 +8,16 @@ import { URL_API } from '../../helper';
 class SalesReport extends React.Component {
   state = {
     dbreport: [],
-    revenue: 0
+    revenue: 0,
+    totalPrice: 0,
+    shipping: 0
     // selectedID: null
   }
   
   componentDidMount() {
     this.getData()
-    this.countRevenue()
+    this.countTotalPrice()
+    this.countShipping()
   }
 
   getData = () => {
@@ -48,14 +51,26 @@ class SalesReport extends React.Component {
     })
   }
 
-  countRevenue = () => {
-    Axios.get(`${URL_API}/admin/revenue`)
+  countTotalPrice = () => {
+    Axios.get(`${URL_API}/admin/total-price`)
     .then(res => {
-      this.setState({ revenue: res.data.results[0].total_revenue })
+      this.setState({ totalPrice: res.data.results[0].total_price })
       // console.log(res.data)
     })
     .catch(err => {
-      alert("Cannot Count Revenue")
+      alert("Cannot Sum Total Price")
+      console.log(err)
+    })
+  }
+
+  countShipping = () => {
+    Axios.get(`${URL_API}/admin/shipping`)
+    .then(res => {
+      this.setState({ shipping: res.data.results[0].total_shipping })
+      // console.log(res.data)
+    })
+    .catch(err => {
+      alert("Cannot Sum Total Shipping")
       console.log(err)
     })
   }
@@ -94,8 +109,8 @@ class SalesReport extends React.Component {
             </Table>
           </div>
         </div>
-        <div style={{ marginLeft: "380px", marginTop: "40px" }}>
-          <h3>Revenue : Rp {this.state.revenue} </h3>
+        <div style={{ marginLeft: "300px", marginTop: "40px" }}>
+          <h3>Revenue : Rp {(this.state.totalPrice + this.state.shipping).toLocaleString("id")} </h3>
           {/* {this.countRevenue()} */}
         </div>
       </>

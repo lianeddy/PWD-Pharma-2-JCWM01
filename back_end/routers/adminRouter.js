@@ -3,6 +3,20 @@ const { adminController } = require("../controllers");
 const routers = express.Router();
 
 routers.get("/sales", adminController.salesReport);
-routers.get("/revenue", adminController.countRevenue);
+routers.get("/total-price", adminController.countTotalPrice);
+routers.get("/shipping", adminController.countShipping);
+routers.get("/total-price-monthly", adminController.countTotalPriceMonthly);
+routers.get("/shipping-monthly", adminController.countShippingMonthly);
+routers.get("/tax", adminController.countTax);
+routers.get("/tax-monthly", adminController.countTaxMonthly);
+routers.get("/stock-price", adminController.countStockPrice);
+routers.get("/restock-price", adminController.countRestockPrice);
+routers.get("/restock-price-monthly", adminController.countRestockPriceMonthly);
+routers.get("/mg", adminController.topSellMg);
+routers.get("/mg-monthly", adminController.topSellMgMonthly);
+routers.get("/ml", adminController.topSellMl);
+routers.get("/ml-monthly", adminController.topSellMlMonthly);
+routers.get("/bottle", adminController.topSellBt);
+routers.get("/bottle-monthly", adminController.topSellBtMonthly);
 
 module.exports = routers;
