@@ -1,13 +1,6 @@
 import React, { PureComponent } from 'react';
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
 
-const data = [
-  { name: 'Paracetamol', value: 100 },
-  { name: 'Ibuprofen', value: 175 },
-  { name: 'Drugs C', value: 135 },
-  { name: 'Drugs D', value: 210 },
-];
-
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 const RADIAN = Math.PI / 180;
@@ -23,15 +16,26 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
   );
 };
 
-class ChartPieMl extends PureComponent {
 //   static demoUrl = 'https://codesandbox.io/s/pie-chart-with-customized-label-dlhhj';
+
+class ChartPieMl extends PureComponent {
+  state = {
+    
+  }
+
+  data = [
+    { name: 'Paracetamol', value: 100 },
+    { name: 'Ibuprofen', value: 175 },
+    { name: 'Drugs C', value: 135 },
+    { name: 'Drugs D', value: 210 },
+  ];
 
   render() {
     return (
       <ResponsiveContainer width="100%" aspect={5}>
         <PieChart width={400} height={400}>
           <Pie
-            data={data}
+            data={this.data}
             cx="50%"
             cy="50%"
             labelLine={false}
@@ -40,7 +44,7 @@ class ChartPieMl extends PureComponent {
             fill="#8884d8"
             dataKey="value"
           >
-            {data.map((entry, index) => (
+            {this.data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>

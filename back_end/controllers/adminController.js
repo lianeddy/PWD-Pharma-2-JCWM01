@@ -135,7 +135,7 @@ module.exports = {
       res.status(200).json({ results, message: "Sum Stock Price Succeed" })
     })
   },
-  countRestockPrice: () => {
+  countRestockPrice: (req, res) => {
     let selectQuery = `SELECT sum(restock_price) AS restock_price FROM
     (SELECT restock_qty, admin_price, (restock_qty * admin_price) AS 'restock_price' FROM restock res
     LEFT JOIN product p ON p.id_product = res.id_product) AS restock_price;`
@@ -151,7 +151,7 @@ module.exports = {
       // res.status(200).json(results)
     })
   },
-  countRestockPriceMonthly: () => {
+  countRestockPriceMonthly: (req, res) => {
     let selectQuery = `SELECT sum(restock_price) AS restock_price FROM
     (SELECT restock_qty, admin_price, (restock_qty * admin_price) AS 'restock_price', restock_date FROM restock res
     LEFT JOIN product p ON p.id_product = res.id_product
@@ -167,7 +167,7 @@ module.exports = {
       res.status(200).json({ results, message: "Sum Monthly Restock Price Succeed" })
     })
   },
-  topSellMg: () => {
+  topSellMg: (req, res) => {
     let selectQuery = `SELECT max(qty), p.product_name
     FROM report r
     LEFT JOIN  transaction_product tp on r.id_transaction_product = tp.id_transaction_product
@@ -189,7 +189,7 @@ module.exports = {
       res.status(200).json({ results, message: "Get Top Seller mg Unit Succeed" })
     })
   },
-  topSellMgMonthly: () => {
+  topSellMgMonthly: (req, res) => {
     let selectQuery = `SELECT max(qty), p.product_name
     FROM report r
     LEFT JOIN  transaction_product tp on r.id_transaction_product = tp.id_transaction_product
@@ -211,7 +211,7 @@ module.exports = {
       res.status(200).json({ results, message: "Get Monthly Top Seller mg Unit Succeed" })
     })
   },
-  topSellMl: () => {
+  topSellMl: (req, res) => {
     let selectQuery = `SELECT max(qty), p.product_name
     FROM report r
     LEFT JOIN  transaction_product tp on r.id_transaction_product = tp.id_transaction_product
@@ -233,7 +233,7 @@ module.exports = {
       res.status(200).json({ results, message: "Get Top Seller ml Unit Succeed" })
     })
   },
-  topSellMlMonthly: () => {
+  topSellMlMonthly: (req, res) => {
     let selectQuery = `SELECT max(qty), p.product_name
     FROM report r
     LEFT JOIN  transaction_product tp on r.id_transaction_product = tp.id_transaction_product
@@ -255,7 +255,7 @@ module.exports = {
       res.status(200).json({ results, message: "Get Monthly Top Seller ml Unit Succeed" })
     })
   },
-  topSellBt: () => {
+  topSellBt: (req, res) => {
     let selectQuery = `SELECT max(qty), p.product_name
     FROM report r
     LEFT JOIN  transaction_product tp on r.id_transaction_product = tp.id_transaction_product
@@ -277,7 +277,7 @@ module.exports = {
       res.status(200).json({ results, message: "Get Top Seller bottle Unit Succeed" })
     })
   },
-  topSellBtMonthly: () => {
+  topSellBtMonthly: (req, res) => {
     let selectQuery = `SELECT max(qty), p.product_name
     FROM report r
     LEFT JOIN  transaction_product tp on r.id_transaction_product = tp.id_transaction_product

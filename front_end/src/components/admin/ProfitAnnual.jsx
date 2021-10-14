@@ -8,7 +8,7 @@ class ProfitAnnual extends React.Component {
     shipping: 0,
     tax: 0,
     stockPrice: 0,
-    restockPrice: 0
+    // restockPrice: 0
   }
 
   componentDidMount() {
@@ -67,17 +67,17 @@ class ProfitAnnual extends React.Component {
     })
   }
 
-  countRestockPrice = () => {
-    Axios.get(`${URL_API}/admin/restock-price`)
-    .then(res => {
-      this.setState({ restockPrice: parseInt(res.data.results[0].restcok_price) })
-      console.log(res.data)
-    })
-    .catch(err => {
-      alert("Cannot Sum Restock Price")
-      console.log(err)
-    })
-  }
+  // countRestockPrice = () => {
+  //   Axios.get(`${URL_API}/admin/restock-price`)
+  //   .then(res => {
+  //     this.setState({ restockPrice: parseInt(res.data.results[0].restcok_price) })
+  //     console.log(res.data)
+  //   })
+  //   .catch(err => {
+  //     alert("Cannot Sum Restock Price")
+  //     console.log(err)
+  //   })
+  // }
 
   render() {
     return (

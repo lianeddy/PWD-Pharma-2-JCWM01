@@ -40,12 +40,12 @@ class SalesReport extends React.Component {
           <td>{item.product_name}</td>
           <td>{item.product_price}</td>
           <td>{item.qty} {item.unit}</td>
-          <td>{item.tax}</td>
-          <td>{item.total_price}</td>
+          <td>Rp {(item.tax).toLocaleString("id")}</td>
+          <td>Rp {(item.total_price).toLocaleString("id")}</td>
           <td>{item.date}</td>
           {/* <td>{item.payment_method}</td> */}
           {/* <td>{item.expedition_name}</td> */}
-          <td>{item.shipping_cost}</td>
+          <td>Rp {(item.shipping_cost).toLocaleString("id")}</td>
         </tr>
       )
     })
@@ -109,7 +109,7 @@ class SalesReport extends React.Component {
             </Table>
           </div>
         </div>
-        <div style={{ marginLeft: "300px", marginTop: "40px" }}>
+        <div style={{ marginLeft: "360px", marginTop: "40px" }}>
           <h3>Revenue : Rp {(this.state.totalPrice + this.state.shipping).toLocaleString("id")} </h3>
           {/* {this.countRevenue()} */}
         </div>
