@@ -13,6 +13,7 @@ const init_state = {
   errMsg: "",
   navbarLogin: true,
   storageIsChecked: false,
+  id_transaction: 0
 };
 
 const reducer = (state = init_state, action) => {
