@@ -69,6 +69,42 @@ module.exports=({
             res.status(500).send(error)
         }
     },
+    uploadPayment : (req, res)=>{
+        try{
+            let path = `/payment`
+            const upload = uploader(path, 'IMG').fields([{name : 'file'}])
+            upload(req, res, (error)=>{
+                if(error){
+                    console.log(error);
+                    res.status(500).send(error)
+                }
+                const { file} = req.files 
+                const filepath = file ? path +'/'+ file[0].filename : null
+
+                
+                req.body.image = filepath
+
+                let sqlUpdate = `update transaction set image = ${db.escape(filepath)}, status = "process" where id_transaction = ${req.params.id};`
+                db.query(sqlUpdate,(err, results)=>{
+                    if(err){
+
+                        console.log(err);
+                        fs.unlinkSync(`./public`+filepath)
+                        res.status(500).send(err)
+                    }
+                    console.log(sqlUpdate);
+                    res.status(200).send({message : "upload payment telah berhasil"})
+                })
+
+            })
+
+        }catch(error){
+            console.log(error);
+            res.status(500).send(error)
+
+        }
+    },
+
     getProfileImage : (req, res)=>{
         let sqlGet = `select profile_picture from user where id_user = ${db.escape(req.params.id)};`
         db.query(sqlGet,(err, results)=>{
