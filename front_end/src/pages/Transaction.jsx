@@ -84,7 +84,7 @@ class Transaction extends React.Component{
           return(
             <tr>
               <td className="align-middle">
-                  {item.id_transaction}
+                  {index+1}
                 </td>
                 <td className="align-middle">
                   {item.date}

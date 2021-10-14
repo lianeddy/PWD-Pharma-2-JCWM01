@@ -2,7 +2,7 @@ const {db} = require("../database")
 
 module.exports = {
     getTransaction: (req, res) => {
-        let scriptQuery = `select * from transaction where id_user = ${db.escape(req.params.id)};`;
+        let scriptQuery = `select * from transaction where id_user = ${db.escape(req.params.id)} order by date desc ;`;
         db.query(scriptQuery, (err, results) => {
             if (err){
                 console.log(err);
