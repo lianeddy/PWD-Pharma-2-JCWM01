@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
+import Axios from 'axios';
+import { URL_API } from '../../helper';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
@@ -19,15 +21,23 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 //   static demoUrl = 'https://codesandbox.io/s/pie-chart-with-customized-label-dlhhj';
 
 class ChartPieMg extends PureComponent {
-  state = {
-    
-  }
+  // state = {
+  //   a: 0
+  // }
+
+  // componentDidMount() {
+  //   this.setA()
+  // }
+
+  // setA = () => {
+  //   this.setState({a: 400})
+  // }
 
   data = [
-    { name: 'Paracetamol', value: 400 },
-    { name: 'Ibuprofen', value: 300 },
-    { name: 'Drugs C', value: 300 },
-    { name: 'Drugs D', value: 200 },
+    { name: 'Paracetamol', value: 1800},
+    { name: 'Ibuprofen', value: 250 },
+    { name: 'Drugs C', value: 750 },
+    { name: 'Drugs D', value: 750 },
   ];
 
   render() {

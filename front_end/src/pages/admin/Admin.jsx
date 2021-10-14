@@ -15,6 +15,7 @@ import TopSellAnnual from "../../components/admin/TopSellAnnual";
 import ChartPieMg from "../../components/admin/ChartPieMg";
 import ChartPieMl from "../../components/admin/ChartPieMl";
 import ChartPieBt from "../../components/admin/ChartPieBt";
+import ChartPreStock from "../../components/admin/ChartPreStock";
 
 class Admin extends React.Component {
   state = {
@@ -108,8 +109,13 @@ class Admin extends React.Component {
           <TopSellAnnual />
         </div>
         <div className="my-4 mx-4">
-          <h3 className="ml-5 mb-4">Earnings Overview</h3>
+          <h3 className="ml-5 mb-4">Earnings Overview <em>Excludes</em> Pre-Sales Stock Expenses</h3>
           <Chart />
+        </div>
+        <br /> <br /> <br />
+        <div className="my-4 mx-4">
+          <h3 className="ml-5 mb-4">Earnings Overview <em>Includes</em> Pre-Sales Stock Expenses</h3>
+          <ChartPreStock />
         </div>
         <br /> <br /> <br />
         <div

@@ -16,7 +16,7 @@ import {
 
 // static demoUrl = 'https://codesandbox.io/s/bar-chart-with-positive-negative-i3b8b';
 
-class Chart extends PureComponent {
+class ChartPreStock extends PureComponent {
   state = {
     january: {},
     february: {},
@@ -178,8 +178,7 @@ class Chart extends PureComponent {
       name: 'January',
       ProfitOrLoss: 5400000,
       Revenue: 6010000,
-      Expenses: -610000,
-      // Expenses: -68260000,
+      Expenses: -68260000,
     },
     {
       name: 'February',
@@ -266,4 +265,4 @@ class Chart extends PureComponent {
   }
 }
 
-export default Chart;
+export default ChartPreStock;
