@@ -93,16 +93,19 @@ class Transaction extends React.Component{
                 {item.qty}
                 </td>
                 <td className="align-middle">
-                {item.tax}
+                Rp.{item.tax}
                 </td>
                 <td className="align-middle">
-                {item.total_price}
+                Rp.{item.total_price}
                 </td>
                 <td className="align-middle">
                 {item.expedition_name}
                 </td>
                 <td className="align-middle">
-                {item.shipping_cost}
+                Rp.{item.shipping_cost}
+                </td>
+                <td className="align-middle">
+                Rp.{item.final_price}
                 </td>
                 <td className="align-middle">
                 {item.status}
@@ -111,7 +114,7 @@ class Transaction extends React.Component{
                     {
                     item.status == "unpaid" ? 
                     <button className="btn btn-primary" onClick={() =>this.onBtnPay(item.id_transaction)} >pay</button> :
-               null
+               <p>Paid</p>
                     }
                 </td>
               </tr>
@@ -132,9 +135,10 @@ class Transaction extends React.Component{
                   <th>Date</th>
                   <th>Quantity</th>
                   <th>Total Tax</th>
-                  <th>Total Price</th>
+                  <th>Price</th>
                   <th>Expedition</th>
                   <th>Shipping Cost</th>
+                  <th>Total Price</th>
                   <th>Status</th>
                   <th>Action</th>
                 </tr>
