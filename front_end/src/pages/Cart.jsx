@@ -6,8 +6,6 @@ import Axios from 'axios'
 import { NavItem, Button } from "reactstrap";
 
 class Cart extends React.Component {
-  
-
   state = {
     dbcart: [],
     id_cart: 0,
@@ -32,7 +30,7 @@ class Cart extends React.Component {
   };
 
   getData = () => {
-    Axios.get(`${URL_API}/cart/getCart/1`)
+    Axios.get(`${URL_API}/cart/getCart/2`)
       .then((res) => {
         this.setState({
           dbcart: res.data.results,
