@@ -30,7 +30,7 @@ class Cart extends React.Component {
   };
 
   getData = () => {
-    Axios.get(`${URL_API}/cart/getCart/2`)
+    Axios.get(`${URL_API}/cart/getCart/${this.props.userGlobal.id_user}`)
       .then((res) => {
         this.setState({
           dbcart: res.data.results,
