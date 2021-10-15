@@ -27,58 +27,6 @@ class Admin extends React.Component {
     shippingMonthly: 0,
   };
 
-  // componentDidMount() {
-
-  // }
-
-  // countTotalPriceMonthly = () => {
-  //   Axios.get(`${URL_API}/admin/total-price-monthly`)
-  //   .then(res => {
-  //     this.setState({ totalPriceMonthly: res.data.results[0].total_price })
-  //     // console.log(res.data)
-  //   })
-  //   .catch(err => {
-  //     alert("Cannot Sum Total Price Monthly")
-  //     console.log(err)
-  //   })
-  // }
-
-  // countShippingMonthly = () => {
-  //   Axios.get(`${URL_API}/admin/shipping-monthly`)
-  //   .then(res => {
-  //     this.setState({ shippingMonthly: res.data.results[0].shipping_cost })
-  //     // console.log(res.data)
-  //   })
-  //   .catch(err => {
-  //     alert("Cannot Sum Total Price Monthly")
-  //     console.log(err)
-  //   })
-  // }
-
-  // countTotalPrice = () => {
-  //   Axios.get(`${URL_API}/admin/total-price`)
-  //   .then(res => {
-  //     this.setState({ totalPrice: res.data.results[0].total_price })
-  //     // console.log(res.data)
-  //   })
-  //   .catch(err => {
-  //     alert("Cannot Sum Total Price")
-  //     console.log(err)
-  //   })
-  // }
-
-  // countShipping = () => {
-  //   Axios.get(`${URL_API}/admin/shipping`)
-  //   .then(res => {
-  //     this.setState({ shipping: res.data.results[0].total_shipping })
-  //     // console.log(res.data)
-  //   })
-  //   .catch(err => {
-  //     alert("Cannot Sum Total Shipping")
-  //     console.log(err)
-  //   })
-  // }
-
   render() {
     if (this.props.userGlobal.role !== "admin") {
       return <Redirect to="/" />;
@@ -131,16 +79,16 @@ class Admin extends React.Component {
           <ChartPieMg />
           <div className="d-flex flex-row justify-content-center mb-5">
             <h5 style={{ color: "#0088FE" }} className="d-inline p-2">
-              Paracetamol
+              Amoxicillin
             </h5>
             <h5 style={{ color: "#00C49F" }} className="d-inline p-2">
               Ibuprofen
             </h5>
             <h5 style={{ color: "#FFBB28" }} className="d-inline p-2">
-              Valium
+              Paracetamol
             </h5>
             <h5 style={{ color: "#FF8042" }} className="d-inline p-2">
-              Amoxicillin
+              Valium
             </h5>
           </div>
         </div>
@@ -152,16 +100,16 @@ class Admin extends React.Component {
           <ChartPieMl />
           <div className="d-flex flex-row justify-content-center">
             <h5 style={{ color: "#0088FE" }} className="d-inline p-2">
-              Paracetamol
+              Amoxicillin
             </h5>
             <h5 style={{ color: "#00C49F" }} className="d-inline p-2">
               Ibuprofen
             </h5>
             <h5 style={{ color: "#FFBB28" }} className="d-inline p-2">
-              Valium
+              Paracetamol
             </h5>
             <h5 style={{ color: "#FF8042" }} className="d-inline p-2">
-              Amoxicillin
+              Valium
             </h5>
           </div>
         </div>
@@ -179,16 +127,16 @@ class Admin extends React.Component {
           <ChartPieBt />
           <div className="d-flex flex-row justify-content-center mb-5">
             <h5 style={{ color: "#0088FE" }} className="d-inline p-2">
-              Paracetamol
+              Amoxicillin
             </h5>
             <h5 style={{ color: "#00C49F" }} className="d-inline p-2">
               Ibuprofen
             </h5>
             <h5 style={{ color: "#FFBB28" }} className="d-inline p-2">
-              Valium
+              Paracetamol
             </h5>
             <h5 style={{ color: "#FF8042" }} className="d-inline p-2">
-              Amoxicillin
+              Valium
             </h5>
           </div>
         </div>
