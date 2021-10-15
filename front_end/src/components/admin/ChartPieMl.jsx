@@ -22,22 +22,42 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 
 class ChartPieMl extends PureComponent {
   state = {
-
+    dataChart: []
   }
 
-  data = [
-    { name: 'Paracetamol', value: 32 },
-    { name: 'Ibuprofen', value: 100 },
-    { name: 'Drugs C', value: 800 },
-    { name: 'Drugs D', value: 750 },
-  ];
+  componentDidMount() {
+    this.getChartStats()
+  }
+
+  getChartStats = () => {
+    Axios.get(`${URL_API}/admin/piechart-ml`)
+      .then((res) => {
+        this.setState({ dataChart: res.data.results })
+        console.log(res.data.results)
+      })
+      .catch((err) => {
+        alert("Cannot Get Pie Chart ml Unit")
+        console.log(err)
+      })
+  }
+
+  printData = () => {
+    return this.state.dataChart.map((item, index) => {
+      return (
+        {
+          name : item.product_name,
+          value: item.qty
+        }
+      )
+    })
+  }
 
   render() {
     return (
       <ResponsiveContainer width="100%" aspect={5}>
         <PieChart width={400} height={400}>
           <Pie
-            data={this.data}
+            data={this.printData()}
             cx="50%"
             cy="50%"
             labelLine={false}
@@ -46,7 +66,7 @@ class ChartPieMl extends PureComponent {
             fill="#8884d8"
             dataKey="value"
           >
-            {this.data.map((entry, index) => (
+            {this.state.dataChart.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
