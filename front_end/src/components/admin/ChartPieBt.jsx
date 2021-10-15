@@ -22,22 +22,42 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 
 class ChartPieBt extends PureComponent {
   state = {
-
+    dataChart: []
   }
 
-  data = [
-    { name: 'Paracetamol', value: 200 },
-    { name: 'Ibuprofen', value: 45 },
-    { name: 'Drugs C', value: 750 },
-    { name: 'Drugs D', value: 800 },
-  ];
+  componentDidMount() {
+    this.getChartStats()
+  }
+
+  getChartStats = () => {
+    Axios.get(`${URL_API}/admin/piechart-bt`)
+      .then((res) => {
+        this.setState({ dataChart: res.data.results })
+        console.log(res.data.results)
+      })
+      .catch((err) => {
+        alert("Cannot Get Pie Chart bottle Unit")
+        console.log(err)
+      })
+  }
+
+  printData = () => {
+    return this.state.dataChart.map((item, index) => {
+      return (
+        {
+          name : item.product_name,
+          value: item.qty
+        }
+      )
+    })
+  }
 
   render() {
     return (
       <ResponsiveContainer width="100%" aspect={5}>
         <PieChart width={400} height={400}>
           <Pie
-            data={this.data}
+            data={this.printData()}
             cx="50%"
             cy="50%"
             labelLine={false}
@@ -46,7 +66,7 @@ class ChartPieBt extends PureComponent {
             fill="#8884d8"
             dataKey="value"
           >
-            {this.data.map((entry, index) => (
+            {this.state.dataChart.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>

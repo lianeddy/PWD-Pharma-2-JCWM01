@@ -20,15 +20,9 @@ routers.get("/ml-monthly", adminController.topSellMlMonthly);
 routers.get("/bottle", adminController.topSellBt);
 routers.get("/bottle-monthly", adminController.topSellBtMonthly);
 
-routers.get("/january-stats", adminController.januaryStats);
-routers.get("/february-stats", adminController.februaryStats);
-routers.get("/march-stats", adminController.marchStats);
-routers.get("/april-stats", adminController.aprilStats);
-routers.get("/may-stats", adminController.mayStats);
-routers.get("/june-stats", adminController.juneStats);
-routers.get("/july-stats", adminController.julyStats);
-routers.get("/august-stats", adminController.augustStats);
-routers.get("/september-stats", adminController.septemberStats);
-routers.get("/october-stats", adminController.octoberStats);
+routers.get("/chart-stats", adminController.chartStats);
+routers.get("/piechart-mg", adminController.pieChartMg);
+routers.get("/piechart-ml", adminController.pieChartMl);
+routers.get("/piechart-bt", adminController.pieChartBt);
 
 module.exports = routers;

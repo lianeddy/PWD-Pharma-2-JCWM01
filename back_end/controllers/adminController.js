@@ -269,14 +269,10 @@ module.exports = {
       res.status(200).json({ results, message: "Get Monthly Top Seller bottle Unit Succeed" })
     })
   },
-  januaryStats: (req, res) => {
-    let selectQuery = `SELECT sum(tax) as tax, sum(total_price) as total_price, sum(shipping_cost) as shipping_cost,
-    sum(total_revenue) as total_revenue, sum(total_expenses) as total_expenses, sum(profit_or_loss) as profit_or_loss FROM
-    (SELECT id_transaction, tax, total_price, date, shipping_cost, (total_price + shipping_cost) as 'total_revenue',
-    (tax + shipping_cost) as 'total_expenses', (total_revenue - total_expenses) as 'profit_or_loss' FROM
-    (SELECT id_transaction, tax, total_price, date, shipping_cost, (total_price + shipping_cost) as 'total_revenue',
-    (tax + shipping_cost) as 'total_expenses'
-    FROM transaction WHERE MONTH(date) = 01 AND status = 'done') AS table_a) AS table_b;`
+  chartStats: (req, res) => {
+    let selectQuery = `SELECT sum(tax) as tax, sum(total_price) as total_price, sum(shipping_cost) as shipping_cost, date, MONTHNAME(date) as month,
+    (total_price + shipping_cost) as 'total_revenue', (tax + shipping_cost) as 'total_expenses', (total_price - tax) as 'profit_or_loss'
+    FROM transaction WHERE status = 'done' GROUP BY MONTH(date) ORDER BY date ASC;`
     console.log(selectQuery)
 
     db.query(selectQuery, (err, results) => {
@@ -285,17 +281,16 @@ module.exports = {
         return res.status(500).send(err);
       }
 
-      res.status(200).json({ results, message: "Get January Sales Statistic Succeed" })
+      res.status(200).json({ results, message: "Get Monthly Sales Statistic Succeed" })
     })
   },
-  februaryStats: (req, res) => {
-    let selectQuery = `SELECT sum(tax) as tax, sum(total_price) as total_price, sum(shipping_cost) as shipping_cost,
-    sum(total_revenue) as total_revenue, sum(total_expenses) as total_expenses, sum(profit_or_loss) as profit_or_loss FROM
-    (SELECT id_transaction, tax, total_price, date, shipping_cost, (total_price + shipping_cost) as 'total_revenue',
-    (tax + shipping_cost) as 'total_expenses', (total_revenue - total_expenses) as 'profit_or_loss' FROM
-    (SELECT id_transaction, tax, total_price, date, shipping_cost, (total_price + shipping_cost) as 'total_revenue',
-    (tax + shipping_cost) as 'total_expenses'
-    FROM transaction WHERE MONTH(date) = 02 AND status = 'done') AS table_a) AS table_b;`
+  pieChartMg:(req, res) => {
+    let selectQuery = `SELECT sum(t.qty) as qty, p.product_name FROM transaction t
+    LEFT JOIN cart c ON c.id_cart = t.id_cart
+    LEFT JOIN product p ON p.id_product = c.id_product
+    WHERE t.status = 'done' and p.unit = 'mg'
+    GROUP BY p.product_name
+    ORDER BY product_name asc;`
     console.log(selectQuery)
 
     db.query(selectQuery, (err, results) => {
@@ -304,17 +299,16 @@ module.exports = {
         return res.status(500).send(err);
       }
 
-      res.status(200).json({ results, message: "Get February Sales Statistic Succeed" })
+      res.status(200).json({ results, message: "Get Pie Chart mg Unit Succeed" })
     })
   },
-  marchStats: (req, res) => {
-    let selectQuery = `SELECT sum(tax) as tax, sum(total_price) as total_price, sum(shipping_cost) as shipping_cost,
-    sum(total_revenue) as total_revenue, sum(total_expenses) as total_expenses, sum(profit_or_loss) as profit_or_loss FROM
-    (SELECT id_transaction, tax, total_price, date, shipping_cost, (total_price + shipping_cost) as 'total_revenue',
-    (tax + shipping_cost) as 'total_expenses', (total_revenue - total_expenses) as 'profit_or_loss' FROM
-    (SELECT id_transaction, tax, total_price, date, shipping_cost, (total_price + shipping_cost) as 'total_revenue',
-    (tax + shipping_cost) as 'total_expenses'
-    FROM transaction WHERE MONTH(date) = 03 AND status = 'done') AS table_a) AS table_b;`
+  pieChartMl:(req, res) => {
+    let selectQuery = `SELECT sum(t.qty) as qty, p.product_name FROM transaction t
+    LEFT JOIN cart c ON c.id_cart = t.id_cart
+    LEFT JOIN product p ON p.id_product = c.id_product
+    WHERE t.status = 'done' and p.unit = 'ml'
+    GROUP BY p.product_name
+    ORDER BY product_name asc;`
     console.log(selectQuery)
 
     db.query(selectQuery, (err, results) => {
@@ -323,17 +317,16 @@ module.exports = {
         return res.status(500).send(err);
       }
 
-      res.status(200).json({ results, message: "Get March Sales Statistic Succeed" })
+      res.status(200).json({ results, message: "Get Pie Chart ml Unit Succeed" })
     })
   },
-  aprilStats: (req, res) => {
-    let selectQuery = `SELECT sum(tax) as tax, sum(total_price) as total_price, sum(shipping_cost) as shipping_cost,
-    sum(total_revenue) as total_revenue, sum(total_expenses) as total_expenses, sum(profit_or_loss) as profit_or_loss FROM
-    (SELECT id_transaction, tax, total_price, date, shipping_cost, (total_price + shipping_cost) as 'total_revenue',
-    (tax + shipping_cost) as 'total_expenses', (total_revenue - total_expenses) as 'profit_or_loss' FROM
-    (SELECT id_transaction, tax, total_price, date, shipping_cost, (total_price + shipping_cost) as 'total_revenue',
-    (tax + shipping_cost) as 'total_expenses'
-    FROM transaction WHERE MONTH(date) = 04 AND status = 'done') AS table_a) AS table_b;`
+  pieChartBt:(req, res) => {
+    let selectQuery = `SELECT sum(t.qty) as qty, p.product_name FROM transaction t
+    LEFT JOIN cart c ON c.id_cart = t.id_cart
+    LEFT JOIN product p ON p.id_product = c.id_product
+    WHERE t.status = 'done' and p.unit = 'bottle'
+    GROUP BY p.product_name
+    ORDER BY product_name asc;`
     console.log(selectQuery)
 
     db.query(selectQuery, (err, results) => {
@@ -342,160 +335,7 @@ module.exports = {
         return res.status(500).send(err);
       }
 
-      res.status(200).json({ results, message: "Get April Sales Statistic Succeed" })
+      res.status(200).json({ results, message: "Get Pie Chart bottle Unit Succeed" })
     })
-  },
-  mayStats: (req, res) => {
-    let selectQuery = `SELECT sum(tax) as tax, sum(total_price) as total_price, sum(shipping_cost) as shipping_cost,
-    sum(total_revenue) as total_revenue, sum(total_expenses) as total_expenses, sum(profit_or_loss) as profit_or_loss FROM
-    (SELECT id_transaction, tax, total_price, date, shipping_cost, (total_price + shipping_cost) as 'total_revenue',
-    (tax + shipping_cost) as 'total_expenses', (total_revenue - total_expenses) as 'profit_or_loss' FROM
-    (SELECT id_transaction, tax, total_price, date, shipping_cost, (total_price + shipping_cost) as 'total_revenue',
-    (tax + shipping_cost) as 'total_expenses'
-    FROM transaction WHERE MONTH(date) = 05 AND status = 'done') AS table_a) AS table_b;`
-    console.log(selectQuery)
-
-    db.query(selectQuery, (err, results) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).send(err);
-      }
-
-      res.status(200).json({ results, message: "Get May Sales Statistic Succeed" })
-    })
-  },
-  juneStats: (req, res) => {
-    let selectQuery = `SELECT sum(tax) as tax, sum(total_price) as total_price, sum(shipping_cost) as shipping_cost,
-    sum(total_revenue) as total_revenue, sum(total_expenses) as total_expenses, sum(profit_or_loss) as profit_or_loss FROM
-    (SELECT id_transaction, tax, total_price, date, shipping_cost, (total_price + shipping_cost) as 'total_revenue',
-    (tax + shipping_cost) as 'total_expenses', (total_revenue - total_expenses) as 'profit_or_loss' FROM
-    (SELECT id_transaction, tax, total_price, date, shipping_cost, (total_price + shipping_cost) as 'total_revenue',
-    (tax + shipping_cost) as 'total_expenses'
-    FROM transaction WHERE MONTH(date) = 06 AND status = 'done') AS table_a) AS table_b;`
-    console.log(selectQuery)
-
-    db.query(selectQuery, (err, results) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).send(err);
-      }
-
-      res.status(200).json({ results, message: "Get June Sales Statistic Succeed" })
-    })
-  },
-  julyStats: (req, res) => {
-    let selectQuery = `SELECT sum(tax) as tax, sum(total_price) as total_price, sum(shipping_cost) as shipping_cost,
-    sum(total_revenue) as total_revenue, sum(total_expenses) as total_expenses, sum(profit_or_loss) as profit_or_loss FROM
-    (SELECT id_transaction, tax, total_price, date, shipping_cost, (total_price + shipping_cost) as 'total_revenue',
-    (tax + shipping_cost) as 'total_expenses', (total_revenue - total_expenses) as 'profit_or_loss' FROM
-    (SELECT id_transaction, tax, total_price, date, shipping_cost, (total_price + shipping_cost) as 'total_revenue',
-    (tax + shipping_cost) as 'total_expenses'
-    FROM transaction WHERE MONTH(date) = 07 AND status = 'done') AS table_a) AS table_b;`
-    console.log(selectQuery)
-
-    db.query(selectQuery, (err, results) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).send(err);
-      }
-
-      res.status(200).json({ results, message: "Get July Sales Statistic Succeed" })
-    })
-  },
-  augustStats: (req, res) => {
-    let selectQuery = `SELECT sum(tax) as tax, sum(total_price) as total_price, sum(shipping_cost) as shipping_cost,
-    sum(total_revenue) as total_revenue, sum(total_expenses) as total_expenses, sum(profit_or_loss) as profit_or_loss FROM
-    (SELECT id_transaction, tax, total_price, date, shipping_cost, (total_price + shipping_cost) as 'total_revenue',
-    (tax + shipping_cost) as 'total_expenses', (total_revenue - total_expenses) as 'profit_or_loss' FROM
-    (SELECT id_transaction, tax, total_price, date, shipping_cost, (total_price + shipping_cost) as 'total_revenue',
-    (tax + shipping_cost) as 'total_expenses'
-    FROM transaction WHERE MONTH(date) = 08 AND status = 'done') AS table_a) AS table_b;`
-    console.log(selectQuery)
-
-    db.query(selectQuery, (err, results) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).send(err);
-      }
-
-      res.status(200).json({ results, message: "Get August Sales Statistic Succeed" })
-    })
-  },
-  septemberStats: (req, res) => {
-    let selectQuery = `SELECT sum(tax) as tax, sum(total_price) as total_price, sum(shipping_cost) as shipping_cost,
-    sum(total_revenue) as total_revenue, sum(total_expenses) as total_expenses, sum(profit_or_loss) as profit_or_loss FROM
-    (SELECT id_transaction, tax, total_price, date, shipping_cost, (total_price + shipping_cost) as 'total_revenue',
-    (tax + shipping_cost) as 'total_expenses', (total_revenue - total_expenses) as 'profit_or_loss' FROM
-    (SELECT id_transaction, tax, total_price, date, shipping_cost, (total_price + shipping_cost) as 'total_revenue',
-    (tax + shipping_cost) as 'total_expenses'
-    FROM transaction WHERE MONTH(date) = 09 AND status = 'done') AS table_a) AS table_b;`
-    console.log(selectQuery)
-
-    db.query(selectQuery, (err, results) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).send(err);
-      }
-
-      res.status(200).json({ results, message: "Get September Sales Statistic Succeed" })
-    })
-  },
-  octoberStats: (req, res) => {
-    let selectQuery = `SELECT sum(tax) as tax, sum(total_price) as total_price, sum(shipping_cost) as shipping_cost,
-    sum(total_revenue) as total_revenue, sum(total_expenses) as total_expenses, sum(profit_or_loss) as profit_or_loss FROM
-    (SELECT id_transaction, tax, total_price, date, shipping_cost, (total_price + shipping_cost) as 'total_revenue',
-    (tax + shipping_cost) as 'total_expenses', (total_revenue - total_expenses) as 'profit_or_loss' FROM
-    (SELECT id_transaction, tax, total_price, date, shipping_cost, (total_price + shipping_cost) as 'total_revenue',
-    (tax + shipping_cost) as 'total_expenses'
-    FROM transaction WHERE MONTH(date) = 10 AND status = 'done') AS table_a) AS table_b;`
-    console.log(selectQuery)
-
-    db.query(selectQuery, (err, results) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).send(err);
-      }
-
-      res.status(200).json({ results, message: "Get October Sales Statistic Succeed" })
-    })
-  },
+  }
 }
-
-
-
-
-// SELECT sum(qty) as qty_paracetamol_mg FROM
-// (SELECT * FROM left_join_many WHERE product_name = 'paracetamol' AND unit = 'mg') as table_a;
-
-// SELECT sum(qty) as qty_ibuprofen_mg FROM
-// (SELECT * FROM left_join_many WHERE product_name = 'ibuprofen' AND unit = 'mg') as table_a;
-
-// SELECT sum(qty) as qty_valium_mg FROM
-// (SELECT * FROM left_join_many WHERE product_name = 'valium' AND unit = 'mg') as table_a;
-
-// SELECT sum(qty) as qty_amoxicillin_mg FROM
-// (SELECT * FROM left_join_many WHERE product_name = 'amoxicillin' AND unit = 'mg') as table_a;
-
-// SELECT sum(qty) as qty_paracetamol_ml FROM
-// (SELECT * FROM left_join_many WHERE product_name = 'paracetamol' AND unit = 'ml') as table_a;
-
-// SELECT sum(qty) as qty_ibuprofen_ml FROM
-// (SELECT * FROM left_join_many WHERE product_name = 'ibuprofen' AND unit = 'ml') as table_a;
-
-// SELECT sum(qty) as qty_valium_ml FROM
-// (SELECT * FROM left_join_many WHERE product_name = 'valium' AND unit = 'ml') as table_a;
-
-// SELECT sum(qty) as qty_amoxicillin_ml FROM
-// (SELECT * FROM left_join_many WHERE product_name = 'amoxicillin' AND unit = 'ml') as table_a;
-
-// SELECT sum(qty) as qty_paracetamol_bottle FROM
-// (SELECT * FROM left_join_many WHERE product_name = 'paracetamol' AND unit = 'bottle') as table_a;
-
-// SELECT sum(qty) as qty_ibuprofen_bottle FROM
-// (SELECT * FROM left_join_many WHERE product_name = 'ibuprofen' AND unit = 'bottle') as table_a;
-
-// SELECT sum(qty) as qty_valium_bottle FROM
-// (SELECT * FROM left_join_many WHERE product_name = 'valium' AND unit = 'bottle') as table_a;
-
-// SELECT sum(qty) as qty_amoxicillin_bottle FROM
-// (SELECT * FROM left_join_many WHERE product_name = 'amoxicillin' AND unit = 'bottle') as table_a;
