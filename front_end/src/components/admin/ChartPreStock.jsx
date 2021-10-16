@@ -45,7 +45,7 @@ class ChartPreStock extends PureComponent {
         return (
           {
             name : "January",
-            ProfitOrLoss: item.profit_or_loss,
+            ProfitOrLoss: item.profit_or_loss - this.state.stockPrice,
             Revenue: item.total_revenue,
             Expenses: - (item.total_expenses + this.state.stockPrice),
           }

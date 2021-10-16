@@ -74,7 +74,7 @@ class Admin extends React.Component {
           }}
         >
           <h2 className="d-flex justify-content-center p-4 mt-4">
-            Drugs Sold in Milligram Unit
+            Drugs Sold in Milligram Unit (User's Cart)
           </h2>
           <ChartPieMg />
           <div className="d-flex flex-row justify-content-center mb-5">
@@ -82,12 +82,15 @@ class Admin extends React.Component {
               Amoxicillin
             </h5>
             <h5 style={{ color: "#00C49F" }} className="d-inline p-2">
-              Ibuprofen
+              Cefadroxil
             </h5>
             <h5 style={{ color: "#FFBB28" }} className="d-inline p-2">
-              Paracetamol
+              Dequalinium
             </h5>
             <h5 style={{ color: "#FF8042" }} className="d-inline p-2">
+              Paracetamol
+            </h5>
+            <h5 style={{ color: "#e04be3" }} className="d-inline p-2">
               Valium
             </h5>
           </div>
@@ -95,21 +98,24 @@ class Admin extends React.Component {
         <br /> <br />
         <div style={{ justifyContent: "center", alignItems: "center" }}>
           <h2 className="d-flex justify-content-center">
-            Drugs Sold in Milliliter Unit
+            Drugs Sold in Milliliter Unit (User's Cart)
           </h2>
           <ChartPieMl />
           <div className="d-flex flex-row justify-content-center">
             <h5 style={{ color: "#0088FE" }} className="d-inline p-2">
-              Amoxicillin
+              Bromhexine
             </h5>
             <h5 style={{ color: "#00C49F" }} className="d-inline p-2">
               Ibuprofen
             </h5>
             <h5 style={{ color: "#FFBB28" }} className="d-inline p-2">
-              Paracetamol
+              Phenylephrine
             </h5>
             <h5 style={{ color: "#FF8042" }} className="d-inline p-2">
-              Valium
+              Povidone
+            </h5>
+            <h5 style={{ color: "#e04be3" }} className="d-inline p-2">
+              Simethicone
             </h5>
           </div>
         </div>
@@ -130,12 +136,30 @@ class Admin extends React.Component {
               Amoxicillin
             </h5>
             <h5 style={{ color: "#00C49F" }} className="d-inline p-2">
-              Ibuprofen
+              Bromhexine
             </h5>
             <h5 style={{ color: "#FFBB28" }} className="d-inline p-2">
-              Paracetamol
+              Cefadroxil
             </h5>
             <h5 style={{ color: "#FF8042" }} className="d-inline p-2">
+              Dequalinium
+            </h5>
+            <h5 style={{ color: "#e04be3" }} className="d-inline p-2">
+              Ibuprofen
+            </h5>
+            <h5 style={{ color: "#003f5c" }} className="d-inline p-2">
+              Paracetamol
+            </h5>
+            <h5 style={{ color: "#58508d" }} className="d-inline p-2">
+              Phenylephrine
+            </h5>
+            <h5 style={{ color: "#bc5090" }} className="d-inline p-2">
+              Povidone
+            </h5>
+            <h5 style={{ color: "#ff6361" }} className="d-inline p-2">
+              Simethicone
+            </h5>
+            <h5 style={{ color: "#ffa600" }} className="d-inline p-2">
               Valium
             </h5>
           </div>

@@ -13,10 +13,12 @@ class Cart extends React.Component {
     cart_qty: 0,
     total: 0,
     stock: 0,
+    subtotal: 0,
+    tax: 0,
+    grandTotalPrice: 0,
     isCheckoutMode: false,
     paymentMethod: "",
     expedition: "",
-    payment: 0,
   };
 
   inputHandler = (e) => {
@@ -71,8 +73,26 @@ class Cart extends React.Component {
       });
   };
 
+  subtotalPrice = () => {
+    Axios.post(`${URL_API}/cart/subtotal-price`, {
+      id_user: this.props.userGlobal.id_user
+    })
+    .then((res) => {
+      this.setState({ 
+        subtotal: res.data.results[0].subtotal,
+        tax: res.data.results[0].subtotal * 0.1,
+        grandTotalPrice: res.data.results[0].subtotal + (res.data.results[0].subtotal * 0.1)
+      })
+    })
+    .catch((err) => {
+      alert("Cannot Count Cart Subtotal Price")
+      console.log(err)
+    })
+  }
+
   componentDidMount() {
     this.getData();
+    this.subtotalPrice()
   }
 
 
@@ -82,7 +102,7 @@ class Cart extends React.Component {
         <tr>
           <td className="align-middle">{index + 1}</td>
           <td className="align-middle">{item.product_name}</td>
-          <td className="align-middle">Rp.{item.product_price}</td>
+          <td className="align-middle">Rp.{(item.product_price).toLocaleString("id")}</td>
           <td className="align-middle">
             <img src={item.product_image} alt="" style={{ height: "125px" }} />
           </td>
@@ -95,7 +115,7 @@ class Cart extends React.Component {
                 disabled="true"
                 defaultValue={item.cart_qty}
                 type="number"
-                style={{ width: "40px" }}
+                style={{ width: "50px" }}
                 max={item.bottle_stock}
               />
             ) : (
@@ -106,13 +126,13 @@ class Cart extends React.Component {
                 name="cart_qty"
                 defaultValue={item.cart_qty}
                 type="number"
-                style={{ width: "40px" }}
+                style={{ width: "50px" }}
                 max={item.bottle_stock}
               />
             )}
             bottle
           </td>
-          <td className="align-middle">Rp.{item.total}</td>
+          <td className="align-middle">Rp.{(item.total).toLocaleString("id")}</td>
           <td className="align-middle">
             {!this.state.editQtyChecked ? (
               <>
@@ -173,7 +193,7 @@ class Cart extends React.Component {
               </tbody>
               <tfoot className="bg-light">
                 <tr>
-                  <td colSpan="6">
+                  <td colSpan="9">
                     <button
                       onClick={this.checkoutModeToggle}
                       className="btn btn-success"
@@ -195,21 +215,21 @@ class Cart extends React.Component {
                 <div className="card-body">
                   <div className="d-flex my-2 flex-row justify-content-between align-items-center">
                     <span className="font-weight-bold">Subtotal Price</span>
-                    <span>Rp 30000</span>
+                    <span>Rp {(this.state.subtotal).toLocaleString("id")} </span>
                   </div>
                   <div className="d-flex my-2 flex-row justify-content-between align-items-center">
                     <span className="font-weight-bold">Tax Fee (10%)</span>
-                    <span>Rp 3000</span>
+                    <span>Rp {(this.state.tax).toLocaleString("id")} </span>
                   </div>
                   <div className="d-flex my-2 flex-row justify-content-between align-items-center">
-                    <span className="font-weight-bold">Total Price</span>
-                    <span>Rp 33000</span>
+                    <span className="font-weight-bold">Grand Total Price</span>
+                    <span>Rp {(this.state.grandTotalPrice).toLocaleString("id")} </span>
                   </div>
                 </div>
                 <div className="card-body border-top">
                   <label htmlFor="paymentMethod">Payment Method</label>
                   <br />
-                  <select className="custom-select" multiple>
+                  <select onChange={this.inputHandler} name="paymentMethod" className="custom-select" multiple>
                     <option value="bank" selected>
                       Bank Transfer
                     </option>
@@ -222,7 +242,7 @@ class Cart extends React.Component {
                   {/* <input onChange={this.inputHandler} type="text" className="form-control mb-3" name="paymentMethod" /> */}
                   <label htmlFor="expedition">Shipping</label>
                   <br />
-                  <select className="form-control">
+                  <select onChange={this.inputHandler} name="expedition" className="form-control">
                     <option value="jne">JNE</option>
                     <option value="jnt">J&T</option>
                     <option value="tiki">TIKI</option>
@@ -233,10 +253,11 @@ class Cart extends React.Component {
                 <div className="card-footer">
                   <div className="d-flex flex-row justify-content-between align-items-center">
                     <input
-                      onChange={this.inputHandler}
                       className="form-control mx-1"
-                      type="number"
+                      type="string"
                       name="payment"
+                      disabled="true"
+                      defaultValue={`Rp ${(this.state.grandTotalPrice).toLocaleString("id")}`}
                     />
                     <button
                       onClick={this.payBtnHandler}

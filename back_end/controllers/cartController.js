@@ -43,6 +43,23 @@ module.exports = {
               }
               res.status(200).send({message : "berhasil update quantity"})
           })
+      },
+
+      subtotalPrice: (req, res) => {
+        let selectQuery = `select sum(subtotal) as subtotal from
+        (select c.id_cart, (p.product_price * c.cart_qty) as subtotal, u.id_user, u.username
+        from cart c
+        left join user u on u.id_user = c.id_user
+        left join product p on p.id_product = c.id_product where u.id_user = 3 and p.unit = 'bottle') as table_a;`
+        console.log(selectQuery)
+
+        db.query(selectQuery, (err, results) =>{
+          if(err){
+              console.log(err);
+              return res.status(500).send(err)
+          }
+          res.status(200).send({ results, message : "Count Cart Subtotal Price Succeed" })
+        })
       }
 
 }

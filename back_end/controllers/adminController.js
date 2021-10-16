@@ -123,7 +123,7 @@ module.exports = {
   },
   countStockPrice: (req, res) => {
     let selectQuery = `SELECT sum(stock_price) as stock_price FROM
-    (SELECT admin_price, stock, (admin_price * stock) AS 'stock_price' FROM product) AS stock_price;`
+    (SELECT admin_price, stock, bottle_volume, (stock div bottle_volume * admin_price) AS 'stock_price' FROM product) AS table_a;`
     console.log(selectQuery)
 
     db.query(selectQuery, (err, results) => {
@@ -153,9 +153,9 @@ module.exports = {
   },
   countRestockPriceMonthly: (req, res) => {
     let selectQuery = `SELECT sum(restock_price) AS restock_price FROM
-    (SELECT restock_qty, admin_price, (restock_qty * admin_price) AS 'restock_price', restock_date FROM restock res
+    (SELECT restock_qty_bottle, admin_price, (restock_qty_bottle * admin_price) AS 'restock_price', restock_date FROM restock res
     LEFT JOIN product p ON p.id_product = res.id_product
-    WHERE MONTH(restock_date) = 10) AS restock_price;`
+    WHERE MONTH(restock_date) = 10) AS table_a`
     console.log(selectQuery)
 
     db.query(selectQuery, (err, results) => {
@@ -239,7 +239,7 @@ module.exports = {
     let selectQuery = `SELECT t.qty, p.product_name FROM transaction t
     LEFT JOIN cart c ON c.id_cart = t.id_cart
     LEFT JOIN product p ON p.id_product = c.id_product
-    WHERE t.status = 'done' and p.unit = 'bottle'
+    WHERE t.status = 'done'
     ORDER BY t.qty desc;`
     console.log(selectQuery)
 
@@ -256,7 +256,7 @@ module.exports = {
     let selectQuery = `SELECT t.qty, p.product_name FROM transaction t
     LEFT JOIN cart c ON c.id_cart = t.id_cart
     LEFT JOIN product p ON p.id_product = c.id_product
-    WHERE t.status = 'done' and MONTH(t.date) = 10 and p.unit = 'bottle'
+    WHERE t.status = 'done' and MONTH(t.date) = 10
     ORDER BY t.qty desc;`
     console.log(selectQuery)
 
@@ -288,7 +288,7 @@ module.exports = {
     let selectQuery = `SELECT sum(t.qty) as qty, p.product_name FROM transaction t
     LEFT JOIN cart c ON c.id_cart = t.id_cart
     LEFT JOIN product p ON p.id_product = c.id_product
-    WHERE t.status = 'done' and p.unit = 'mg'
+    WHERE t.status = 'done' and p.unit = 'mg' and c.id_cart IS NOT NULL
     GROUP BY p.product_name
     ORDER BY product_name asc;`
     console.log(selectQuery)
@@ -306,7 +306,7 @@ module.exports = {
     let selectQuery = `SELECT sum(t.qty) as qty, p.product_name FROM transaction t
     LEFT JOIN cart c ON c.id_cart = t.id_cart
     LEFT JOIN product p ON p.id_product = c.id_product
-    WHERE t.status = 'done' and p.unit = 'ml'
+    WHERE t.status = 'done' and p.unit = 'ml' and c.id_cart IS NOT NULL
     GROUP BY p.product_name
     ORDER BY product_name asc;`
     console.log(selectQuery)
@@ -324,7 +324,7 @@ module.exports = {
     let selectQuery = `SELECT sum(t.qty) as qty, p.product_name FROM transaction t
     LEFT JOIN cart c ON c.id_cart = t.id_cart
     LEFT JOIN product p ON p.id_product = c.id_product
-    WHERE t.status = 'done' and p.unit = 'bottle'
+    WHERE t.status = 'done' AND c.id_cart IS NOT NULL
     GROUP BY p.product_name
     ORDER BY product_name asc;`
     console.log(selectQuery)
