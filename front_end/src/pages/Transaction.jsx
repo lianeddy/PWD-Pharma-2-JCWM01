@@ -3,7 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import { URL_API } from "../helper";
 import Axios from 'axios'
-import { NavItem, Button } from "reactstrap";
+import { NavItem, Button, Input } from "reactstrap";
 
 
 class Transaction extends React.Component{
@@ -12,8 +12,15 @@ class Transaction extends React.Component{
         id_transaction : 0,
         dbTransaction : [],
         isPaidClicked : false,
-        status : "",
+        status : "all",
         image : ""
+    }
+
+    inputHandler = (e) =>{
+        const value = e.target.value 
+        const name = e.target.name 
+        this.setState({[name] : value})
+
     }
 
     previewFile = (e) =>{
@@ -25,18 +32,39 @@ class Transaction extends React.Component{
     }
 
     getData = () =>{
-        Axios.get(`${URL_API}/transaction/getTransaction/1`)
-        .then(res =>{
-            this.setState({
-                dbTransaction : res.data,
-                status : res.data.status
-            })
+        if(this.state.status == "all"){
 
-        })
-        .catch(err =>{
-            alert("cannot get data")
-            console.log(err);
-        })
+            Axios.get(`${URL_API}/transaction/getTransaction/1`)
+            .then(res =>{
+            
+                this.setState({
+                    dbTransaction : res.data,
+                
+                })
+        
+            })
+            .catch(err =>{
+                alert("cannot get data")
+                console.log(err);
+            })
+        }else if(this.state.status == "unpaid" || "process" || "shipping" || "done"){
+            Axios.get(`${URL_API}/transaction/getTransactionFilter/1/${this.state.status}`)
+            
+            .then(res =>{
+            
+                this.setState({
+                    dbTransaction : res.data,
+                
+                })
+        
+            })
+            .catch(err =>{
+                alert("cannot get data")
+                console.log(err);
+            })
+        }
+            
+       
     }
 
     onBtnUploadPayment = () =>{
@@ -55,6 +83,9 @@ class Transaction extends React.Component{
             })
         }
 
+    }
+    componentDidUpdate(){
+        this.getData()
     }
 
     componentDidMount() {
@@ -81,6 +112,7 @@ class Transaction extends React.Component{
         return this.state.dbTransaction.map((item, index) =>{
             
           
+            console.log(this.state.status)
           return(
             <tr>
               <td className="align-middle">
@@ -128,13 +160,28 @@ class Transaction extends React.Component{
         <h1>Transaction</h1>
         <div className="row mt-5">
           <div className="col-9 text-center">
+              Status : 
+          <Input
+                className={" btn btn-primary my-3"}
+                name = "status"
+                onChange ={ this.inputHandler}
+                style={{ width: "100px" }}
+                type="select"
+                id="exampleSelect"
+                >
+                <option value={"all"}>All</option>
+                <option value={"unpaid"}>Unpaid</option>
+                <option value={"process"}>Process</option>
+                <option value={"shipping"}>Shipping</option>
+                <option value={"done"}>Done</option>
+                </Input>
             <table className="table">
-              <thead className="thead-light">
+              <thead className="thead-dark">
                 <tr>
                   <th>no</th>
                   <th>Date</th>
                   <th>Quantity</th>
-                  <th>Total Tax</th>
+                  <th>Tax</th>
                   <th>Price</th>
                   <th>Expedition</th>
                   <th>Shipping Cost</th>
@@ -162,7 +209,7 @@ class Transaction extends React.Component{
                 <form>
                     
                     <div className="form-group">
-                        <label htmlFor="description">Image</label>
+                        
                         <div>
                                        <img 
                                        

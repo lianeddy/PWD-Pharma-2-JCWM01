@@ -4,6 +4,7 @@ const route = express.Router()
 
 
 route.get('/getTransaction/:id', transactionController.getTransaction)
+route.get('/getTransactionFilter/:id/:status', transactionController.getTransactionFilter)
 
 
 
