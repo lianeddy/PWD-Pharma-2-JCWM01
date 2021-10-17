@@ -9,6 +9,7 @@ import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
 import VerificationPage from "./pages/auth/VerificationPage";
 import ProductDetail from "./pages/ProductDetail";
+import Admin from "./pages/Admin";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route component={Login} path="/login" />
         <Route component={Register} path="/register" />
         <Route component={ProductDetail} path="/product-detail/:productId" />
+        <Route component={Admin} path="/Admin" />
         <Route component={VerificationPage} path="/authentication/:token" />
       </Switch>
     </BrowserRouter>

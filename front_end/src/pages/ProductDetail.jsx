@@ -1,80 +1,206 @@
-import React from 'react';
-import Axios from 'axios';
-// import {URL_API} from '../../../back_end/constants/API'
-
+import React from "react";
+import Axios from "axios";
+import { connect } from "react-redux";
 
 class ProductDetail extends React.Component {
-    state = {
-        productData: {},
-        productNotFound: false,
-        quantity:1,
-    }
+  state = {
+    productData: {},
+    productNotFound: false,
+    quantity: 1,
+  };
 
-    fetchProductData = () => {
-    
-        Axios.get(`http://localhost:3300/product/get`, {
-            params: {
-                id_product: this.props.match.params.productId,
-                
-            }
-        })
-            .then((result) => {
-                
-                if (result.data.length) {
-                    this.setState({ productData: result.data[0] })
-                }
-                 else {
-                    this.setState({ productNotFound: true })
-                }
-            })
-            .catch(() => {
-                alert('Terjadi kesalahan di server!')
-            })
-    }
+  fetchProductData = () => {
+    Axios.get(`http://localhost:3300/product/get-product-detail?product_id=${this.props.match.params.id_product}`, {
+      params: {
+        product_id: this.props.match.params.product_id,
+      },
+    })
+      .then((result) => {
+        if (result.data.length) {
+          this.setState({ productData: result.data[0]});
+        } else {
+          this.setState({ productNotFound: true });
+        }
+      })
+      .catch(() => {
+        alert("Kesalahan saat mengambil data obat");
+      });
+  };
 
-    componentDidMount() {
-        this.fetchProductData()
+  qtyBtnHandler = (action) => {
+    if (action === "increment") {
+      this.setState({ quantity: this.state.quantity + 1 });
+    } else if (action === "decrement" && this.state.quantity > 1) {
+      this.setState({ quantity: this.state.quantity - 1 });
     }
+  };
 
-    render() {
-        return (
-            <div className="container">
-                {
-                    this.state.productNotFound ?(
-                        
-                        <div className="alert alert-warning mt-3"> Product has not been found </div>
-                    )
-                : 
-                <div className="row mt-3">
-                    <div className="col-6">
-                        <img style={{ width: "100%"}}
-                        src={this.state.productData.product_image_detail}
-                        alt=""/>
-                        </div>
-                        <div className="col-6 d-flex flex-column justify-content-center">
-                            <h1>{this.state.productData.product_name}</h1>
-                            {/* <h5>Rp{this.state.productData.product_price}</h5> */}
-                            <p>
-                                {this.state.productData.description}
-                                </p>
-                            <div className="d-flex flex-row align-items-center">
-                                <button className="btn btn-primary mr-4">
-                                    -
-                                </button>
-                                1
-                                <button className="btn btn-primary mx-4">
-                                    +
-                                </button>
-                        </div>
-                        <button className="btn btn-info mt-3">
-                            Add to Cart
-                        </button>
-                        </div>
+//   addToCartHandler = () => {
+//     Axios.get(`${URL_API}/cart/get-cart`, {
+//       params: {
+//         id_user: this.props.userGlobal.id_user,
+//         idobat: this.state.productData.idobat,
+//       },
+//     }).then((result) => {
+//       if (result.data.length) {
+//         // jika barang sudah ada di cart user
+//         return Axios.patch(
+//           `${URL_API}/cart/edit-cart/${result.data[0].id_cart}`,
+//           {
+//             qty_obat: result.data[0].qty_obat + this.state.quantity,
+//           }
+//         )
+//           .then(() => {
+//             alert("Berhasil menambahkan qty ke cart");
+//             this.props.getCartData(this.props.userGlobal.id_user);
+//           })
+//           .catch((err) => {
+//             alert("Gagal saat patch data");
+//             console.log(err);
+//           });
+//       } else {
+//         // jika barang belum ada di cart user
+//         return Axios.post(`${URL_API}/cart/add-to-cart`, {
+//           id_user: this.props.userGlobal.id_user,
+//           idobat: this.state.productData.idobat,
+//           qty_obat: this.state.quantity,
+//           harga: this.state.productData.harga,
+//           status: "PENDING",
+//         })
+//           .then(() => {
+//             alert("Berhasil menambahkan obat ke cart");
+//             this.props.getCartData(this.props.userGlobal.id_user);
+//           })
+//           .catch((err) => {
+//             alert(`Gagal menambahkan obat ke cart`);
+//             console.log(err);
+//           });
+//       }
+//     });
+//   };
+
+  componentDidMount() {
+    this.fetchProductData();
+  }
+
+  render() {
+    return (
+      <div>
+        <div className="container-fluid bg-light mb-5">
+          {this.state.productNotFound ? (
+            <div className="alert alert-danger mt-3">Obat Tidak ditemukan</div>
+          ) : (
+            <div
+              className="d-flex flex-column align-items-center justify-content-center"
+              style={{ minHeight: "100px" }}
+            >
+              <h1 className="font-weight-semi-bold text-uppercase mb-3">
+                Detail Obat
+              </h1>
+              <div className="d-inline-flex">
+                <p className="m-0">
+                  <a href="/" className="text-decoration-none text-dark">
+                    Kembali ke Beranda
+                  </a>
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+        <div className="container-fluid py-1">
+          <div className="row px-xl-5">
+            <div className="col-lg-5 pb-5">
+              <div
+                id="product-carousel"
+                className="carousel slide"
+                data-ride="carousel"
+              >
+                <div className="carousel-inner border">
+                  <div className="carousel-item active">
+                    <img
+                      className="w-100 h-100"
+                      src={this.state.productData.product_image_detail}
+                      alt="Img"
+                    />
+                  </div>
                 </div>
-                }
+              </div>
+            </div>
+
+            <div className="col-lg-7 pb-5">
+              <h3 className="font-weight-semi-bold">
+                {this.state.productData.product_name}
+              </h3>
+              <h3 className="font-weight-semi-bold mb-4">
+                Rp. {this.state.productData.product_price}
+              </h3>
+              <div>
+                <p>
+                  <strong className="text-uppercase">Deskripsi</strong>
+                </p>
+                <p className="mt-1">{this.state.productData.description}</p>
+              </div>
+              <div>
+                <p>
+                  <strong className="text-uppercase">category</strong>
+                </p>
+              </div>
+              <p className="mt-2">{this.state.productData.category}</p>
+              <div>
+                <p>
+                  <strong className="text-uppercase">Stock</strong>
+                </p>
+              </div>
+              {this.state.productData.stock > 50 ? (
+                <p> Lebih dari 50 </p>
+              ) : (
+                <p> Kurang dari 50 </p>
+              )}
+
+              <div className="d-flex align-items-center mt-5">
+                <div
+                  className="input-group quantity"
+                  style={{ width: "130px" }}
+                >
+                  <div className="input-group-btn">
+                    <button
+                      onClick={() => this.qtyBtnHandler("decrement")}
+                      className="btn btn-primary btn-minus"
+                    >
+                      <i className="fa fa-minus"></i>
+                    </button>
+                  </div>
+                  <p className="text-center mx-auto pt-1 font-weight-bold">
+                    {this.state.quantity}
+                  </p>
+                  <div className="input-group-btn">
+                    <button
+                      onClick={() => this.qtyBtnHandler("increment")}
+                      className="btn btn-primary btn-plus mr-3"
+                    >
+                      <i className="fa fa-plus"></i>
+                    </button>
+                  </div>
                 </div>
-        )
-    }
+              </div>
+              <button
+                onClick={this.addToCartHandler}
+                className="btn btn-success mt-3"
+              >
+                <i className="fa fa-shopping-cart"></i> Add To Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
-export default ProductDetail;
+const mapStateToProps = (state) => {
+  return {
+    userGlobal: state.user,
+  };
+};
+
+export default connect(mapStateToProps)(ProductDetail);

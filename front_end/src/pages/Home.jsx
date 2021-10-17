@@ -1,196 +1,186 @@
 import React from "react";
-import ProductCard from "../components/ProductCard";
-import Axios from "axios";
+import { connect } from 'react-redux';
+import Axios from 'axios'
+import ProductCard from '../components/ProductCard'
 
 
 class Home extends React.Component {
   state = {
     productList: [],
-    filteredProductList: [],
+    categoryList: [],
     page: 1,
     maxPage: 0,
     itemPerPage: 6,
     searchProductName: "",
     searchCategory: "",
-    sortBy: "",
-  };
+    sortProduct: "",
+  }
 
-  // melakukan panggilan ke API
-  fetchproducts = () => {
-    Axios.get("http://localhost:3300/product/get")
 
+
+   fetchProducts = () => {
+    Axios.get(`http://localhost:3300/product/get?page=${this.state.page-1}&product_name=${this.props.userGlobal.searchProduct}`)
       .then((result) => {
-        this.setState({
-          productList: result.data,
-          maxPage: Math.ceil(result.data.length / this.state.itemPerPage),
-          filteredProductList: result.data,
-        });
+        this.setState({productList: result.data},this.fetchMaxPage())
       })
       .catch(() => {
-        alert("Terjadi kesalahan di server");
+        alert("Terjadi kesalahan server");
       });
   };
 
-  renderProducts = () => {
-    const beginningIndex = (this.state.page - 1) * this.state.itemPerPage;
-    let rawData = [...this.state.filteredProductList];
-    const compareString = (a, b) => {
-      if (a.product_name < b.product_name) {
-        return -1;
-      }
-      if (a.product_name > b.product_name) {
-        return 1;
-      }
-      return 0;
-    };
-    switch (this.state.sortBy) {
-      case "lowPrice":
-        rawData.sort((a, b) => a.product_price - b.product_price);
-        break;
-      case "highPrice":
-        rawData.sort((a, b) => b.product_price - a.product_price);
-        break;
-      case "az":
-        rawData.sort(compareString);
-        break;
-      case "za":
-        rawData.sort((a, b) => compareString(b, a));
-        break;
-      default:
-        rawData = [...this.state.filteredProductList];
-        break;
-    }
 
-    const currentData = rawData.slice(
-      beginningIndex,
-      beginningIndex + this.state.itemPerPage
-    );
-    return currentData.map((val) => {
+  fetchCategoryList=()=>{
+    Axios.get(`http://localhost:3300/product/get-category`)
+    .then((result)=>{
+      this.setState({categoryList:result.data})
+    })
+    .catch((err)=>{
+      alert(err)
+    })
+  }
+
+
+  fetchMaxPage = ()=>{
+    Axios.get(`http://localhost:3300/product/get-max-page?category=${this.state.searchCategory}&product_name=${this.props.userGlobal.searchProduct}`)
+    .then((result)=>{
+      this.setState({maxPage: Math.ceil((result.data[0])/this.state.itemPerPage)})
+      console.log("checkMaxPage", this.state.maxPage);
+    })
+  }
+
+
+  renderProducts = () => {
+    let rawData = [...this.state.productList];
+    return rawData.map((val) => {
       return <ProductCard productData={val} />;
     });
   };
-  nextPagehandler = () => {
-       if (this.state.page < this.state.maxPage) {
-      this.setState({ page: this.state.page + 1 });
+
+
+  clearFilter=()=>{
+    this.setState({searchCategory:""})
+    this.fetchProducts()
+  }
+
+
+  componentDidUpdate(prevProps){
+    if (prevProps.userGlobal.searchProduct !== this.props.userGlobal.searchProduct){
+      this.fetchFilterProduct()
     }
+  }
+
+
+  componentDidMount() {
+    this.fetchProducts();
+    this.fetchCategoryList()
+    this.fetchMaxPage()
+    console.log(this.props.userGlobal.searchProduct);
+  }
+
+  nextPageHandler = () => {
+    this.setState({page : this.state.page +1 }, this.fetchProducts)
   };
 
-  prevPagehandler = () => {
-       if (this.state.page > 1) {
-      this.setState({ page: this.state.page - 1 });
-    }
+  prevPageHandler = () => {
+    this.setState({page: this.state.page -1}, this.fetchProducts)
   };
 
-  //search dan sortby
   inputHandler = (event) => {
-       const name = event.target.name;
+    const name = event.target.name;
     const value = event.target.value;
     this.setState({ [name]: value });
   };
 
-  searchButtonHandler = () => {
-    const filteredProductList = this.state.productList.filter((val) => {
-      return val.product_name.toLowerCase().includes(this.state.searchProductName.toLowerCase())&&
-        val.category.toLowerCase().includes(this.state.searchCategory.toLowerCase());
-    });
-    this.setState({
-      filteredProductList,
-      maxPage: Math.ceil(filteredProductList.length / this.state.itemPerPage),
-      page: 1,
-    });
-  };
 
-  componentDidMount() {
-    this.fetchproducts();
+   sortHandler=(event)=>{
+    const value = event.target.value
+
+    this.setState({sortProduct : value}, this.fetchFilterProduct)
   }
 
-  render() {
-    return (
-      <div className="container mt-5">
+  fetchFilterProduct=()=>{
+    console.log("sortby",this.state.sortProduct);
+    console.log("category",this.state.searchCategory);
+    console.log("product_name",this.props.userGlobal.searchProduct);
+    this.fetchMaxPage()
+
+    Axios.get(`http://localhost:3300/product/get?page=${this.state.page-1}&sortby=${this.state.sortProduct}&category=${this.state.searchCategory}&product_name=${this.props.userGlobal.searchProduct}`)
+    .then((result)=>{
+      this.setState({productList: result.data})
+    })
+    .catch((err)=>{
+      alert(err)
+    })
+  }
+
+    render(){
+    return(
+      <div className=" mt-4 mb-5 container-style">
+        
         <div className="row">
-          {/* untuk kolom yang ada disebelah kiri */}
-          <div className="col-3">
-            <div className="card">
-              <div className="card-header">
-                <strong>Filter Products</strong>
-              </div>
-              <div className="card-body">
-                <label htmlFor="searchProductName">Name</label>
-                <input
-                  onChange={this.inputHandler}
-                  name="searchProductName"
-                  type="text"
-                  className="form-control mb-3"
-                />
-                <label htmlFor="searchCategory">Category</label>
-                <select
-                  onChange={this.inputHandler}
-                  name="searchCategory"
-                  className="form-control"
-                >
-                  <option value="">All Drugs</option>
-                  <option value="liquid">Liquid</option>
-                  <option value="tablet">Tablet</option>
-                </select>
-                <button
-                  onClick={this.searchButtonHandler}
-                  className="btn btn-primary mt-3"
-                >
-                  Search
-                </button>
-              </div>
+          <div className="col-2 filter-bar">
+            <div>
+              <button className="btn btn-dark btn-sm filter" onClick={this.fetchFilterProduct}><p>Filter</p></button>
+              <button className="btn btn-light btn-sm ms-2 filter" onClick={this.clearFilter}><p>Reset Filter</p></button>
             </div>
-            <div className="card mt-4">
-              <div className="card-header">
-                <strong>Sort Products</strong>
-              </div>
-              <div className="card-body">
-                <label htmlFor="sortBy">Sort by</label>
-                <select
-                  onChange={this.inputHandler}
-                  name="sortBy"
-                  className="form-control"
-                >
-                  <option value="">Default</option>
-                  <option value="lowPrice">Lowest Price</option>
-                  <option value="highPrice">Highest price</option>
-                  <option value="az">A-Z</option>
-                  <option value="za">Z-A</option>
-                </select>
-              </div>
-            </div>
-            <div className="mt-3">
-              <div className="d-flex flex-row justify-content-between align-item-center">
-                <button
-                  disabled={this.state.page === 1}
-                  onClick={this.prevPagehandler}
-                  className="btn btn-dark"
-                >
-                  {"<"}
-                </button>
-                <div className="text-center">
-                  page {this.state.page} of {this.state.maxPage}{" "}
+          </div>
+
+          <div className="col-10 ">
+              <div className="d-flex flex-direction-row align-items-center justify-content-between mb-3">
+                <div className="d-flex flex-direction-row align-items-center justify-content-start col-4 px-3">
+                  <select onChange={this.sortHandler} name="sortProduct" className="form-control filter-style">
+                    <option value="">SORT BY</option>
+                    <option value="price_asc">Lowest price</option>
+                    <option value="price_desc">Highest price</option>
+                    <option value="name_asc">A to Z</option>
+                    <option value="name_desc">Z to A</option>
+                  </select>
                 </div>
-                <button
-                  disabled={this.state.page === this.state.maxPage}
-                  onClick={this.nextPagehandler}
-                  className="btn btn-dark"
-                >
-                  {">"}
-                </button>
+                <div className="col-4 "> </div>
+                <div className="d-flex flex-direction-row align-items-center justify-content-end col-4 px-5">
+                  <p>{this.state.productList.length} item(s)</p>
+                </div>
               </div>
-            </div>
+
+              {
+                this.state.productList.length===0 ?
+                <div className="d-flex align-items-center flex-row justify-content-center mt-5">
+                  <h4>sorry error page!</h4>
+                </div>
+                :
+                <>
+                <div className="d-flex flex-wrap  align-items-center flex-row justify-content-start">
+                  {/* Render Products Here */}
+                  {this.renderProducts()}
+                </div>
+                  <div className="d-flex flex-direction-row align-items-center justify-content-between mt-3">
+                    <div className="col-4"></div>
+                    <div className="col-4 d-flex flex-direction-row align-items-center justify-content-center"> 
+                      <button disabled={this.state.page===1} onClick={this.prevPageHandler} className="btn btn-sm btn-dark">
+                        {"<"}
+                      </button>
+                      <p className="text-center text-page my-0 mx-2">Page {this.state.page} of {this.state.maxPage}</p>
+                      <button disabled={this.state.page===this.state.maxPage}  onClick={this.nextPageHandler} className="btn btn-sm btn-dark">
+                        {">"}
+                      </button>
+                    </div>
+                    <div className="col-4"></div>
+                  </div>
+                </>
+              }
           </div>
-          {/* untuk kolom disebelah kanan */}
-          <div className="col-9">
-            <div className="d-flex flex-wrap flex-row text-end">
-              {this.renderProducts()}
-            </div>
-          </div>
+
+
         </div>
       </div>
-    );
+    )
   }
-}
+  }
 
-export default Home;
+const mapStateToProps =(state)=> {
+    return{
+        userGlobal: state.user,
+    }
+};
+
+export default connect(mapStateToProps)(Home);

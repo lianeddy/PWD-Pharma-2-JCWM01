@@ -14,11 +14,13 @@ app.use(express.static("public"));
 app.get("/", (req, res) => {
   res.status(200).send("<h4>integrated with mysql</h4>");
 });
+
+
 const { drugsRouters } = require("./routers");
-
 app.use("/product", drugsRouters);
-const { userRouters } = require("./routers");
 
+
+const { userRouters } = require("./routers");
 app.use("/user", userRouters);
 
 app.listen(PORT, () => console.log("API running : ", PORT));

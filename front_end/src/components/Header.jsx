@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {NavbarText} from 'reactstrap';
 import "../css/edubin/slick.css";
 import "../css/edubin/animate.css";
 import "../css/edubin/nice-select.css";
@@ -28,16 +29,16 @@ export class Header extends Component {
                   <img src={iconMap} alt="icon" />
                   <span>127/5 Kalideres, Jakarta Barat</span>{" "}
                 </li>
-                <li>
+                {/* <li>
                   <img src={iconEmail} alt="icon" />
                   <span>bewell@pharmacy.com</span>
-                </li>
+                </li> */}
               </ul>
             </div>
           </div>
           <div class="col-lg-6">
             <div class="header-contact text-lg-right text-center">
-              <p>Opening Hours : Monday to Saturay - 8 Am to 5 Pm</p>
+              <p>Hello, Username</p>
             </div>
           </div>
         </div>
@@ -94,7 +95,9 @@ export class Header extends Component {
                   >
                     <ul class="navbar-nav mr-auto">
                       <li class="nav-item">
-                        <a href="index-2.html">Home</a>
+                        <a href="index-2.html">
+                          Home
+                          </a>
                       </li>
                       <li class="nav-item">
                         <a href="about.html">Prescriptions Drugs</a>

@@ -1,6 +1,15 @@
 import Axios from "axios";
 import { URL_API } from "../../helper";
 
+export const searchProduct = (searchProduct) => {
+  return (dispatch) => {
+    dispatch({
+      type: "SEARCH_PRODUCT",
+      payload: searchProduct,
+    });
+  };
+};
+
 export const registerUser = ({ fullname, username, email, password }) => {
   return (dispatch) => {
     Axios.post(`${URL_API}/user/register`, {
