@@ -19,6 +19,8 @@ class Cart extends React.Component {
     isCheckoutMode: false,
     paymentMethod: "",
     expedition: "",
+    insertQuery: "",
+    redirect: false
   };
 
   inputHandler = (e) => {
@@ -56,6 +58,7 @@ class Cart extends React.Component {
       .then(() => {
         this.getData();
         alert("berhasil update Quantity");
+        window.location.reload()
       })
       .catch((err) => {
         console.log(err);
@@ -67,6 +70,7 @@ class Cart extends React.Component {
       .then(() => {
         alert("berhasil delete cart");
         this.getData();
+        window.location.reload()
       })
       .catch(() => {
         alert("terjadi kesalahan di server");
@@ -81,7 +85,7 @@ class Cart extends React.Component {
       this.setState({ 
         subtotal: res.data.results[0].subtotal,
         tax: res.data.results[0].subtotal * 0.1,
-        grandTotalPrice: res.data.results[0].subtotal + (res.data.results[0].subtotal * 0.1)
+        grandTotalPrice: res.data.results[0].subtotal + (res.data.results[0].subtotal * 0.1) + (this.state.dbcart.length * 10000)
       })
     })
     .catch((err) => {
@@ -93,8 +97,61 @@ class Cart extends React.Component {
   componentDidMount() {
     this.getData();
     this.subtotalPrice()
+    this.mapInsertQuery()
+    this.mapDeleteQuery()
   }
 
+  payBtnHandler = () => {
+    this.insertTransaction()
+    this.clearCart()
+    this.setState({ redirect: true })
+  }
+
+  insertTransaction = () => {
+    Axios.post(`${URL_API}/cart/pay`, {
+      insertQuery: this.mapInsertQuery().toString()
+    })
+    .then((res) => {
+      alert("Please Continue to Upload Your Proof of Payment")
+      console.log(res)
+    })
+    .catch((err) => {
+      alert("Payment Error")
+      console.log(err)
+    })
+  }
+
+  clearCart = () => {
+    Axios.patch(`${URL_API}/cart/clear-cart`, {
+      deleteQuery: this.mapDeleteQuery()
+    })
+    .then((res) => {
+      alert("Cart will be Cleared After Checkout")
+      console.log(res)
+    })
+    .catch((err) => {
+      alert("Clear Cart After Checkout Error")
+      console.log(err)
+    })
+  }
+
+  mapDeleteQuery = () => {
+    return this.state.dbcart.map((item, index) => {
+      return (
+        item.id_cart
+      )
+    })
+  }
+
+  mapInsertQuery = () => {
+    const d = new Date()
+
+    return this.state.dbcart.map((item, index) => {
+      return (
+        `(null, ${this.props.userGlobal.id_user}, ${item.cart_qty}, ${item.product_price * item.cart_qty * 0.1}, ${item.product_price * item.cart_qty}, '${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}', '${this.state.paymentMethod}', '${this.state.expedition}', 10000, null, 'unpaid', ${item.id_product}, null)`
+      )
+    })
+  }
 
   printData = () => {
     return this.state.dbcart.map((item, index) => {
@@ -170,6 +227,18 @@ class Cart extends React.Component {
       return <Redirect to="/" />;
     }
 
+    if (this.state.redirect) {
+      return <Redirect to="/transaction" />
+    }
+
+    if (!this.state.dbcart.length) {
+      return (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "50px" }}>
+          <h1>Your Cart is Empty</h1>
+        </div>
+      )
+    }
+
     return (
       <div className="p-5 text-center">
         <h1>Cart</h1>
@@ -222,6 +291,10 @@ class Cart extends React.Component {
                     <span>Rp {(this.state.tax).toLocaleString("id")} </span>
                   </div>
                   <div className="d-flex my-2 flex-row justify-content-between align-items-center">
+                    <span className="font-weight-bold">Shipping Cost</span>
+                    <span>Rp {(this.state.dbcart.length * 10000).toLocaleString("id")} </span>
+                  </div>
+                  <div className="d-flex my-2 flex-row justify-content-between align-items-center">
                     <span className="font-weight-bold">Grand Total Price</span>
                     <span>Rp {(this.state.grandTotalPrice).toLocaleString("id")} </span>
                   </div>
@@ -230,7 +303,7 @@ class Cart extends React.Component {
                   <label htmlFor="paymentMethod">Payment Method</label>
                   <br />
                   <select onChange={this.inputHandler} name="paymentMethod" className="custom-select" multiple>
-                    <option value="bank" selected>
+                    <option value="bank transfer" selected>
                       Bank Transfer
                     </option>
                     <option value="gopay">Gopay</option>
@@ -244,7 +317,7 @@ class Cart extends React.Component {
                   <br />
                   <select onChange={this.inputHandler} name="expedition" className="form-control">
                     <option value="jne">JNE</option>
-                    <option value="jnt">J&T</option>
+                    <option value="j&t">J&T</option>
                     <option value="tiki">TIKI</option>
                     <option value="anteraja">Anter Aja</option>
                   </select>

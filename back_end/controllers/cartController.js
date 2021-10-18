@@ -54,11 +54,44 @@ module.exports = {
         console.log(selectQuery)
 
         db.query(selectQuery, (err, results) =>{
-          if(err){
-              console.log(err);
-              return res.status(500).send(err)
+          if (err) {
+            console.log(err);
+            return res.status(500).send(err)
           }
           res.status(200).send({ results, message : "Count Cart Subtotal Price Succeed" })
+        })
+      },
+      payBtnCart: (req, res) => {
+        let insertQuery = `INSERT INTO transaction VALUES ${req.body.insertQuery};`
+        console.log(insertQuery)
+
+        // let dataInsert = []
+  
+        // for (let prop in req.body) {
+        //   dataInsert.push(`${prop} = ${db.escape(req.body[prop])}`)
+        // }
+      
+        // let updateQuery = `INSERT INTO transaction VALUES ${dataInsert};`
+        // console.log(updateQuery)
+
+        db.query(insertQuery, (err, results) =>{
+          if (err) {
+            console.log(err);
+            return res.status(500).send(err)
+          }
+          res.status(200).send({ results, message : "Insert Cart Data into Transaction Succeed", success: true })
+        })
+      },
+      clearCart: (req, res) => {
+        let deleteQuery = `DELETE FROM cart WHERE id_cart in (${req.body.deleteQuery});`
+        console.log(deleteQuery)
+
+        db.query(deleteQuery, (err, results) =>{
+          if (err) {
+            console.log(err);
+            return res.status(500).send(err)
+          }
+          res.status(200).send({ results, message : "Clear Cart After Checkout Succeed", success: true })
         })
       }
 
