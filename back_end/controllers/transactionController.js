@@ -40,7 +40,7 @@ module.exports = {
         p.product_image,
         t.qty
         from transaction t
-        left join product p on p.id_product = t.id_transaction 
+        left join product p on p.id_product = t.id_product
         where date = ${db.escape(req.params.date)};`
 
         db.query(scriptQuery, (err, result)=>{

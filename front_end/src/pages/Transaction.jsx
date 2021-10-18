@@ -119,15 +119,12 @@ class Transaction extends React.Component{
 
     componentDidUpdate(){
         this.getData()
-        this.getDataProduct()
-        
     }
   
 
     componentDidMount() {
         this.getData()
         this.getDataProduct()
-        this.onBtnDetail()
     }
 
     onBtnPay = (idTr)=>{
@@ -144,19 +141,44 @@ class Transaction extends React.Component{
         })
     }
 
+    dataProduct =()=>{
+      return this.state.dbHistoryProduct.map((item)=>{
+        return(
+
+        <tr>
+              <td>
+              {item.product_name}
+              </td>
+              <td>
+              ({item.qty})
+              </td>
+        </tr>
+        )
+      })
+    }
+
     cardDetail =()=>{
-        return this.state.dbHistoryProduct.map((item)=>{
+        
             return(
                 <div className="card-body">
-          <div className="d-flex my-2 flex-row justify-content-between align-items-center">
-            <span className="font-weight-bold my-1">
-              {item.product_name} ({item.qty})
-            </span>
+          <div className="d-flex my-2 flex-row justify-content-between">
+          <table className="table">
+              <thead className="">
+                <tr>
+                  <th>Drugs Name</th>
+                  <th>Qty</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.dataProduct()}
+              </tbody>
+              </table>
+            
             
           </div>
         </div>
             )
-        })
+        
         
     }
     onBtnDetail =(date1) =>{
@@ -211,7 +233,7 @@ class Transaction extends React.Component{
                     {
                     item.status == "unpaid" ? 
                     <button className="btn btn-primary" onClick={() =>this.onBtnPay(item.id_transaction)} >pay</button> :
-                    <button className="btn btn-success"  onClick={() =>this.onBtnDetail(moment(item.date).format("YYYY-MM-DD hh-mm-ss"))}>Detail</button>
+                    <button className="btn btn-success"  onClick={() =>this.onBtnDetail(moment(item.date).format("YYYY-MM-DD hh-mm-ss"))}>Detail Product</button>
                     }
                 </td>
               </tr>
