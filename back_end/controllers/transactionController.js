@@ -2,7 +2,7 @@ const {db} = require("../database")
 
 module.exports = {
     getTransaction: (req, res) => {
-        let scriptQuery = `SELECT id_transaction, id_user, qty, tax, date, expedition_name, shipping_cost, id_cart, status, total_price, (total_price + tax + shipping_cost ) as final_price FROM pharma2.transaction where id_user = ${db.escape(req.params.id)}  order by date asc  ; `;
+        let scriptQuery = `SELECT id_transaction, id_user, qty, tax, date, expedition_name, shipping_cost, id_cart, status, total_price, (total_price + tax + shipping_cost ) as final_price FROM pharma2.transaction where id_user = ${db.escape(req.params.id)}  order by date asc limit ${req.params.page}, 5; `;
         db.query(scriptQuery, (err, results) => {
             if (err){
                 console.log(err);

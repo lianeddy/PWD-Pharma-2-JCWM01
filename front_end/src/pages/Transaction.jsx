@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { URL_API } from "../helper";
 import Axios from 'axios'
 import { NavItem, Button, Input } from "reactstrap";
+const moment = require('moment')
 
 
 class Transaction extends React.Component{
@@ -13,7 +14,10 @@ class Transaction extends React.Component{
         dbTransaction : [],
         isPaidClicked : false,
         status : "all",
-        image : ""
+        image : "",
+        page : 1,
+        maxPage : 1,
+        limitPage : 0
     }
 
     inputHandler = (e) =>{
@@ -34,11 +38,11 @@ class Transaction extends React.Component{
     getData = () =>{
         if(this.state.status == "all"){
 
-            Axios.get(`${URL_API}/transaction/getTransaction/1`)
+            Axios.get(`${URL_API}/transaction/getTransaction/1/${this.state.limitPage}`)
             .then(res =>{
-            
                 this.setState({
                     dbTransaction : res.data,
+                    maxPage : Math.ceil(this.state.dbTransaction.length / 5)
                 
                 })
         
@@ -65,6 +69,14 @@ class Transaction extends React.Component{
         }
             
        
+    }
+    nextPageHandler = () =>{
+        this.setState({page : this.state.page + 1 , limitPage : this.state.limitPage + 5})
+    }
+    
+    prevPageHandler = () =>{
+        this.setState({page : this.state.page - 1 , limitPage : this.state.limitPage - 5})
+
     }
 
     onBtnUploadPayment = () =>{
@@ -119,7 +131,7 @@ class Transaction extends React.Component{
                   {index+1}
                 </td>
                 <td className="align-middle">
-                  {item.date}
+                    {moment(item.date).format("MMM / D / YYYY")}
                 </td>
                 <td className="align-middle">
                 {item.qty}
@@ -146,15 +158,16 @@ class Transaction extends React.Component{
                     {
                     item.status == "unpaid" ? 
                     <button className="btn btn-primary" onClick={() =>this.onBtnPay(item.id_transaction)} >pay</button> :
-               <p>Paid</p>
+                    <button className="btn btn-success"  >Detail</button>
                     }
                 </td>
               </tr>
           )
-           })
+        })
       
       }
     render(){
+        
         return(
             <div className="p-5 text-center">
         <h1>Transaction</h1>
@@ -196,8 +209,27 @@ class Transaction extends React.Component{
               </tbody>
               <tfoot className="bg-light">
                 <tr>
-                  <td colSpan="6">
+                  <td colSpan="10">
                     
+              <div className="d-flex flex-row justify-content-center align-items-center">
+                <button
+                  disabled={this.state.page === 1}
+                  className="btn btn-dark"
+                  onClick={this.prevPageHandler}
+                >
+                  {"<"}
+                </button>
+                <div className="text-center">
+                  page {this.state.page}
+                </div>
+                <button
+                  disabled={this.state.dbTransaction.length < 5}
+                  className="btn btn-dark"
+                  onClick={this.nextPageHandler}
+                >
+                  {">"}
+                </button>
+              </div>
                   </td>
                 </tr>
               </tfoot>
@@ -211,13 +243,13 @@ class Transaction extends React.Component{
                     <div className="form-group">
                         
                         <div>
-                                       <img 
-                                       
-                                       id = "image"
-                                       alt=""
-                                       className= "img-thumbnail d-grid gap-2 col-9 mx-auto" 
-                                       style={{width:"700px", height:"500px", backgroundColor:"white"}}/>
-                                   </div>
+                            <img 
+                            src = "https://lh3.googleusercontent.com/proxy/mppUAaY6fJPg5XkNbL9wsLSN9b5ADfsMG3leMdIXJQwQZCCkf987pkaXGAU2f7HXprlazKOqgCZwwmg_r3JxxGovzHuzNPG_BO-tuqsHZFs"
+                            id = "image"
+                            alt=""
+                            className= "img-thumbnail d-grid gap-2 col-9 mx-auto" 
+                            style={{width:"700px", height:"500px", backgroundColor:"white"}}/>
+                        </div>
                         
                     </div>
                     <div className="form-group">
