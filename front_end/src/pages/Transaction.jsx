@@ -12,12 +12,15 @@ class Transaction extends React.Component{
     state = {
         id_transaction : 0,
         dbTransaction : [],
+        dbHistoryProduct : [],
         isPaidClicked : false,
+        isDetailClicked : false,
         status : "all",
         image : "",
         page : 1,
         maxPage : 1,
-        limitPage : 0
+        limitPage : 0,
+        date : ""
     }
 
     inputHandler = (e) =>{
@@ -33,6 +36,18 @@ class Transaction extends React.Component{
             let preview = document.getElementById("image")
             preview.src = URL.createObjectURL(e.target.files[0])
         }
+    }
+
+    getDataProduct = ()=>{
+        Axios.get(`${URL_API}/transaction/getProductTransaction/${this.state.date}`)
+        .then(res =>{
+            this.setState({
+                dbHistoryProduct : res.data,
+            })
+        })
+        .catch(err =>{
+            console.log(err);
+        })
     }
 
     getData = () =>{
@@ -96,23 +111,64 @@ class Transaction extends React.Component{
         }
 
     }
+   
+   
+
+
+ 
+
     componentDidUpdate(){
         this.getData()
+        this.getDataProduct()
+        
     }
+  
 
     componentDidMount() {
         this.getData()
+        this.getDataProduct()
+        this.onBtnDetail()
     }
 
     onBtnPay = (idTr)=>{
         this.setState({id_transaction : idTr,
-                    isPaidClicked : true})
+                    isPaidClicked : true,
+                isDetailClicked : false})
         this.getData()
     }
+
+    
     onBtnCancel = () =>{
         this.setState({
             isPaidClicked : false
         })
+    }
+
+    cardDetail =()=>{
+        return this.state.dbHistoryProduct.map((item)=>{
+            return(
+                <div className="card-body">
+          <div className="d-flex my-2 flex-row justify-content-between align-items-center">
+            <span className="font-weight-bold my-1">
+              {item.product_name} ({item.qty})
+            </span>
+            
+          </div>
+        </div>
+            )
+        })
+        
+    }
+    onBtnDetail =(date1) =>{
+        this.setState({isDetailClicked : true,
+        isPaidClicked : false,
+        date : date1})
+        console.log(this.state.date);
+        this.getDataProduct()
+    }
+    onBtnBackDetail = () =>{
+        this.setState({isDetailClicked :false})
+
     }
 
 
@@ -122,9 +178,6 @@ class Transaction extends React.Component{
 
     printData = () =>{
         return this.state.dbTransaction.map((item, index) =>{
-            
-          
-            console.log(this.state.status)
           return(
             <tr>
               <td className="align-middle">
@@ -134,13 +187,13 @@ class Transaction extends React.Component{
                     {moment(item.date).format("MMM / D / YYYY")}
                 </td>
                 <td className="align-middle">
-                {item.qty}
+                {item.total_qty}
                 </td>
                 <td className="align-middle">
                 Rp.{item.tax}
                 </td>
                 <td className="align-middle">
-                Rp.{item.total_price}
+                Rp.{item.total_tp}
                 </td>
                 <td className="align-middle">
                 {item.expedition_name}
@@ -158,7 +211,7 @@ class Transaction extends React.Component{
                     {
                     item.status == "unpaid" ? 
                     <button className="btn btn-primary" onClick={() =>this.onBtnPay(item.id_transaction)} >pay</button> :
-                    <button className="btn btn-success"  >Detail</button>
+                    <button className="btn btn-success"  onClick={() =>this.onBtnDetail(moment(item.date).format("YYYY-MM-DD hh-mm-ss"))}>Detail</button>
                     }
                 </td>
               </tr>
@@ -173,7 +226,7 @@ class Transaction extends React.Component{
         <h1>Transaction</h1>
         <div className="row mt-5">
           <div className="col-9 text-center">
-              Status : 
+              {"Status : "}  
           <Input
                 className={" btn btn-primary my-3"}
                 name = "status"
@@ -235,6 +288,21 @@ class Transaction extends React.Component{
               </tfoot>
             </table>
           </div>
+          {this.state.isDetailClicked ?
+          <div className="card" style={{width : "300px"}}>
+                <div className="card-header">
+                  <strong>transaction detail</strong>
+                </div>
+                <div className="card-body">
+                  {this.cardDetail()}
+                </div>
+                <button onClick={this.onBtnBackDetail} className="btn btn-primary mx-5 my-3">back</button>
+              </div>
+              :
+              null
+          }
+            
+          {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
           {
               this.state.isPaidClicked ? (
                 <div className="col-md-3 p-4 text-white text-left" style={{backgroundColor:"#00008B", borderRadius: "30px"}}>
