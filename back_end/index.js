@@ -15,11 +15,12 @@ app.get('/', (req, res) => {
   res.status(200).send('<h4>integrated with mysql</h4>')
 })
 
-const { userRouters, uploadRouter, adminRouter, cartRouter   } = require('./routers')
+const { userRouters, uploadRouter, adminRouter, cartRouter, transactionRouter   } = require('./routers')
 
 app.use('/user', userRouters)
 app.use('/cart', cartRouter)
 app.use('/upload', uploadRouter)
 app.use('/admin', adminRouter)
+app.use('/transaction', transactionRouter)
 
 app.listen(PORT, () => console.log('API running : ', PORT))

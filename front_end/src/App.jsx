@@ -19,6 +19,7 @@ import Profile from "./pages/Profile";
 import Prescription from './pages/Prescription'
 import SalesReport from "./pages/admin/SalesReport";
 import UploadPayment from "./pages/UploadPayment";
+import Transaction from "./pages/Transaction"
 
 import { connect } from 'react-redux';
 import { userKeepLogin, checkStorage } from './redux/actions/user';
