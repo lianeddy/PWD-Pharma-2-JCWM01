@@ -23,7 +23,6 @@ import Transaction from "./pages/Transaction"
 
 import { connect } from 'react-redux';
 import { userKeepLogin, checkStorage } from './redux/actions/user';
-import Transaction from "./pages/Transaction";
 
 class App extends React.Component {
 

@@ -4,6 +4,7 @@ import { Link, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import { Col, Button, Form, FormGroup, Label, Input, FormText, Table } from 'reactstrap';
 import { URL_API } from '../../helper';
+import moment from "moment";
 
 class SalesReport extends React.Component {
   state = {
@@ -42,7 +43,7 @@ class SalesReport extends React.Component {
           <td>{item.qty} {item.unit}</td>
           <td>Rp {(item.tax).toLocaleString("id")}</td>
           <td>Rp {(item.total_price).toLocaleString("id")}</td>
-          <td>{item.date}</td>
+          <td>{moment(item.date).format("MMM / D / YYYY")}</td>
           {/* <td>{item.payment_method}</td> */}
           {/* <td>{item.expedition_name}</td> */}
           <td>Rp {(item.shipping_cost).toLocaleString("id")}</td>
