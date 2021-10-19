@@ -39,7 +39,10 @@ class MyNavbar extends React.Component {
                       this.props.userGlobal.role === "admin" ?
                       <> 
                         <DropdownItem>
-                          <Link to="/admin">Admin</Link>
+                          <Link to="/admin">Admin Dashboard</Link>
+                        </DropdownItem>
+                        <DropdownItem>
+                          <Link to="/confirm-reject">Confirm-Reject Transaction</Link>
                         </DropdownItem>
                         <DropdownItem>
                           <Link to="/sales">Sales Report</Link>
