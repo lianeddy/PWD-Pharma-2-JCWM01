@@ -54,7 +54,7 @@ class Transaction extends React.Component{
     getData = () =>{
         if(this.state.status == "all"){
 
-            Axios.get(`${URL_API}/transaction/getTransaction/1/${this.state.limitPage}`)
+            Axios.get(`${URL_API}/transaction/getTransaction/${this.props.userGlobal.id_user}/${this.state.limitPage}`)
             .then(res =>{
                 this.setState({
                     dbTransaction : res.data,
@@ -68,7 +68,7 @@ class Transaction extends React.Component{
                 console.log(err);
             })
         }else if(this.state.status == "unpaid" || "process" || "shipping" || "done"){
-            Axios.get(`${URL_API}/transaction/getTransactionFilter/1/${this.state.status}`)
+            Axios.get(`${URL_API}/transaction/getTransactionFilter/${this.props.userGlobal.id_user}/${this.state.status}`)
             
             .then(res =>{
             
@@ -361,4 +361,11 @@ class Transaction extends React.Component{
     }
     
 }
-export default Transaction
+
+const mapStateToProps = (state) => {
+    return {
+      userGlobal: state.user
+    }
+}
+
+export default connect(mapStateToProps)(Transaction)

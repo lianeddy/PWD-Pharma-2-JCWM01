@@ -2,10 +2,9 @@ const { db } = require("../database");
 
 module.exports = {
   salesReport: (req, res) => {
-    let selectQuery = `SELECT r.id_report, u.id_user, u.username, t.id_transaction, t.id_product, p.product_name, p.product_price, p.unit, t.qty, t.tax, t.total_price, 
+    let selectQuery = `SELECT u.id_user, u.username, t.id_transaction, t.id_product, p.product_name, p.product_price, p.unit, t.qty, t.tax, t.total_price, 
     t.date, t.payment_method, t.expedition_name, t.shipping_cost, t.image, t.status, co.id_custom_order, pre.id_prescription
-    FROM report r
-    LEFT JOIN transaction t on t.id_transaction = r.id_transaction
+    FROM transaction t
     LEFT JOIN product p on p.id_product = t.id_product
     LEFT JOIN user u on u.id_user = t.id_user
     LEFT JOIN custom_order co on co.id_custom_order = t.id_custom_order
@@ -25,8 +24,7 @@ module.exports = {
   },
   countTotalPrice: (req, res) => {
     let selectQuery = `select sum(total_price) as total_price
-    FROM report r
-    LEFT JOIN transaction t on t.id_transaction = r.id_transaction
+    FROM transaction t
     LEFT JOIN product p on p.id_product = t.id_product
     LEFT JOIN user u on u.id_user = t.id_user
     LEFT JOIN custom_order co on co.id_custom_order = t.id_custom_order
@@ -45,8 +43,7 @@ module.exports = {
   },
   countShipping: (req, res) => {
     let selectQuery = `select sum(shipping_cost) as total_shipping
-    FROM report r
-    LEFT JOIN transaction t on t.id_transaction = r.id_transaction
+    FROM transaction t
     LEFT JOIN product p on p.id_product = t.id_product
     LEFT JOIN user u on u.id_user = t.id_user
     LEFT JOIN custom_order co on co.id_custom_order = t.id_custom_order
@@ -272,7 +269,7 @@ module.exports = {
       res.status(200).json({ results, message: "Get Monthly Sales Statistic Succeed" })
     })
   },
-  pieChartMg:(req, res) => {
+  pieChartMg: (req, res) => {
     let selectQuery = `SELECT sum(t.qty) as qty, p.product_name FROM transaction t
     LEFT JOIN product p ON p.id_product = p.id_product
     WHERE t.status = 'done' and p.unit = 'mg' and p.id_product IS NOT NULL
@@ -289,7 +286,7 @@ module.exports = {
       res.status(200).json({ results, message: "Get Pie Chart mg Unit Succeed" })
     })
   },
-  pieChartMl:(req, res) => {
+  pieChartMl: (req, res) => {
     let selectQuery = `SELECT sum(t.qty) as qty, p.product_name FROM transaction t
     LEFT JOIN product p ON p.id_product = t.id_product
     WHERE t.status = 'done' and p.unit = 'ml' and p.id_product IS NOT NULL
@@ -306,7 +303,7 @@ module.exports = {
       res.status(200).json({ results, message: "Get Pie Chart ml Unit Succeed" })
     })
   },
-  pieChartBt:(req, res) => {
+  pieChartBt: (req, res) => {
     let selectQuery = `SELECT sum(t.qty) as qty, p.product_name FROM transaction t
     LEFT JOIN product p ON p.id_product = t.id_product
     WHERE t.status = 'done' AND p.id_product IS NOT NULL
@@ -321,6 +318,52 @@ module.exports = {
       }
 
       res.status(200).json({ results, message: "Get Pie Chart bottle Unit Succeed" })
+    })
+  },
+  confirmReject: (req, res) => {
+    let selectQuery = `SELECT t.id_transaction, u.username, p.product_name, p.product_price, t.qty,
+    t.total_price, t.shipping_cost, t.date, t.tax,co.id_custom_order, pre.id_prescription, t.image
+    FROM transaction t
+    LEFT JOIN product p on p.id_product = t.id_product
+    LEFT JOIN user u on u.id_user = t.id_user
+    LEFT JOIN custom_order co on co.id_custom_order = t.id_custom_order
+    LEFT JOIN prescription pre on pre.id_prescription = co.id_prescription
+    WHERE t.status = 'process';`
+    console.log(selectQuery)
+
+    db.query(selectQuery, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send(err);
+      }
+
+      res.status(200).json({ results, message: "Get Transaction Data Succeed" })
+    })
+  },
+  confirmTransaction: (req, res) => {
+    let updateQuery = `UPDATE transaction SET status = '${req.body.updateStatus}' WHERE id_transaction = ${req.params.id};`
+    console.log(updateQuery)
+
+    db.query(updateQuery, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send(err);
+      }
+
+      res.status(200).json({ results, message: "Confirm Transaction Succeed" })
+    })
+  },
+  rejectTransaction: (req, res) => {
+    let updateQuery = `UPDATE transaction SET status = '${req.body.updateStatus}' WHERE id_transaction = ${req.params.id};`
+    console.log(updateQuery)
+
+    db.query(updateQuery, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send(err);
+      }
+
+      res.status(200).json({ results, message: "Reject Transaction Succeed" })
     })
   }
 }

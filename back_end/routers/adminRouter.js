@@ -25,4 +25,8 @@ routers.get("/piechart-mg", adminController.pieChartMg);
 routers.get("/piechart-ml", adminController.pieChartMl);
 routers.get("/piechart-bt", adminController.pieChartBt);
 
+routers.get("/confirm-reject", adminController.confirmReject);
+routers.patch("/confirm/:id", adminController.confirmTransaction);
+routers.patch("/reject/:id", adminController.rejectTransaction);
+
 module.exports = routers;

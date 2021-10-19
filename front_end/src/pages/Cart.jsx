@@ -161,7 +161,7 @@ class Cart extends React.Component {
           <td className="align-middle">{item.product_name}</td>
           <td className="align-middle">Rp.{(item.product_price).toLocaleString("id")}</td>
           <td className="align-middle">
-            <img src={item.product_image} alt="" style={{ height: "125px" }} />
+            <img src={URL_API + item.product_image} alt="" style={{ height: "125px" }} />
           </td>
           <td className="align-middle">
             {!this.state.editQtyChecked ? (
