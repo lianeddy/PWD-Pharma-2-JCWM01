@@ -233,8 +233,9 @@ class Cart extends React.Component {
 
     if (!this.state.dbcart.length) {
       return (
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "50px" }}>
-          <h1>Your Cart is Empty</h1>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginTop: "50px" }}>
+          <h2>Your Cart is Empty</h2>
+          <h2>Please Fill your Cart to Start Shopping 😊</h2>
         </div>
       )
     }
