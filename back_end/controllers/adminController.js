@@ -44,5 +44,29 @@ module.exports = {
 
       res.status(200).json({ results, message: "Count Revenue Succeed" })
     })
-  }
+  },
+  getAdminTransaction: (req, res) => {
+    let scriptQuery = `SELECT t.id_transaction, u.id_user, u.username, SUM(qty) as total_qty, t.tax, t.date, t.expedition_name, t.shipping_cost, t.status, sum(total_price)as total_tp, sum((total_price + tax + shipping_cost )) as final_price 
+    FROM transaction t
+    left join user u on u.id_user = t.id_user group by date order by ${req.params.field} ${req.params.ordered} limit ${req.params.page}, 5; `
+    db.query(scriptQuery, (err, results) => {
+        if (err){
+            console.log(err);
+            res.status(500).send(err);
+        } 
+      res.status(200).send(results);
+    });
+  },
+  getAdminTransactionFilter: (req, res) => {
+    let scriptQuery = `SELECT t.id_transaction, u.id_user, u.username, SUM(qty) as total_qty, t.tax, t.date, t.expedition_name, t.shipping_cost, t.status, sum(total_price)as total_tp, sum((total_price + tax + shipping_cost )) as final_price 
+    FROM transaction t
+    left join user u on u.id_user = t.id_user where t.status = ${db.escape(req.params.status)} group by date order by ${req.params.field} ${req.params.ordered} limit ${req.params.page}, 5; `
+    db.query(scriptQuery, (err, results) => {
+        if (err){
+            console.log(err);
+            res.status(500).send(err);
+        } 
+      res.status(200).send(results);
+    });
+  },
 }

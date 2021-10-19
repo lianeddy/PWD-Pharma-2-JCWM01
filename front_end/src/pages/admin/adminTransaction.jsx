@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
-import { URL_API } from "../helper";
+import { URL_API } from "../../helper";
 import Axios from 'axios'
 import { NavItem, Button, Input } from "reactstrap";
 const moment = require('moment')
@@ -13,14 +13,14 @@ class Transaction extends React.Component{
         id_transaction : 0,
         dbTransaction : [],
         dbHistoryProduct : [],
-        isPaidClicked : false,
         isDetailClicked : false,
         status : "all",
-        image : "",
         page : 1,
         maxPage : 1,
         limitPage : 0,
-        date : ""
+        date : "",
+        field : "date",
+        ordered : "desc"
     }
 
     inputHandler = (e) =>{
@@ -30,13 +30,6 @@ class Transaction extends React.Component{
 
     }
 
-    previewFile = (e) =>{
-        if(e.target.files[0]){
-            this.setState({image : e.target.files[0].name, addFile : e.target.files[0]})
-            let preview = document.getElementById("image")
-            preview.src = URL.createObjectURL(e.target.files[0])
-        }
-    }
 
     getDataProduct = ()=>{
         Axios.get(`${URL_API}/transaction/getProductTransaction/${this.state.date}`)
@@ -53,7 +46,7 @@ class Transaction extends React.Component{
     getData = () =>{
         if(this.state.status == "all"){
 
-            Axios.get(`${URL_API}/transaction/getTransaction/1/${this.state.limitPage}`)
+            Axios.get(`${URL_API}/admin/getAdminTransaction/${this.state.limitPage}/${this.state.field}/${this.state.ordered}`)
             .then(res =>{
                 this.setState({
                     dbTransaction : res.data,
@@ -67,7 +60,7 @@ class Transaction extends React.Component{
                 console.log(err);
             })
         }else if(this.state.status == "unpaid" || "process" || "shipping" || "done"){
-            Axios.get(`${URL_API}/transaction/getTransactionFilter/1/${this.state.status}`)
+            Axios.get(`${URL_API}/admin/getAdminTransactionFilter/${this.state.limitPage}/${this.state.field}/${this.state.ordered}/${this.state.status}`)
             
             .then(res =>{
             
@@ -124,7 +117,6 @@ class Transaction extends React.Component{
 
     componentDidMount() {
         this.getData()
-        this.getDataProduct()
     }
 
     onBtnPay = (idTr)=>{
@@ -139,6 +131,19 @@ class Transaction extends React.Component{
         this.setState({
             isPaidClicked : false
         })
+    }
+    onBtnLatest = () =>{
+      this.setState({field : "date",
+                  ordered : "desc"})
+    }
+    onBtnFinalPrice = () =>{
+      this.setState({field : "final_price",
+                  ordered : "desc"})
+    }
+    onBtnHightQty = () =>{
+      this.setState({field : "total_qty",
+                  ordered : "desc"})
+
     }
 
     dataProduct =()=>{
@@ -183,7 +188,6 @@ class Transaction extends React.Component{
     }
     onBtnDetail =(date1) =>{
         this.setState({isDetailClicked : true,
-        isPaidClicked : false,
         date : date1})
         console.log(this.state.date);
         this.getDataProduct()
@@ -209,6 +213,9 @@ class Transaction extends React.Component{
                     {moment(item.date).format("MMM / D / YYYY")}
                 </td>
                 <td className="align-middle">
+                {item.username}
+                </td>
+                <td className="align-middle">
                 {item.total_qty}
                 </td>
                 <td className="align-middle">
@@ -231,8 +238,6 @@ class Transaction extends React.Component{
                 </td>
                 <td className="align-middle">
                     {
-                    item.status == "unpaid" ? 
-                    <button className="btn btn-primary" onClick={() =>this.onBtnPay(item.id_transaction)} >pay</button> :
                     <button className="btn btn-success"  onClick={() =>this.onBtnDetail(moment(item.date).format("YYYY-MM-DD hh-mm-ss"))}>Detail Product</button>
                     }
                 </td>
@@ -245,15 +250,15 @@ class Transaction extends React.Component{
         
         return(
             <div className="p-5 text-center">
-        <h1>Transaction</h1>
+        <h1>Admin All Transaction</h1>
         <div className="row mt-5">
           <div className="col-9 text-center">
               {"Status : "}  
           <Input
-                className={" btn btn-primary my-3"}
+                className={" btn btn-outline-primary my-3 mx-1"}
                 name = "status"
                 onChange ={ this.inputHandler}
-                style={{ width: "100px" }}
+                style={{ width: "100px", borderRadius: "20px" }}
                 type="select"
                 id="exampleSelect"
                 >
@@ -263,11 +268,16 @@ class Transaction extends React.Component{
                 <option value={"shipping"}>Shipping</option>
                 <option value={"done"}>Done</option>
                 </Input>
+                {"Ordered By : "} 
+                <button type="button" onClick={this.onBtnLatest} class="btn btn-outline-primary mx-1" style={{borderRadius: "20px"}}>Latest</button>
+                <button type="button" onClick={this.onBtnHightQty} class="btn btn-outline-primary mx-1" style={{borderRadius: "20px"}}>Highest Qty</button>
+                <button type="button" onClick={this.onBtnFinalPrice}  class="btn btn-outline-primary mx-1" style={{borderRadius: "20px"}}>Highest Total Price</button>
             <table className="table">
               <thead className="thead-dark">
                 <tr>
                   <th>no</th>
                   <th>Date</th>
+                  <th>Username</th>
                   <th>Quantity</th>
                   <th>Tax</th>
                   <th>Price</th>
@@ -284,7 +294,7 @@ class Transaction extends React.Component{
               </tbody>
               <tfoot className="bg-light">
                 <tr>
-                  <td colSpan="10">
+                  <td colSpan="11">
                     
               <div className="d-flex flex-row justify-content-center align-items-center">
                 <button
@@ -323,36 +333,6 @@ class Transaction extends React.Component{
               :
               null
           }
-            
-          {/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
-          {
-              this.state.isPaidClicked ? (
-                <div className="col-md-3 p-4 text-white text-left" style={{backgroundColor:"#00008B", borderRadius: "30px"}}>
-                <form>
-                    
-                    <div className="form-group">
-                        
-                        <div>
-                            <img 
-                            src = "https://lh3.googleusercontent.com/proxy/mppUAaY6fJPg5XkNbL9wsLSN9b5ADfsMG3leMdIXJQwQZCCkf987pkaXGAU2f7HXprlazKOqgCZwwmg_r3JxxGovzHuzNPG_BO-tuqsHZFs"
-                            id = "image"
-                            alt=""
-                            className= "img-thumbnail d-grid gap-2 col-9 mx-auto" 
-                            style={{width:"700px", height:"500px", backgroundColor:"white"}}/>
-                        </div>
-                        
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="img">Image</label>
-                        <input type="file" className="form-control" id="img" aria-describedby="emailHelp" onChange= {this.previewFile} />
-                    </div>
-                </form>
-                <button type="button" onClick={this.onBtnUploadPayment}  className="btn btn-primary float-right" >Add Data</button>
-                <button type="button"  onClick={this.onBtnCancel} className="btn btn-warning float-right mx-3" >Cancel</button>
-            </div>
-              ) : null
-          }
-         
           
         </div>
       </div>
