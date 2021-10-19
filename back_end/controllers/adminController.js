@@ -2,14 +2,12 @@ const { db } = require("../database");
 
 module.exports = {
   salesReport: (req, res) => {
-    let selectQuery = `SELECT u.id_user, u.username, t.id_transaction, p.product_name, p.product_price, p.unit, t.qty, t.tax, t.total_price, 
-    t.date, t.payment_method, t.expedition_name, t.shipping_cost, t.image, t.status, c.id_cart, co.id_custom_order, pre.id_prescription
+    let selectQuery = `SELECT r.id_report, u.id_user, u.username, t.id_transaction, t.id_product, p.product_name, p.product_price, p.unit, t.qty, t.tax, t.total_price, 
+    t.date, t.payment_method, t.expedition_name, t.shipping_cost, t.image, t.status, co.id_custom_order, pre.id_prescription
     FROM report r
-    LEFT JOIN  transaction_product tp on r.id_transaction_product = tp.id_transaction_product
-    LEFT JOIN transaction t on t.id_transaction = tp.id_transaction
-    LEFT JOIN product p on p.id_product = tp.id_product
+    LEFT JOIN transaction t on t.id_transaction = r.id_transaction
+    LEFT JOIN product p on p.id_product = t.id_product
     LEFT JOIN user u on u.id_user = t.id_user
-    LEFT JOIN cart c on c.id_cart = t.id_cart
     LEFT JOIN custom_order co on co.id_custom_order = t.id_custom_order
     LEFT JOIN prescription pre on pre.id_prescription = co.id_prescription
     WHERE t.status = 'done';`
@@ -28,11 +26,9 @@ module.exports = {
   countTotalPrice: (req, res) => {
     let selectQuery = `select sum(total_price) as total_price
     FROM report r
-    LEFT JOIN  transaction_product tp on r.id_transaction_product = tp.id_transaction_product
-    LEFT JOIN transaction t on t.id_transaction = tp.id_transaction
-    LEFT JOIN product p on p.id_product = tp.id_product
+    LEFT JOIN transaction t on t.id_transaction = r.id_transaction
+    LEFT JOIN product p on p.id_product = t.id_product
     LEFT JOIN user u on u.id_user = t.id_user
-    LEFT JOIN cart c on c.id_cart = t.id_cart
     LEFT JOIN custom_order co on co.id_custom_order = t.id_custom_order
     LEFT JOIN prescription pre on pre.id_prescription = co.id_prescription
     WHERE t.status = 'done';`
@@ -50,11 +46,9 @@ module.exports = {
   countShipping: (req, res) => {
     let selectQuery = `select sum(shipping_cost) as total_shipping
     FROM report r
-    LEFT JOIN  transaction_product tp on r.id_transaction_product = tp.id_transaction_product
-    LEFT JOIN transaction t on t.id_transaction = tp.id_transaction
-    LEFT JOIN product p on p.id_product = tp.id_product
+    LEFT JOIN transaction t on t.id_transaction = r.id_transaction
+    LEFT JOIN product p on p.id_product = t.id_product
     LEFT JOIN user u on u.id_user = t.id_user
-    LEFT JOIN cart c on c.id_cart = t.id_cart
     LEFT JOIN custom_order co on co.id_custom_order = t.id_custom_order
     LEFT JOIN prescription pre on pre.id_prescription = co.id_prescription
     WHERE t.status = 'done';`
@@ -169,8 +163,7 @@ module.exports = {
   },
   topSellMg: (req, res) => {
     let selectQuery = `SELECT t.qty, p.product_name FROM transaction t
-    LEFT JOIN cart c ON c.id_cart = t.id_cart
-    LEFT JOIN product p ON p.id_product = c.id_product
+    LEFT JOIN product p ON p.id_product = t.id_product
     WHERE t.status = 'done' and p.unit = 'mg'
     ORDER BY t.qty desc;`
     console.log(selectQuery)
@@ -186,8 +179,7 @@ module.exports = {
   },
   topSellMgMonthly: (req, res) => {
     let selectQuery = `SELECT t.qty, p.product_name FROM transaction t
-    LEFT JOIN cart c ON c.id_cart = t.id_cart
-    LEFT JOIN product p ON p.id_product = c.id_product
+    LEFT JOIN product p ON p.id_product = t.id_product
     WHERE t.status = 'done' and MONTH(t.date) = 10 and p.unit = 'mg'
     ORDER BY t.qty desc;`
     console.log(selectQuery)
@@ -203,8 +195,7 @@ module.exports = {
   },
   topSellMl: (req, res) => {
     let selectQuery = `SELECT t.qty, p.product_name FROM transaction t
-    LEFT JOIN cart c ON c.id_cart = t.id_cart
-    LEFT JOIN product p ON p.id_product = c.id_product
+    LEFT JOIN product p ON p.id_product = t.id_product
     WHERE t.status = 'done' and p.unit = 'ml'
     ORDER BY t.qty desc;`
     console.log(selectQuery)
@@ -220,8 +211,7 @@ module.exports = {
   },
   topSellMlMonthly: (req, res) => {
     let selectQuery = `SELECT t.qty, p.product_name FROM transaction t
-    LEFT JOIN cart c ON c.id_cart = t.id_cart
-    LEFT JOIN product p ON p.id_product = c.id_product
+    LEFT JOIN product p ON p.id_product = t.id_product
     WHERE t.status = 'done' and MONTH(t.date) = 10 and p.unit = 'ml'
     ORDER BY t.qty desc;`
     console.log(selectQuery)
@@ -237,8 +227,7 @@ module.exports = {
   },
   topSellBt: (req, res) => {
     let selectQuery = `SELECT t.qty, p.product_name FROM transaction t
-    LEFT JOIN cart c ON c.id_cart = t.id_cart
-    LEFT JOIN product p ON p.id_product = c.id_product
+    LEFT JOIN product p ON p.id_product = t.id_product
     WHERE t.status = 'done'
     ORDER BY t.qty desc;`
     console.log(selectQuery)
@@ -254,8 +243,7 @@ module.exports = {
   },
   topSellBtMonthly: (req, res) => {
     let selectQuery = `SELECT t.qty, p.product_name FROM transaction t
-    LEFT JOIN cart c ON c.id_cart = t.id_cart
-    LEFT JOIN product p ON p.id_product = c.id_product
+    LEFT JOIN product p ON p.id_product = t.id_product
     WHERE t.status = 'done' and MONTH(t.date) = 10
     ORDER BY t.qty desc;`
     console.log(selectQuery)
@@ -286,9 +274,8 @@ module.exports = {
   },
   pieChartMg:(req, res) => {
     let selectQuery = `SELECT sum(t.qty) as qty, p.product_name FROM transaction t
-    LEFT JOIN cart c ON c.id_cart = t.id_cart
-    LEFT JOIN product p ON p.id_product = c.id_product
-    WHERE t.status = 'done' and p.unit = 'mg' and c.id_cart IS NOT NULL
+    LEFT JOIN product p ON p.id_product = p.id_product
+    WHERE t.status = 'done' and p.unit = 'mg' and p.id_product IS NOT NULL
     GROUP BY p.product_name
     ORDER BY product_name asc;`
     console.log(selectQuery)
@@ -304,9 +291,8 @@ module.exports = {
   },
   pieChartMl:(req, res) => {
     let selectQuery = `SELECT sum(t.qty) as qty, p.product_name FROM transaction t
-    LEFT JOIN cart c ON c.id_cart = t.id_cart
-    LEFT JOIN product p ON p.id_product = c.id_product
-    WHERE t.status = 'done' and p.unit = 'ml' and c.id_cart IS NOT NULL
+    LEFT JOIN product p ON p.id_product = t.id_product
+    WHERE t.status = 'done' and p.unit = 'ml' and p.id_product IS NOT NULL
     GROUP BY p.product_name
     ORDER BY product_name asc;`
     console.log(selectQuery)
@@ -322,9 +308,8 @@ module.exports = {
   },
   pieChartBt:(req, res) => {
     let selectQuery = `SELECT sum(t.qty) as qty, p.product_name FROM transaction t
-    LEFT JOIN cart c ON c.id_cart = t.id_cart
-    LEFT JOIN product p ON p.id_product = c.id_product
-    WHERE t.status = 'done' AND c.id_cart IS NOT NULL
+    LEFT JOIN product p ON p.id_product = t.id_product
+    WHERE t.status = 'done' AND p.id_product IS NOT NULL
     GROUP BY p.product_name
     ORDER BY product_name asc;`
     console.log(selectQuery)

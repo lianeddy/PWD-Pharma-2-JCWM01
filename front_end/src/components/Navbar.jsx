@@ -54,7 +54,7 @@ class MyNavbar extends React.Component {
                           <Link to="/cart">Cart</Link>
                         </DropdownItem>
                         <DropdownItem>
-                          <Link to="/history">History</Link>
+                          <Link to="/transaction">Transaction</Link>
                         </DropdownItem>
                         <DropdownItem>
                           <Link to="/change-pass">Change Password</Link>
