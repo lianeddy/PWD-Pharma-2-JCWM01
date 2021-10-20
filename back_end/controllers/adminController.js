@@ -335,6 +335,10 @@ module.exports = {
       }
       res.status(200).json({results})
     })
+  },
+  getProduct : (req, res)=>{
+    let selectQuery = `select * from product;`
+    console.log();
   }
 
 }
