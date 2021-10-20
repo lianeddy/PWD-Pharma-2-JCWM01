@@ -26,5 +26,6 @@ routers.get("/piechart-ml", adminController.pieChartMl);
 routers.get("/piechart-bt", adminController.pieChartBt);
 
 routers.get('/custom-order', adminController.getCustomOrder)
+routers.get('/get-product', adminController.getProduct)
 
 module.exports = routers;

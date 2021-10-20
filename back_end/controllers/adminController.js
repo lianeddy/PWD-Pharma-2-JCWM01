@@ -337,8 +337,15 @@ module.exports = {
     })
   },
   getProduct : (req, res)=>{
-    let selectQuery = `select * from product;`
-    console.log();
+    let selectQuery = `select id_product, product_name from product;`
+    console.log(selectQuery);
+    db.query(selectQuery,(err, results)=>{
+      if(err){
+        console.log(err);
+        return res.status(500).send(err)
+      }
+      res.status(200).json({results})
+    })
   }
 
 }

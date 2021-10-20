@@ -15,6 +15,7 @@ class CustomTransaction extends React.Component{
     state = {
         dbCustomTransaction : [],
         image : "",
+        dbProduct : [],
         inputProduct :[
             {
                 id_product : 0,
@@ -25,11 +26,19 @@ class CustomTransaction extends React.Component{
         
     }
 
-    inputHandler = (e) =>{
-        const value = e.target.value 
-        const name = e.target.name 
-        this.setState({[name] : value})
+    inputHandler = (index, event) =>{
+        const values = [...this.state.inputProduct]
+        values[index][event.target.name] = event.target.value
+        this.setState({inputProduct: values})
 
+    }
+    handleSubmit = (e)=>{
+      e.preventDefault()
+      console.log("inputProduct", this.state.inputProduct);
+
+    }
+    handleAddFields = () =>{
+      this.setState({inputProduct : [...this.state.inputProduct, {id_product:0, qty :0}]})
     }
 
     getData = () => {
@@ -45,6 +54,19 @@ class CustomTransaction extends React.Component{
           });
         
       };
+      getDataProduct =()=>{
+        Axios.get(`${URL_API}/admin/get-product`)
+        .then((res)=>{
+          this.setState({
+            dbProduct : res.data.results
+          })
+
+        })
+        .catch((err)=>{
+          alert("cannot get data")
+          console.log(err);
+        })
+      }
 
       componentDidMount (){
           this.getData()
@@ -55,7 +77,40 @@ class CustomTransaction extends React.Component{
         console.log(image1);
       }
 
+      
+
       printInput = ()=>{
+        return this.state.inputProduct.map((inputField, index)=>{
+
+          return (
+           
+
+            <tr key={index}>
+               <Input
+                    className={"d-grid mx-4 my-2 form-control"}
+                    onChange={this.inputHandler}
+                    type="select"
+                    name="id_product"
+                    id="id_product"
+                    onChange={event => this.inputHandler(index, event)}
+                  >
+                    {this.state.dbProduct.map((e, key)=>{
+                      return <option value={e.id_product}>{e.product_name}</option>
+
+                    })}
+                  </Input>
+                <td className="align-middle">
+                <input onChange={event => this.inputHandler(index, event)} name="qty" min="1" type="number" />
+                </td>
+                <td className="align-middle">
+                <button className="btn btn-primary" onClick={ this.handleAddFields}>PLUS</button>
+                </td>
+
+
+            </tr>
+           
+          )
+        })
           
       }
 
@@ -102,11 +157,13 @@ class CustomTransaction extends React.Component{
       }
     render(){
         
+      console.log(this.state.inputProduct)
         return(
             
             <div className="p-5 text-center align-center justify-content-center" style={{scrollBehavior: "smooth"}}>
                 <div class="main" id="section1" style={{height : "800px", }}>
                     <h1> custom Transaction</h1>
+                    
         <div className="row mt-5 align-center justify-content-center">
           <div className="col-9 text-center">
          
@@ -129,7 +186,7 @@ class CustomTransaction extends React.Component{
                     
               <div className="d-flex flex-row justify-content-center align-items-center">
                 <button
-                  disabled={this.state.page === 1}
+                  
                   className="btn btn-dark"
                   onClick={this.prevPageHandler}
                 >
@@ -156,7 +213,7 @@ class CustomTransaction extends React.Component{
             </div>
 
             <div class="main" id="section2" style={{height : "1200px"}}>
-                    <h2>Input product</h2>
+                    <h2>Input product and qty</h2>
                     <Link
                         className = "btn btn-primary my-3"
                         activeClass="active"
@@ -174,28 +231,27 @@ class CustomTransaction extends React.Component{
                     <Container>
                         <h1>Input Product and Qty</h1>
                         <form className="justify-content-center align-items-center">
-                            {this.state.inputProduct.map((inputProduct, index)=>(
-                                <div className="justify-content-center align-items-center" key={index}>
+                            
+                                <div className="justify-content-center align-items-center" >
                                     <table className="table">
                                     <thead className="thead-dark">
                                             <tr>
-                                            <th>No</th>
-                                            <th>Username</th>
-                                            <th>Commentar</th>
-                                            <th>Image</th>
-                                            <th>Action</th>
+                                            <th>Product Name</th>
+                                            <th>Quantity</th>
+                                            <th>action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {this.printData()}
+                                            {this.printInput()}
                                         </tbody>
                                     </table>
                                     
 
                                 </div>
-                            ))}
+                                <button className="btn btn-primary" onClick={this.handleSubmit}>post </button>
                         </form>
                     </Container>
+                                
 
                     
                 </div>
