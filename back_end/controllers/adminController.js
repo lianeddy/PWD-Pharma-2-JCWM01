@@ -322,5 +322,19 @@ module.exports = {
 
       res.status(200).json({ results, message: "Get Pie Chart bottle Unit Succeed" })
     })
+  },
+  getCustomOrder : (req, res)=>{
+    let selectQuery = `select p.id_prescription, u.id_user, username, p.commentar, p.prescription_img 
+    from prescription p 
+    left join user u on u.id_user = p.id_user;`
+    console.log(selectQuery);
+    db.query(selectQuery, (err, results)=>{
+      if(err){
+        console.log(err);
+        return res.status(500).send(err)
+      }
+      res.status(200).json({results})
+    })
   }
+
 }
