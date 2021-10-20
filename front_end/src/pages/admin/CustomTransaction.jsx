@@ -5,7 +5,6 @@ import Axios from 'axios'
 import { NavItem, Button, Input } from "reactstrap";
 import { Link, animateScroll as scroll } from "react-scroll";
 import Container from "@mui/material/Container"
-import {  Select, MenuItem, InputLabel, FormControl, TextField } from "@mui/material";
 
 
 
@@ -14,8 +13,10 @@ class CustomTransaction extends React.Component{
 
     state = {
         dbCustomTransaction : [],
-        image : "",
         dbProduct : [],
+        image : "",
+        id_user : 0,
+        id_prescription : 0,
         inputProduct :[
             {
                 id_product : 0,
@@ -68,13 +69,48 @@ class CustomTransaction extends React.Component{
         })
       }
 
-      componentDidMount (){
-          this.getData()
+      insertTransaction = ()=>{
+        Axios.post(`${URL_API}/admin/pay-custom`, {
+          insertQuery: this.mapInsertQuery().toString()
+        })
+        .then((res) => {
+          alert("Please Continue to Upload Your Proof of Payment")
+          console.log(res)
+        })
+        .catch((err) => {
+          alert("Payment Error")
+          console.log(err)
+        })
       }
 
-      onClickServe =(image1)=>{
-        this.setState({image : image1})
-        console.log(image1);
+      btnPost = ()=>{
+        this.handleSubmit()
+        this.insertTransaction()
+      }
+
+      componentDidMount (){
+          this.getData()
+          this.getDataProduct()
+      }
+      componentDidUpdate(){
+        this.getData()
+      }
+
+      onClickServe =(image1, id_user1, id_p)=>{
+        this.setState({image : image1,
+                      id_user : id_user1,
+                    id_prescription : id_p})
+        console.log(image1, id_user1, this.state.id_prescription);
+      }
+
+      mapInsertQuery = () => {
+        const d = new Date()
+    
+        return this.state.inputProduct.map((item, index) => {
+          return (
+            `(null, ${this.state.id_user}, ${this.state.inputProduct.qty}, 3000 , 45000 , '${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}', 'bank transfer', 'jnt', 10000, null, 'unpaid', ${this.state.inputProduct.id_product}, ${this.state.id_prescription})`
+          )
+        })
       }
 
       
@@ -94,16 +130,13 @@ class CustomTransaction extends React.Component{
                     id="id_product"
                     onChange={event => this.inputHandler(index, event)}
                   >
-                    {this.state.dbProduct.map((e, key)=>{
+                    {this.state.dbProduct.map((e)=>{
                       return <option value={e.id_product}>{e.product_name}</option>
 
                     })}
                   </Input>
                 <td className="align-middle">
                 <input onChange={event => this.inputHandler(index, event)} name="qty" min="1" type="number" />
-                </td>
-                <td className="align-middle">
-                <button className="btn btn-primary" onClick={ this.handleAddFields}>PLUS</button>
                 </td>
 
 
@@ -138,7 +171,7 @@ class CustomTransaction extends React.Component{
                 </td>
                 <td className="align-middle">
                 <Link
-                onClick={()=> this.onClickServe(item.prescription_img)}
+                onClick={()=> this.onClickServe(item.prescription_img, item.id_user, item.id_prescription)}
                     className="btn btn-primary"
                     activeClass="active"
                     to="section2"
@@ -157,12 +190,11 @@ class CustomTransaction extends React.Component{
       }
     render(){
         
-      console.log(this.state.inputProduct)
         return(
             
             <div className="p-5 text-center align-center justify-content-center" style={{scrollBehavior: "smooth"}}>
                 <div class="main" id="section1" style={{height : "800px", }}>
-                    <h1> custom Transaction</h1>
+                    <h1> custom</h1>
                     
         <div className="row mt-5 align-center justify-content-center">
           <div className="col-9 text-center">
@@ -213,7 +245,7 @@ class CustomTransaction extends React.Component{
             </div>
 
             <div class="main" id="section2" style={{height : "1200px"}}>
-                    <h2>Input product and qty</h2>
+                    <h2>Input</h2>
                     <Link
                         className = "btn btn-primary my-3"
                         activeClass="active"
@@ -229,8 +261,7 @@ class CustomTransaction extends React.Component{
                 </div>
                 <div className={"justify-content-center align-items-center"}>
                     <Container>
-                        <h1>Input Product and Qty</h1>
-                        <form className="justify-content-center align-items-center">
+                        <h1>Input Product and </h1>
                             
                                 <div className="justify-content-center align-items-center" >
                                     <table className="table">
@@ -248,8 +279,10 @@ class CustomTransaction extends React.Component{
                                     
 
                                 </div>
-                                <button className="btn btn-primary" onClick={this.handleSubmit}>post </button>
-                        </form>
+  
+                        
+                                <button className="btn btn-primary" onClick={this.handleSubmit, this.insertTransaction}>post </button>
+                                <button className="btn btn-primary my-3 mx-3" onClick={this.handleAddFields}> Add Product </button>
                     </Container>
                                 
 

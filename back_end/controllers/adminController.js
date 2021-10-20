@@ -327,7 +327,6 @@ module.exports = {
     let selectQuery = `select p.id_prescription, u.id_user, username, p.commentar, p.prescription_img 
     from prescription p 
     left join user u on u.id_user = p.id_user;`
-    console.log(selectQuery);
     db.query(selectQuery, (err, results)=>{
       if(err){
         console.log(err);
@@ -337,7 +336,7 @@ module.exports = {
     })
   },
   getProduct : (req, res)=>{
-    let selectQuery = `select id_product, product_name from product;`
+    let selectQuery = `select * from product;`
     console.log(selectQuery);
     db.query(selectQuery,(err, results)=>{
       if(err){
@@ -346,6 +345,18 @@ module.exports = {
       }
       res.status(200).json({results})
     })
-  }
+  },
+  payBtnCustom: (req, res) => {
+    let insertQuery = `INSERT INTO transaction VALUES ${req.body.insertQuery};`
+    console.log(insertQuery)
+
+    db.query(insertQuery, (err, results) =>{
+      if (err) {
+        console.log(err);
+        return res.status(500).send(err)
+      }
+      res.status(200).send({ results, message : "Insert to transaction", success: true })
+    })
+  },
 
 }
