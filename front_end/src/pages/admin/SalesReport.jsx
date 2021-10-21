@@ -46,7 +46,7 @@ class SalesReport extends React.Component {
           {/* <td>{item.payment_method}</td> */}
           {/* <td>{item.expedition_name}</td> */}
           <td>Rp {(item.shipping_cost).toLocaleString("id")}</td>
-          <td>{moment(item.date).format("MMM / D / YYYY")}</td>
+          <td>{moment(item.date).format("D / MMM / YYYY")}</td>
         </tr>
       )
     })
