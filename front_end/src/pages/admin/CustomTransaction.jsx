@@ -281,7 +281,7 @@ class CustomTransaction extends React.Component{
                                 </div>
   
                         
-                                <button className="btn btn-primary" onClick={this.handleSubmit, this.insertTransaction}>post </button>
+                                <button className="btn btn-primary" onClick={this.handleSubmit}>post </button>
                                 <button className="btn btn-primary my-3 mx-3" onClick={this.handleAddFields}> Add Product </button>
                     </Container>
                                 
