@@ -347,10 +347,11 @@ module.exports = {
     })
   },
   payBtnCustom: (req, res) => {
-    let insertQuery = `INSERT INTO transaction VALUES ${req.body.insertQuery};`
+    let insertQuery = `INSERT INTO transaction VALUES ?;`
+    var values = req.body.outputProduct
     console.log(insertQuery)
 
-    db.query(insertQuery, (err, results) =>{
+    db.query(insertQuery, [values], (err, results) =>{
       if (err) {
         console.log(err);
         return res.status(500).send(err)
