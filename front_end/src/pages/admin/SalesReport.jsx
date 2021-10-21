@@ -11,8 +11,8 @@ class SalesReport extends React.Component {
     dbreport: [],
     revenue: 0,
     totalPrice: 0,
-    shipping: 0
-    // selectedID: null
+    shipping: 0,
+    tax: 0
   }
   
   componentDidMount() {
@@ -43,9 +43,8 @@ class SalesReport extends React.Component {
           <td>{item.qty}</td>
           <td>Rp {(item.total_price).toLocaleString("id")}</td>
           <td>Rp {(item.tax).toLocaleString("id")}</td>
-          {/* <td>{item.payment_method}</td> */}
-          {/* <td>{item.expedition_name}</td> */}
           <td>Rp {(item.shipping_cost).toLocaleString("id")}</td>
+          <td>Rp {(item.total_price + item.tax + item.shipping_cost).toLocaleString("id")}</td>
           <td>{moment(item.date).format("D / MMM / YYYY")}</td>
         </tr>
       )
@@ -98,9 +97,8 @@ class SalesReport extends React.Component {
                   <th>Quantity</th>
                   <th>Total Price</th>
                   <th>Tax</th>
-                  {/* <th>Payment</th> */}
-                  {/* <th>Shipping</th> */}
                   <th>Shipping Cost</th>
+                  <th>Revenue</th>
                   <th>Date</th>
                 </tr>
               </thead>
@@ -110,9 +108,8 @@ class SalesReport extends React.Component {
             </Table>
           </div>
         </div>
-        <div style={{ marginLeft: "360px", marginTop: "40px" }}>
-          <h3>Revenue : Rp {(this.state.totalPrice + this.state.shipping).toLocaleString("id")} </h3>
-          {/* {this.countRevenue()} */}
+        <div style={{ marginLeft: "280px", marginTop: "40px" }}>
+          <h3>Annual Revenue : Rp {(this.state.totalPrice + (this.state.totalPrice * 0.1 ) + this.state.shipping).toLocaleString("id")} </h3>
         </div>
       </>
     )

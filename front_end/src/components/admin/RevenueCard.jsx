@@ -43,7 +43,7 @@ class RevenueCard extends React.Component {
         <div className="card text-white bg-success mb-3" style={{ width:"17rem", maxWidth: "18rem" }}>
           <div className="card-header"><h5>Revenue (Monthly)</h5></div>
           <div className="card-body text-dark bg-light">
-            <h5 className="card-text">Rp {(this.state.totalPriceMonthly + this.state.shippingMonthly).toLocaleString("id")} </h5>
+            <h5 className="card-text">Rp {(this.state.totalPriceMonthly + (this.state.totalPriceMonthly * 0.1) + this.state.shippingMonthly).toLocaleString("id")} </h5>
           </div>
         </div>
       </div>

@@ -21,6 +21,7 @@ import SalesReport from "./pages/admin/SalesReport";
 import UploadPayment from "./pages/UploadPayment";
 import Transaction from "./pages/Transaction"
 import ConfirmReject from "./pages/admin/ConfirmReject";
+import Stock from "./pages/admin/Stock";
 
 import { connect } from 'react-redux';
 import { userKeepLogin, checkStorage } from './redux/actions/user';
@@ -60,6 +61,7 @@ class App extends React.Component {
             <Route component={UploadPayment} path="/upload-payment" />
             <Route component={Transaction} path="/transaction" />
             <Route component={ConfirmReject} path="/confirm-reject" />
+            <Route component={Stock} path="/stock" />
           </Switch>
         </BrowserRouter>
       )

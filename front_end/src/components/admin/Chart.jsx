@@ -18,11 +18,13 @@ import {
 
 class Chart extends PureComponent {
   state = {
-    dataChart: []
+    dataChart: [],
+    restockPriceMonthly: 0
   }
 
   componentDidMount() {
     this.getChartStats()
+    this.countRestockPriceMonthly()
   }
 
   getChartStats = () => {
@@ -37,8 +39,33 @@ class Chart extends PureComponent {
       })
   }
 
+  countRestockPriceMonthly = () => {
+    Axios.get(`${URL_API}/admin/restock-price-monthly`)
+      .then((res) => {
+        this.setState({
+          restockPriceMonthly: parseInt(res.data.results[0].restock_price),
+        });
+        console.log(res.data);
+      })
+      .catch((err) => {
+        alert("Cannot Sum Restock Price Monthly");
+        console.log(err);
+      });
+  };
+
   printData = () => {
     return this.state.dataChart.map((item, index) => {
+      if (item.month === "October") {
+        return (
+          {
+            name : "October",
+            ProfitOrLoss: item.total_price - this.state.restockPriceMonthly,
+            Revenue: item.tax + item.shipping_cost + item.total_price,
+            Expenses: - (item.tax + item.shipping_cost + this.state.restockPriceMonthly),
+          }
+        )
+      }
+
       return (
         {
           name : item.month,
