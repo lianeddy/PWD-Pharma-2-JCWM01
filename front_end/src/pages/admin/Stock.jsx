@@ -43,7 +43,9 @@ class Stock extends React.Component {
             <img src={URL_API + item.product_image} alt="" style={{ height: "125px" }} />
           </td>
           <td className="align-middle">{(item.stock).toLocaleString("id")} {item.unit}</td>
-          <td className="align-middle">{(Math.ceil(item.stock / item.bottle_volume)).toLocaleString("id")} bottle(s)</td>
+          <td className="align-middle">
+            <strong> {(Math.ceil(item.stock / item.bottle_volume)).toLocaleString("id")} bottle(s) </strong>
+          </td>
           <td className="align-middle">{item.bottle_volume}</td>
           <td className="align-middle">{moment(item.expired_date).format("D MMM YYYY")}</td>
         </tr>
