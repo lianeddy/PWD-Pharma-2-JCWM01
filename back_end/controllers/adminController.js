@@ -321,7 +321,7 @@ module.exports = {
     })
   },
   confirmReject: (req, res) => {
-    let selectQuery = `SELECT t.id_transaction, u.username, p.product_name, p.product_price, t.qty,
+    let selectQuery = `SELECT t.id_transaction, u.username, p.id_product, p.stock, p.bottle_volume, p.product_name, p.product_price, t.qty,
     t.total_price, t.shipping_cost, t.date, t.tax,co.id_custom_order, pre.id_prescription, t.image
     FROM transaction t
     LEFT JOIN product p on p.id_product = t.id_product
@@ -364,6 +364,19 @@ module.exports = {
       }
 
       res.status(200).json({ results, message: "Reject Transaction Succeed" })
+    })
+  },
+  stockDecrease: (req, res) => {
+    let updateQuery = `UPDATE product SET stock = '${req.body.newStockQty}' WHERE id_product = ${req.params.id};`
+    console.log(updateQuery)
+
+    db.query(updateQuery, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send(err);
+      }
+
+      res.status(200).json({ results, message: "Stock Decrease Succeed" })
     })
   }
 }

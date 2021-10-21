@@ -26,22 +26,40 @@ class ConfirmReject extends React.Component {
     })
   }
 
-  confirmBtnHandler = (transactionId) => {
+  confirmBtnHandler = (transactionId, productId, qty, stock, bottle_volume) => {
     const confirmation = window.confirm("Are you sure want to confirm transaction?")
     if (confirmation) {
-      Axios.patch(`${URL_API}/admin/confirm/${transactionId}`, {
-        updateStatus: "shipping"
-      })
-      .then(() => {
-        alert("Transaction Confirmed")
-        this.getData()
-      })
-      .catch(() => {
-        alert("Failed to Confirm Transaction")
-      })
+      this.transactionStatus(transactionId)
+      this.stockDecrease(productId, qty, stock, bottle_volume)
     } else {
       alert("Confirm Transaction Canceled")
     }
+  }
+
+  transactionStatus = (transactionId) => {
+    Axios.patch(`${URL_API}/admin/confirm/${transactionId}`, {
+      updateStatus: "shipping"
+    })
+    .then(() => {
+      alert("Transaction Confirmed")
+      this.getData()
+    })
+    .catch(() => {
+      alert("Failed to Confirm Transaction")
+    })
+  }
+
+  stockDecrease = (productId, qty, stock, bottle_volume) => {
+    Axios.patch(`${URL_API}/admin/stock-decrease/${productId}`, {
+      newStockQty: parseInt(((stock / bottle_volume) - qty) * bottle_volume)
+    })
+    .then(() => {
+      alert("Product Stock Decreased")
+      // this.getData()
+    })
+    .catch(() => {
+      alert("Failed to Decrease Stock")
+    })
   }
 
   rejectBtnHandler = (transactionId) => {
@@ -80,7 +98,7 @@ class ConfirmReject extends React.Component {
             <img src={URL_API + item.image} alt="" style={{ height: "125px" }} />
           </td>
           <td className="align-middle">
-            <button className="btn btn-success mx-1" onClick={() => this.confirmBtnHandler(item.id_transaction)}>
+            <button className="btn btn-success mx-1" onClick={() => this.confirmBtnHandler(item.id_transaction, item.id_product, item.qty, item.stock, item.bottle_volume)}>
               Confirm
             </button>
             <button className="btn btn-danger mx-1" onClick={() => this.rejectBtnHandler(item.id_transaction)}>
