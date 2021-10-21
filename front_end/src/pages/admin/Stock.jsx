@@ -42,6 +42,9 @@ class Stock extends React.Component {
           <td className="align-middle">
             <img src={URL_API + item.product_image} alt="" style={{ height: "125px" }} />
           </td>
+          <td className="align-middle">Rp {(item.admin_price).toLocaleString("id")}</td>
+          <td className="align-middle">Rp {(item.product_price).toLocaleString("id")}</td>
+          <td className="align-middle">{item.unit == "mg" ? "solid": "liquid"}</td>
           <td className="align-middle">{(item.stock).toLocaleString("id")} {item.unit}</td>
           <td className="align-middle">
             <strong> {(Math.ceil(item.stock / item.bottle_volume)).toLocaleString("id")} bottle(s) </strong>
@@ -79,6 +82,9 @@ class Stock extends React.Component {
                   <th>No.</th>
                   <th>Product</th>
                   <th>Image</th>
+                  <th>Admin Price</th>
+                  <th>Price</th>
+                  <th>Category</th>
                   <th>Raw Material Stock</th>
                   <th>Bottle Stock</th>
                   <th>Bottle Volume</th>
