@@ -25,8 +25,10 @@ routers.get("/piechart-mg", adminController.pieChartMg);
 routers.get("/piechart-ml", adminController.pieChartMl);
 routers.get("/piechart-bt", adminController.pieChartBt);
 
-routers.get('/custom-order', adminController.getCustomOrder)
+routers.get('/custom-order/:page', adminController.getCustomOrder)
 routers.get('/get-product', adminController.getProduct)
+routers.get('/get-product-price/:id', adminController.getProductPrice)
 routers.post('/pay-custom', adminController.payBtnCustom)
+routers.delete('/delete-prescription/:id', adminController.deletePrescription)
 
 module.exports = routers;

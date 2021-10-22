@@ -326,7 +326,7 @@ module.exports = {
   getCustomOrder : (req, res)=>{
     let selectQuery = `select p.id_prescription, u.id_user, username, p.commentar, p.prescription_img 
     from prescription p 
-    left join user u on u.id_user = p.id_user;`
+    left join user u on u.id_user = p.id_user limit ${req.params.page}, 4;`
     db.query(selectQuery, (err, results)=>{
       if(err){
         console.log(err);
@@ -337,7 +337,17 @@ module.exports = {
   },
   getProduct : (req, res)=>{
     let selectQuery = `select * from product;`
-    console.log(selectQuery);
+    db.query(selectQuery,(err, results)=>{
+      if(err){
+        console.log(err);
+        return res.status(500).send(err)
+      }
+      res.status(200).json({results})
+    })
+  },
+  getProductPrice : (req, res)=>{
+    let selectQuery = `select product_price from product where id_product = ${req.params.id};`
+    
     db.query(selectQuery,(err, results)=>{
       if(err){
         console.log(err);
@@ -359,5 +369,15 @@ module.exports = {
       res.status(200).send({ results, message : "Insert to transaction", success: true })
     })
   },
+  deletePrescription : (req, res)=>{
+    let deleteQuery = `delete from prescription where id_prescription = ${req.params.id}`
+    db.query(deleteQuery,(err, results)=>{
+      if(err){
+        console.log(err);
+        return res.status(500).send(err)
+      }
+      res.status(200).json({results})
+    })
+  }
 
 }

@@ -11,14 +11,21 @@ class CustomTransaction extends React.Component {
   state = {
     dbCustomTransaction: [],
     dbProduct: [],
+    dbProductPrice: [],
     image: "",
     id_user: 0,
     id_prescription: 0,
+    id_product: 1,
+    index : 0,
+    page : 1,
+    limitPage : 0,
+    maxPage : 1,
     inputProduct: [
       {
         id_product: 0,
         qty: 0,
-        total_price : 0
+        total_price : 0,
+        product_price : 0
       },
     ],
     outputProduct: []
@@ -26,8 +33,10 @@ class CustomTransaction extends React.Component {
 
   inputHandler = (index, event) => {
     const values = [...this.state.inputProduct];
+    const name = event.target.name 
+    const value = event.target.value
     values[index][event.target.name] = event.target.value;
-    this.setState({ inputProduct: values});
+    this.setState({ inputProduct: values, [name] : value});
   };
   handleSubmit = (e) => {
     e.preventDefault();
@@ -35,7 +44,7 @@ class CustomTransaction extends React.Component {
   };
   handleAddFields = () => {
     this.setState({
-      inputProduct: [...this.state.inputProduct, { id_product: 0, qty: 0 }],
+      inputProduct: [...this.state.inputProduct, { id_product: 0, qty: 0 }],  index : this.state.index + 1
     });
   };
 
@@ -45,10 +54,12 @@ class CustomTransaction extends React.Component {
   }
 
   getData = () => {
-    Axios.get(`${URL_API}/admin/custom-order`)
+    Axios.get(`${URL_API}/admin/custom-order/${this.state.limitPage}`)
       .then((res) => {
+        console.log(res.data)
         this.setState({
           dbCustomTransaction: res.data.results,
+          maxPage : Math.ceil(this.state.dbCustomTransaction.length / 5)
         });
       })
       .catch((err) => {
@@ -56,6 +67,32 @@ class CustomTransaction extends React.Component {
         console.log(err);
       });
   };
+
+  nextPageHandler = () => {
+    this.setState({
+      page: this.state.page + 1,
+      limitPage: this.state.limitPage + 4,
+    });
+  };
+
+  prevPageHandler = () => {
+    this.setState({
+      page: this.state.page - 1,
+      limitPage: this.state.limitPage - 4,
+    });
+  };
+
+  onBtnDelete = () =>{
+    Axios.delete(`${URL_API}/admin/delete-prescription/${this.state.id_prescription}`)
+      .then((res) => {
+        this.getData();
+        window.location.reload()
+      })
+      .catch((err) => {
+        alert("Cannot Delete Data");
+        console.log(err);
+      });
+  }
   getDataProduct = () => {
     Axios.get(`${URL_API}/admin/get-product`)
       .then((res) => {
@@ -68,6 +105,18 @@ class CustomTransaction extends React.Component {
         console.log(err);
       });
   };
+  // getDataProductPrice = () => {
+  //   Axios.get(`${URL_API}/admin/get-product-price/${this.state.inputProduct[this.state.index].id_product}`)
+  //     .then((res) => {
+  //       this.setState({
+  //         dbProductPrice : res.data.results,
+  //       });
+  //     })
+  //     .catch((err) => {
+      
+  //       console.log(err);
+  //     });
+  // };
 
   insertTransaction = () => {
     const {outputProduct} = this.state
@@ -87,33 +136,44 @@ class CustomTransaction extends React.Component {
   btnPost = () => {
     this.mapInsertQuery()
     this.insertTransaction();
+    this.onBtnDelete()
   };
 
   componentDidMount() {
     this.getData();
     this.getDataProduct();
+    // this.getDataProductPrice();
+    this.printInput()
   }
   componentDidUpdate() {
-    this.getData();
+    this.getData()
+  
+
   }
 
   onClickServe = (image1, id_user1, id_p) => {
+    // console.log(image1, id_user1,id_p);
     this.setState({ image: image1, id_user: id_user1, id_prescription: id_p });
-    console.log(image1, id_user1, this.state.id_prescription);
+
   };
 
   mapInsertQuery = () => {
     for(var i =0; i < this.state.inputProduct.length; i++){
       var input = this.state.inputProduct[i]
-      this.state.outputProduct.push([null, this.state.id_user, input.qty, 3000, input.total_price, moment().format("YYYY-MM-DD HH-mm-ss"),"bank transfer", "jnt", 5000, null,"unpaid", input.id_product, this.state.id_prescription])
+      this.state.outputProduct.push([null, this.state.id_user, input.qty, input.total_price * 0.05, input.total_price, moment().format("YYYY-MM-DD HH-mm-ss"),"bank transfer", "jnt", 5000, null,"unpaid", input.id_product, this.state.id_prescription])
     }
     console.log(this.state.outputProduct);
   };
 
+  
+
   printInput = () => {
     return this.state.inputProduct.map((inputField, index) => {
+
+      
       return (
         <tr key={index}>
+          <td>
           <Input
             className={"d-grid mx-4 my-4 form-control"}
             onChange={this.inputHandler}
@@ -122,10 +182,13 @@ class CustomTransaction extends React.Component {
             id="id_product"
             onChange={(event) => this.inputHandler(index, event)}
           >
+            
             {this.state.dbProduct.map((e) => {
-              return <option value={e.id_product}>{e.product_name} - ({e.product_price})</option>;
-            })}
+      return <option value={e.id_product}>{e.product_name} - ({e.product_price})</option>;
+      
+    })}
           </Input>
+          </td>
           <td className="align-middle">
             <input
               onChange={(event) => this.inputHandler(index, event)}
@@ -134,16 +197,16 @@ class CustomTransaction extends React.Component {
               type="number"
             />
           </td>
-          <td className="align-middle">
+                
+                <td className="align-middle">
             <input
               onChange={(event) => this.inputHandler(index, event)}
-              
-          
               name="total_price"
               min="1"
               type="number"
             />
           </td>
+             
           <td className="align-middle">
           <button
                 className="btn btn-primary my-3 mx-3"
@@ -155,11 +218,12 @@ class CustomTransaction extends React.Component {
           </td>
         </tr>
       );
-    });
+    })
+    
   };
 
   printData = () => {
-    return this.state.dbCustomTransaction.map((item, index) => {
+    return this.state.dbCustomTransaction && this.state.dbCustomTransaction.length ? this.state.dbCustomTransaction.map((item, index) => {
       return (
         <tr>
           <td className="align-middle">{index + 1}</td>
@@ -196,9 +260,11 @@ class CustomTransaction extends React.Component {
           </td>
         </tr>
       );
-    });
+    }) : null
   };
   render() {
+    
+    
     return (
       <div
         className="p-5 text-center align-center justify-content-center"
@@ -225,14 +291,15 @@ class CustomTransaction extends React.Component {
                     <td colSpan="10">
                       <div className="d-flex flex-row justify-content-center align-items-center">
                         <button
-                          className="btn btn-dark"
-                          onClick={this.prevPageHandler}
+                          disabled={this.state.page === 1}
+                        className="btn btn-dark"
+                        onClick={this.prevPageHandler}
                         >
                           {"<"}
                         </button>
-                        <div className="text-center">page</div>
+                        <div className="text-center">page {this.state.page}</div>
                         <button
-                          disabled={this.state.dbCustomTransaction.length < 5}
+                          disabled={this.state.dbCustomTransaction.length < 4}
                           className="btn btn-dark"
                           onClick={this.nextPageHandler}
                         >
@@ -284,6 +351,7 @@ class CustomTransaction extends React.Component {
                     <tr>
                       <th>Product Name</th>
                       <th>Quantity</th>
+                      <th>Total Price</th>
                       <th>action</th>
                     </tr>
                   </thead>
