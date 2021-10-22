@@ -29,5 +29,6 @@ routers.get("/confirm-reject", adminController.confirmReject);
 routers.patch("/confirm/:id", adminController.confirmTransaction);
 routers.patch("/reject/:id", adminController.rejectTransaction);
 routers.patch("/stock-decrease/:id", adminController.stockDecrease);
+routers.get("/admin-stock/:page", adminController.adminStock);
 
 module.exports = routers;

@@ -86,6 +86,7 @@ class ProfitCard extends React.Component {
               Rp
               {(
                 this.state.totalPriceMonthly +
+                (this.state.totalPriceMonthly * 0.1) +
                 this.state.shippingMonthly -
                 (this.state.shippingMonthly +
                   this.state.taxMonthly +

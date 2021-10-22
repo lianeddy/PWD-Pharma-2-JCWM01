@@ -57,7 +57,7 @@ class Admin extends React.Component {
           <TopSellAnnual />
         </div>
         <div className="my-4 mx-4">
-          <h3 className="ml-5 mb-4">Earnings Overview <em>Excludes</em> Pre-Sales Stock Expenses</h3>
+          <h3 className="ml-5 mb-4">Earnings Overview <em>Excludes</em> Pre-Sales Stock Expenses and Restocks</h3>
           <Chart />
         </div>
         <br /> <br /> <br />

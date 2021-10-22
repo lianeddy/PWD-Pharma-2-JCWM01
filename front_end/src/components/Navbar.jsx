@@ -47,6 +47,9 @@ class MyNavbar extends React.Component {
                         <DropdownItem>
                           <Link to="/sales">Sales Report</Link>
                         </DropdownItem>
+                        <DropdownItem>
+                          <Link to="/stock">Product List and Stock</Link>
+                        </DropdownItem>
                       </>
                       : 
                       <>

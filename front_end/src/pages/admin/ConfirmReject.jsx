@@ -93,7 +93,7 @@ class ConfirmReject extends React.Component {
           <td className="align-middle">Rp {(item.tax).toLocaleString("id")}</td>
           <td className="align-middle">Rp {(item.shipping_cost).toLocaleString("id")}</td>
           <td className="align-middle">Rp {(item.total_price + item.tax + item.shipping_cost).toLocaleString("id")}</td>
-          <td className="align-middle">{moment(item.date).format("MMM / D / YYYY")}</td>
+          <td className="align-middle">{moment(item.date).format("D MMM YYYY, HH:mm:ss")}</td>
           <td className="align-middle">
             <img src={URL_API + item.image} alt="" style={{ height: "125px" }} />
           </td>

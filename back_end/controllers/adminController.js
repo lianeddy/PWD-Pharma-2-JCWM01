@@ -87,7 +87,7 @@ module.exports = {
     })
   },
   countTax: (req, res) => {
-    let selectQuery = `SELECT sum(tax) as tax FROM pharma2.transaction;`
+    let selectQuery = `SELECT sum(tax) as tax FROM pharma2.transaction WHERE status = 'done';`
     console.log(selectQuery)
 
     db.query(selectQuery, (err, results) => {
@@ -256,7 +256,7 @@ module.exports = {
   },
   chartStats: (req, res) => {
     let selectQuery = `SELECT sum(tax) as tax, sum(total_price) as total_price, sum(shipping_cost) as shipping_cost, date, MONTHNAME(date) as month,
-    (total_price + shipping_cost) as 'total_revenue', (tax + shipping_cost) as 'total_expenses', (total_price - tax) as 'profit_or_loss'
+    (total_price + shipping_cost + tax) as 'total_revenue', (tax + shipping_cost) as 'total_expenses', (total_price) as 'profit_or_loss'
     FROM transaction WHERE status = 'done' GROUP BY MONTH(date) ORDER BY date ASC;`
     console.log(selectQuery)
 
@@ -377,6 +377,19 @@ module.exports = {
       }
 
       res.status(200).json({ results, message: "Stock Decrease Succeed" })
+    })
+  },
+  adminStock: (req, res) => {
+    let selectQuery = `SELECT * FROM product LIMIT ${req.params.page}, 4;`
+    console.log(selectQuery)
+
+    db.query(selectQuery, (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send(err);
+      }
+
+      res.status(200).json({ results, message: "Get Admin Stock Data Succeed" })
     })
   }
 }
