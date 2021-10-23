@@ -28,6 +28,7 @@ routers.get("/piechart-bt", adminController.pieChartBt);
 routers.get('/custom-order/:page', adminController.getCustomOrder)
 routers.get('/get-product', adminController.getProduct)
 routers.get('/get-product-price/:id', adminController.getProductPrice)
+routers.get('/get-product-usage/:page', adminController.getProductUsage)
 routers.post('/pay-custom', adminController.payBtnCustom)
 routers.delete('/delete-prescription/:id', adminController.deletePrescription)
 

@@ -378,6 +378,20 @@ module.exports = {
       }
       res.status(200).json({results})
     })
+  }, 
+  getProductUsage : (req, res)=>{
+    let selectQuery = `SELECT t.id_transaction,p.product_price, SUM(qty) as total_qty, t.status, p.product_name, p.product_image, p.stock ,p.unit, p.id_product, id_prescription
+                      FROM transaction t
+                      left join product p on p.id_product = t.id_product  WHERE id_prescription IS NOT NULL and t.status = "shipping" group by id_product limit ${req.params.page}, 3 ;`
+    
+    db.query(selectQuery,(err, results)=>{
+      if(err){
+        console.log(err);
+        return res.status(500).send(err)
+      }
+      res.status(200).json({results})
+    })
   }
+
 
 }
