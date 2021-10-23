@@ -93,6 +93,47 @@ module.exports = {
           }
           res.status(200).send({ results, message : "Clear Cart After Checkout Succeed", success: true })
         })
+      },
+      addToCartNew: (req, res) => {
+        let insertQuery = `INSERT INTO cart VALUES (null, ${req.params.iduser}, ${req.body.id_product}, ${req.body.cart_qty});`
+        console.log(insertQuery)
+
+        db.query(insertQuery, (err, results) =>{
+          if (err) {
+            console.log(err);
+            return res.status(500).send(err)
+          }
+          res.status(200).send({ results, message : "Insert to Cart Succeed", success: true })
+        })
+      },
+      addToCartPatch: (req, res) => {
+        let updateQuery = `UPDATE cart set cart_qty = ${req.body.cart_qty} WHERE id_cart = ${req.body.id_cart};`
+        console.log(updateQuery)
+
+        db.query(updateQuery, (err, results) =>{
+          if (err) {
+            console.log(err);
+            return res.status(500).send(err)
+          }
+          res.status(200).send({ results, message : "Add Quantity to Cart Succeed", success: true })
+        })
+      },
+      getUserCart: (req, res) => {
+        let selectQuery = `select *
+        from cart c
+        left join user u on u.id_user = c.id_user
+        left join product p on p.id_product = c.id_product where u.id_user = ${req.params.id};`
+        // console.log(selectQuery)
+    
+        db.query(selectQuery, (err, results) => {
+          if (err) {
+            console.log(err);
+            return res.status(500).send(err);
+          }
+    
+          res.status(200).json({ results} )
+          // res.status(200).send(results)
+        })
       }
 
 }

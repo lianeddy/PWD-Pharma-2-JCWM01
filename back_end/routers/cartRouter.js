@@ -10,6 +10,9 @@ route.patch('/updateQty/:id',cartController.updateQty)
 route.post('/subtotal-price', cartController.subtotalPrice)
 route.post('/pay', cartController.payBtnCart)
 route.patch('/clear-cart', cartController.clearCart)
+route.post('/add-cart/:iduser', cartController.addToCartNew)
+route.patch('/patch-cart', cartController.addToCartPatch)
+route.get('/get-user-cart/:id', cartController.getUserCart)
 
 
 

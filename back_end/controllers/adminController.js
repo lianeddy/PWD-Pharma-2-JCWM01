@@ -381,7 +381,7 @@ module.exports = {
   },
   adminStock: (req, res) => {
     let selectQuery = `SELECT * FROM product LIMIT ${req.params.page}, 4;`
-    console.log(selectQuery)
+    // console.log(selectQuery)
 
     db.query(selectQuery, (err, results) => {
       if (err) {
