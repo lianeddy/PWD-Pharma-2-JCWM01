@@ -106,7 +106,7 @@ class Transaction extends React.Component {
 
       formData.append("file", this.state.addFile);
       Axios.patch(
-        `${URL_API}/upload/uploadPayment/${this.state.id_transaction}`,
+        `${URL_API}/upload/uploadPayment/${this.state.date}`,
         formData
       )
         .then((res) => {
@@ -129,11 +129,12 @@ class Transaction extends React.Component {
     this.getDataProduct();
   }
 
-  onBtnPay = (idTr) => {
+  onBtnPay = (idTr, date1) => {
     this.setState({
       id_transaction: idTr,
       isPaidClicked: true,
       isDetailClicked: false,
+      date : date1
     });
     this.getData();
   };
@@ -200,7 +201,7 @@ class Transaction extends React.Component {
             {item.status == "unpaid" ? (
               <button
                 className="btn btn-primary"
-                onClick={() => this.onBtnPay(item.id_transaction)}
+                onClick={() => this.onBtnPay(item.id_transaction, moment(item.date).format("D / MMM / YYYY HH:mm") )}
               >
                 pay
               </button>
