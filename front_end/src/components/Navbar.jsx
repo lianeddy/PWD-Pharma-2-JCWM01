@@ -14,6 +14,7 @@ import {
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logoutUser } from "../redux/actions/user";
+import { URL_API } from "../helper";
 
 import iconMap from "../img/edubin/all-icon/map.png";
 import iconEmail from "../img/edubin/all-icon/email.png";
@@ -104,7 +105,11 @@ class MyNavbar extends React.Component {
                 this.props.userGlobal.username && this.props.userGlobal.navbarLogin ?
                 <>
                   <NavItem>
-                    <NavbarText className="nav">Hello, {this.props.userGlobal.username}</NavbarText>
+                    <NavbarText className="nav" style={{ color: "black" }}>
+                      <Link to="/profile">Hello, {this.props.userGlobal.username}{" "}
+                      < img src={URL_API + this.props.userGlobal.profile_picture} alt="" style={{ height: "30px", width: "30px", borderRadius: "50px" }} />
+                      </Link>
+                    </NavbarText>
                   </NavItem>
                   <UncontrolledDropdown nav inNavbar>
                     <DropdownToggle nav caret>

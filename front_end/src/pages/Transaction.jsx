@@ -201,7 +201,7 @@ class Transaction extends React.Component {
             {item.status == "unpaid" ? (
               <button
                 className="btn btn-primary"
-                onClick={() => this.onBtnPay(item.id_transaction, moment(item.date).format("D / MMM / YYYY HH:mm") )}
+                onClick={() => this.onBtnPay(item.id_transaction, moment(item.date).format("YYYY-MM-DD HH:mm:ss") )}
               >
                 pay
               </button>

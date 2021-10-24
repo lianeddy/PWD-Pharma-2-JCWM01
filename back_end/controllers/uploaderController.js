@@ -84,7 +84,7 @@ module.exports=({
                 
                 req.body.image = filepath
 
-                let sqlUpdate = `update transaction set image = ${db.escape(filepath)}, status = "process" where date = ${req.params.date};`
+                let sqlUpdate = `update transaction set image = ${db.escape(filepath)}, status = "process" where date = "${req.params.date}";`
                 db.query(sqlUpdate,(err, results)=>{
                     if(err){
 
