@@ -211,7 +211,7 @@ class Transaction extends React.Component {
                 className="btn btn-success"
                 onClick={() =>
                   this.onBtnDetail(
-                    moment(item.date).format("YYYY-MM-DD HH-mm-ss")
+                    moment(item.date).format("YYYY-MM-DD HH:mm:ss")
                   )
                 }
               >
