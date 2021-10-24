@@ -3,12 +3,11 @@ const { db } = require("../database");
 module.exports = {
   salesReport: (req, res) => {
     let selectQuery = `SELECT u.id_user, u.username, t.id_transaction, t.id_product, p.product_name, p.product_price, p.unit, t.qty, t.tax, t.total_price, 
-    t.date, t.payment_method, t.expedition_name, t.shipping_cost, t.image, t.status, co.id_custom_order, pre.id_prescription
+    t.date, t.payment_method, t.expedition_name, t.shipping_cost, t.image, t.status, pre.id_prescription
     FROM transaction t
     LEFT JOIN product p on p.id_product = t.id_product
     LEFT JOIN user u on u.id_user = t.id_user
-    LEFT JOIN custom_order co on co.id_custom_order = t.id_custom_order
-    LEFT JOIN prescription pre on pre.id_prescription = co.id_prescription
+    LEFT JOIN prescription pre on pre.id_prescription = t.id_prescription
     WHERE t.status = 'done';`
     console.log(selectQuery)
 
@@ -27,8 +26,7 @@ module.exports = {
     FROM transaction t
     LEFT JOIN product p on p.id_product = t.id_product
     LEFT JOIN user u on u.id_user = t.id_user
-    LEFT JOIN custom_order co on co.id_custom_order = t.id_custom_order
-    LEFT JOIN prescription pre on pre.id_prescription = co.id_prescription
+    LEFT JOIN prescription pre on pre.id_prescription = t.id_prescription
     WHERE t.status = 'done';`
     console.log(selectQuery)
 
@@ -46,8 +44,7 @@ module.exports = {
     FROM transaction t
     LEFT JOIN product p on p.id_product = t.id_product
     LEFT JOIN user u on u.id_user = t.id_user
-    LEFT JOIN custom_order co on co.id_custom_order = t.id_custom_order
-    LEFT JOIN prescription pre on pre.id_prescription = co.id_prescription
+    LEFT JOIN prescription pre on pre.id_prescription = t.id_prescription
     WHERE t.status = 'done';`
     console.log(selectQuery)
 
@@ -322,12 +319,11 @@ module.exports = {
   },
   confirmReject: (req, res) => {
     let selectQuery = `SELECT t.id_transaction, u.username, p.id_product, p.stock, p.bottle_volume, p.product_name, p.product_price, t.qty,
-    t.total_price, t.shipping_cost, t.date, t.tax,co.id_custom_order, pre.id_prescription, t.image
+    t.total_price, t.shipping_cost, t.date, t.tax, pre.id_prescription, t.image
     FROM transaction t
     LEFT JOIN product p on p.id_product = t.id_product
     LEFT JOIN user u on u.id_user = t.id_user
-    LEFT JOIN custom_order co on co.id_custom_order = t.id_custom_order
-    LEFT JOIN prescription pre on pre.id_prescription = co.id_prescription
+    LEFT JOIN prescription pre on pre.id_prescription = t.id_prescription
     WHERE t.status = 'process';`
     console.log(selectQuery)
 
