@@ -55,7 +55,7 @@ class ExpensesAnnual extends React.Component {
     return (
       <div className="mx-5 my-5">
         <div className="card text-white bg-danger mb-3" style={{ width:"17rem", maxWidth: "18rem" }}>
-          <div className="card-header"><h5>Expenses (Annual)</h5></div>
+          <div className="card-header"><h5 style={{ color: "white" }}>Expenses (Annual)</h5></div>
           <div className="card-body text-dark bg-light">
             <h5 className="card-text">Rp {(this.state.shipping + this.state.tax + this.state.stockPrice).toLocaleString("id")} </h5>
           </div>

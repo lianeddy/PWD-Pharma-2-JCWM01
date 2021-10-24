@@ -79,7 +79,7 @@ class ProfitCard extends React.Component {
           style={{ width: "17rem", maxWidth: "18rem" }}
         >
           <div className="card-header">
-            <h5>Profit/Loss (Monthly)</h5>
+            <h5 style={{ color: "white" }}>Profit/Loss (Monthly)</h5>
           </div>
           <div className="card-body text-dark bg-light">
             <h5 className="card-text">

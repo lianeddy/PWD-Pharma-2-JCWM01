@@ -195,7 +195,7 @@ class Profile extends React.Component {
                       type="text-area"
                       disabled="true"
                       className="form-control"
-                      placeholder="enter phone number"
+                      placeholder="enter address"
                       defaultValue={item.address}
                     />
                   </div>
@@ -207,7 +207,7 @@ class Profile extends React.Component {
                       type="text"
                       disabled="true"
                       className="form-control"
-                      placeholder="enter address line 1"
+                      placeholder="phone number"
                       defaultValue={item.phone_number}
                     />
                   </div>
@@ -219,7 +219,7 @@ class Profile extends React.Component {
                       type="text"
                       disabled="true"
                       className="form-control"
-                      placeholder="enter address line 2"
+                      placeholder="enter full name"
                       defaultValue={item.full_name}
                     />
                   </div>
@@ -231,7 +231,7 @@ class Profile extends React.Component {
                       type="text"
                       disabled="true"
                       className="form-control"
-                      placeholder="enter address line 2"
+                      placeholder="enter gender"
                       defaultValue={item.gender}
                     />
                   </div>
@@ -243,7 +243,7 @@ class Profile extends React.Component {
                       type="text"
                       disabled="true"
                       className="form-control"
-                      placeholder="enter address line 2"
+                      placeholder="enter age"
                       defaultValue={item.age}
                     />
                     <div className="mt-5 text-center">
@@ -345,7 +345,7 @@ class Profile extends React.Component {
                         name="address"
                         value={this.state.address}
                         className="form-control"
-                        placeholder="enter phone number"
+                        placeholder="enter address"
                         defaultValue={item.address}
                       />
                     </div>
@@ -359,7 +359,7 @@ class Profile extends React.Component {
                         name="phone_number"
                         value={this.state.phone_number}
                         className="form-control"
-                        placeholder="enter "
+                        placeholder="enter phone number"
                         defaultValue={item.phone_number}
                       />
                     </div>
@@ -373,7 +373,7 @@ class Profile extends React.Component {
                         name="full_name"
                         value={this.state.full_name}
                         className="form-control"
-                        placeholder="enter address line 2"
+                        placeholder="enter full name"
                         defaultValue={item.full_name}
                       />
                     </div>
@@ -406,7 +406,7 @@ class Profile extends React.Component {
                         type="text"
                         onChange={this.inputHandler}
                         className="form-control"
-                        placeholder="enter address line 2"
+                        placeholder="enter age"
                         defaultValue={item.age}
                         name="age"
                       />
