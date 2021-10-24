@@ -3,12 +3,14 @@ import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import Axios from 'axios';
 import { URL_API } from '../helper';
+import { logoutUser } from '../redux/actions/user';
 
 class ChangePass extends React.Component {
   state = {
     currentPass: "",
     newPass: "",
-    confNewPass: ""
+    confNewPass: "",
+    redirect: false
   }
 
   inputHandler = (event) => {
@@ -34,6 +36,7 @@ class ChangePass extends React.Component {
       .then(res => {
         alert("Password Changed Successfully")
         console.log("Password Changed Successfully")
+        this.setState({ redirect: true })
       })
       .catch(err => {
         alert("Your Current Password is Wrong")
@@ -46,6 +49,11 @@ class ChangePass extends React.Component {
     if (!this.props.userGlobal.username) {
       return <Redirect to="/" />
     }
+
+    if (this.state.redirect) {
+      return <Redirect to="/" />
+    }
+
     return (
       <div className="container">
         <div className="row">
@@ -86,7 +94,7 @@ const mapStateToProps = (state) => {
 }
 
 // const mapDispatchToProps = {
-//   onBtnSubmit,
+//   logoutUser,
 // }
 
 export default connect(mapStateToProps)(ChangePass)

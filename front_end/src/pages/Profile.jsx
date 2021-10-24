@@ -92,6 +92,7 @@ class Profile extends React.Component {
     this.onBtnSave();
     this.onImgPreview();
     this.getData();
+    window.location.reload()
   };
 
   onBtnAddfile = (e) => {
