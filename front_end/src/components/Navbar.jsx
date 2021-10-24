@@ -107,7 +107,11 @@ class MyNavbar extends React.Component {
                   <NavItem>
                     <NavbarText className="nav" style={{ color: "black" }}>
                       <Link to="/profile">Hello, {this.props.userGlobal.username}{" "}
-                      < img src={URL_API + this.props.userGlobal.profile_picture} alt="" style={{ height: "30px", width: "30px", borderRadius: "50px" }} />
+                      {
+                        this.props.userGlobal.profile_picture ? 
+                        < img src={URL_API + this.props.userGlobal.profile_picture} alt="" style={{ height: "30px", width: "30px", borderRadius: "50px" }} />
+                        : null
+                      }
                       </Link>
                     </NavbarText>
                   </NavItem>
