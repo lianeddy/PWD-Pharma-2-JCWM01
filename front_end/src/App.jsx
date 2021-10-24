@@ -24,6 +24,8 @@ import UploadPayment from "./pages/UploadPayment";
 import Transaction from "./pages/Transaction"
 import ConfirmReject from "./pages/admin/ConfirmReject";
 import Stock from "./pages/admin/Stock";
+import ProductDetail from "./pages/ProductDetail";
+import Footer from "./components/Footer";
 
 import { connect } from 'react-redux';
 import { userKeepLogin, checkStorage } from './redux/actions/user';
@@ -66,7 +68,9 @@ class App extends React.Component {
             <Route component={Transaction} path="/transaction" />
             <Route component={ConfirmReject} path="/confirm-reject" />
             <Route component={Stock} path="/stock" />
+            <Route component={ProductDetail} path="/product-detail/:productId" />
           </Switch>
+          <Footer />
         </BrowserRouter>
       )
     }
