@@ -42,28 +42,32 @@ class MyNavbar extends React.Component {
                 <ul>
                   <li>
                     <img src={iconMap} alt="icon" />
-                    <span>127/5 Kalideres, Jakarta Barat</span>{" "}
+                    <span>Cipete Raya, Jakarta Selatan</span>{" "}
                   </li>
                   <li>
                     <img src={iconEmail} alt="icon" />
-                    <span>bewell@pharmacy.com</span>
+                    <span>pharma2.purwadhika@gmail.com</span>
+                  </li>
+                  <li>
+                    <img src={iconSupport} alt="icon" style={{ height: "21px" }} />
+                    <span>021-7777777</span>
                   </li>
                 </ul>
               </div>
             </div>
             <div class="col-lg-6">
               <div class="header-contact text-lg-right text-center">
-                <p>Opening Hours : Monday to Saturay - 8 Am to 5 Pm</p>
+                <p style={{ color: "white" }} >Opening Hours : Monday to Sunday - 8 AM to 8 PM</p>
               </div>
             </div>
           </div>
 
-          <div class="header-logo-support pt-30 pb-30">
+          {/* <div class="header-logo-support pt-30 pb-30">
             <div class="container">
               <div class="row">
                 <div class="col-lg-4 col-md-4">
                   <div class="logo">
-                    <a href="index-2.html">
+                    <a href="http://localhost:3000">
                       <img src={logo} alt="Logo" width={130} />{" "}
                     </a>
                   </div>
@@ -83,13 +87,17 @@ class MyNavbar extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
-          </header>
+          </div> */}
+        </header>
 
         <div>
           <Navbar color="light" light>
             <NavbarBrand>
-              <Link to="/">Pharma2</Link>
+              {/* <Link to="/">Pharma2</Link> */}
+              {/* Pharma2 */}
+              <a href="http://localhost:3000">
+                <img src={logo} alt="Logo" width={130} />{" "}
+              </a>
             </NavbarBrand>
             <Nav>
               {
