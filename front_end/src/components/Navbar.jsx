@@ -15,10 +15,21 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logoutUser } from "../redux/actions/user";
 
-// import iconMap from "../img/edubin/all-icon/map.png";
-// import iconEmail from "../img/edubin/all-icon/email.png";
-// import iconSupport from "../img/edubin/all-icon/support.png";
-// import logo from "../img/edubin/logo.png";
+import iconMap from "../img/edubin/all-icon/map.png";
+import iconEmail from "../img/edubin/all-icon/email.png";
+import iconSupport from "../img/edubin/all-icon/support.png";
+import logo from "../img/edubin/logo.png";
+
+// import "../css/edubin/slick.css";
+// import "../css/edubin/animate.css";
+// import "../css/edubin/nice-select.css";
+// import "../css/edubin/jquery.nice-number.min.css";
+// import "../css/edubin/magnific-popup.css";
+// import "../css/edubin/bootstrap.min.css";
+// import "../css/edubin/font-awesome.min.css";
+// import "../css/edubin/default.css";
+// import "../css/edubin/style.css";
+// import "../css/edubin/responsive.css";
 
 class MyNavbar extends React.Component {
   render() {
