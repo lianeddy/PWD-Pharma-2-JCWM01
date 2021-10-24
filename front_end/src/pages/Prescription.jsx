@@ -34,7 +34,7 @@ class Prescription extends React.Component {
         
         formData.append('data', JSON.stringify(obj))
         formData.append('file', this.state.addFile)
-        Axios.post(`${URL_API}/upload/uploadPrescription/1`,formData)
+        Axios.post(`${URL_API}/upload/uploadPrescription/${this.props.userGlobal.id_user}`,formData)
         .then(res =>{
             alert(res.data.message)
             this.setState({doneUpload : true})
@@ -97,4 +97,10 @@ class Prescription extends React.Component {
 
 }
 
-export default Prescription;
+const mapStateToProps = (state) => {
+    return {
+        userGlobal: state.user,
+    }
+}
+
+export default connect(mapStateToProps)(Prescription);

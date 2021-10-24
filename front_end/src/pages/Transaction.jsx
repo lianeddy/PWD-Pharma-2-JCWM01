@@ -53,7 +53,7 @@ class Transaction extends React.Component {
   getData = () => {
     if (this.state.status == "all") {
       Axios.get(
-        `${URL_API}/transaction/getTransaction/1/${this.state.limitPage}`
+        `${URL_API}/transaction/getTransaction/${this.props.userGlobal.id_user}/${this.state.limitPage}`
       )
         .then((res) => {
           this.setState({
@@ -72,7 +72,7 @@ class Transaction extends React.Component {
       "done"
     ) {
       Axios.get(
-        `${URL_API}/transaction/getTransactionFilter/1/${this.state.status}`
+        `${URL_API}/transaction/getTransactionFilter/${this.props.userGlobal.id_user}/${this.state.status}`
       )
 
         .then((res) => {
@@ -187,7 +187,7 @@ class Transaction extends React.Component {
         <tr>
           <td className="align-middle">{index + 1}</td>
           <td className="align-middle">
-            {moment(item.date).format("MMM / D / YYYY")}
+            {moment(item.date).format("D / MMM / YYYY HH:mm")}
           </td>
           <td className="align-middle">{item.total_qty}</td>
           <td className="align-middle">Rp.{item.tax}</td>

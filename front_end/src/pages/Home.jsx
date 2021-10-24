@@ -50,8 +50,9 @@ class Home extends React.Component {
   render() {
     return (
       <>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "50px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "50px", flexDirection: "column" }}>
           <h1>Shop Now!</h1>
+          <Link to="/prescription" style={{ fontSize: "30px" }} >or upload your prescription here</Link>
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "50px" }}>
           {this.renderProducts()}

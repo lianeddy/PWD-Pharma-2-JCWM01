@@ -45,7 +45,7 @@ class Profile extends React.Component {
   getData = () => {
     // Axios.get(`http://localhost:3300/user/getProfile/$this.props.globalState.id_user`)
     // HARDCODE
-    Axios.get(`http://localhost:3300/user/getProfile/1`)
+    Axios.get(`http://localhost:3300/user/getProfile/${this.props.userGlobal.id_user}`)
       .then((res) => {
         this.setState({
           pharma2: res.data,
@@ -67,7 +67,7 @@ class Profile extends React.Component {
 
       formData.append("file", this.state.addFile);
       // HARDCODE
-      Axios.patch(`${URL_API}/upload/uploadimg/1`, formData)
+      Axios.patch(`${URL_API}/upload/uploadimg/${this.props.userGlobal.id_user}`, formData)
         .then((res) => {
           alert(res.data.message);
           this.getData();
@@ -110,7 +110,7 @@ class Profile extends React.Component {
       this.state;
     console.log(address, phone_number, full_name, gender, age, profile_picture);
     // HARDCODE
-    Axios.patch(`${URL_API}/user/edit/1`, {
+    Axios.patch(`${URL_API}/user/edit/${this.props.userGlobal.id_user}`, {
       address,
       phone_number,
       full_name,
@@ -407,6 +407,7 @@ class Profile extends React.Component {
                         className="form-control"
                         placeholder="enter address line 2"
                         defaultValue={item.age}
+                        name="age"
                       />
                       <div className="mt-5 text-center">
                         <button

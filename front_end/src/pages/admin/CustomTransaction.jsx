@@ -263,7 +263,13 @@ class CustomTransaction extends React.Component {
     }) : null
   };
   render() {
-    
+    if (!this.state.dbCustomTransaction.length) {
+      return (
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginTop: "50px" }}>
+          <h2>Custom Order is Empty 😟</h2>
+        </div>
+      )
+    }
     
     return (
       <div

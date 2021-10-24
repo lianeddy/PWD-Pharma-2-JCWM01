@@ -53,7 +53,7 @@ class ProductUsage extends React.Component {
                 <div className="col-md-4 ftco-animate fadeInUp ftco-animated justify-content-center align-items-center">
                             <div className="block-7">
                                 <div className="img">
-                                    <img style={{height:"350px", width: "350px", borderTopLeftRadius:"20px", borderTopRightRadius : "20px"}}  src={item.product_image} alt="" />
+                                    <img style={{height:"350px", width: "350px", borderTopLeftRadius:"20px", borderTopRightRadius : "20px"}}  src={URL_API + item.product_image} alt="" />
                                 </div>
                                 <div className="text-center p-4" style={{ backgroundColor:"#FFB6C1", borderBottomLeftRadius : "20px", borderBottomRightRadius : "20px"}}>
                                     <span className="excerpt d-block" style={{fontWeight :"bold"}}>{item.product_name}</span>
