@@ -10,6 +10,7 @@ import {
   FormText,
   Table,
 } from "reactstrap";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { URL_API } from "../helper";
 import image_preview from "../../src/img/image_preview.png";
@@ -439,6 +440,9 @@ class Profile extends React.Component {
 
   render() {
     //    console.log( this.posisi)
+    if (!this.props.userGlobal.username) {
+      return <Redirect to="/" />;
+    }
     return (
       <div className="row m-auto justify-content-center">
         <div className="col-md-10">

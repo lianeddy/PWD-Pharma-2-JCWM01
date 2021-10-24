@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { URL_API } from "../helper";
 import Axios from "axios";
 import { NavItem, Button, Input } from "reactstrap";
+import payment from "../img/payment.png"
 const moment = require("moment");
 
 class Transaction extends React.Component {
@@ -223,6 +224,9 @@ class Transaction extends React.Component {
     });
   };
   render() {
+    if (!this.props.userGlobal.username) {
+      return <Redirect to="/" />;
+    }
     return (
       <div className="p-5 text-center">
         <h1>Transaction</h1>
@@ -312,7 +316,7 @@ class Transaction extends React.Component {
                 <div className="form-group">
                   <div>
                     <img
-                      src="https://lh3.googleusercontent.com/proxy/mppUAaY6fJPg5XkNbL9wsLSN9b5ADfsMG3leMdIXJQwQZCCkf987pkaXGAU2f7HXprlazKOqgCZwwmg_r3JxxGovzHuzNPG_BO-tuqsHZFs"
+                      src= {payment}
                       id="image"
                       alt=""
                       className="img-thumbnail d-grid gap-2 col-9 mx-auto"

@@ -1,8 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import { URL_API } from "../../helper";
 import Axios from "axios";
+import { connect } from "react-redux";
 
 class ProductUsage extends React.Component {
     state ={
@@ -69,6 +70,9 @@ class ProductUsage extends React.Component {
           })
       }
     render (){
+      if (!this.props.userGlobal.username) {
+        return <Redirect to="/" />;
+      }
         console.log(this.state.dbProductUsage);
 
 
@@ -111,6 +115,11 @@ class ProductUsage extends React.Component {
     }
 
 }
+const mapStateToProps = (state) => {
+  return {
+    userGlobal: state.user,
+  };
+};
 
 
-export default ProductUsage;
+export default connect(mapStateToProps) (ProductUsage);

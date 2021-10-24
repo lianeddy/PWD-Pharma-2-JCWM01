@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { URL_API } from "../../helper";
 import Axios from "axios";
 import { NavItem, Button, Input } from "reactstrap";
@@ -184,7 +185,7 @@ class CustomTransaction extends React.Component {
           >
             
             {this.state.dbProduct.map((e) => {
-      return <option value={e.id_product}>{e.product_name} - ({e.product_price})</option>;
+      return <option value={e.id_product}>{e.product_name} - ({e.product_price / e.bottle_volume})</option>;
       
     })}
           </Input>
@@ -263,6 +264,9 @@ class CustomTransaction extends React.Component {
     }) : null
   };
   render() {
+    if (!this.props.userGlobal.username) {
+      return <Redirect to="/" />;
+    }
     if (!this.state.dbCustomTransaction.length) {
       return (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginTop: "50px" }}>
@@ -376,4 +380,9 @@ class CustomTransaction extends React.Component {
     );
   }
 }
-export default CustomTransaction;
+const mapStateToProps = (state) => {
+  return {
+    userGlobal: state.user,
+  };
+};
+export default connect(mapStateToProps) (CustomTransaction);
