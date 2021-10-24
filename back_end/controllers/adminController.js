@@ -390,6 +390,8 @@ module.exports = {
       }
 
       res.status(200).json({ results, message: "Get Admin Stock Data Succeed" })
+    })
+    },
   getCustomOrder : (req, res)=>{
     let selectQuery = `select p.id_prescription, u.id_user, username, p.commentar, p.prescription_img 
     from prescription p 
