@@ -30,5 +30,11 @@ routers.patch("/confirm/:id", adminController.confirmTransaction);
 routers.patch("/reject/:id", adminController.rejectTransaction);
 routers.patch("/stock-decrease/:id", adminController.stockDecrease);
 routers.get("/admin-stock/:page", adminController.adminStock);
+routers.get('/custom-order/:page', adminController.getCustomOrder)
+routers.get('/get-product', adminController.getProduct)
+routers.get('/get-product-price/:id', adminController.getProductPrice)
+routers.get('/get-product-usage/:page', adminController.getProductUsage)
+routers.post('/pay-custom', adminController.payBtnCustom)
+routers.delete('/delete-prescription/:id', adminController.deletePrescription)
 
 module.exports = routers;

@@ -390,6 +390,75 @@ module.exports = {
       }
 
       res.status(200).json({ results, message: "Get Admin Stock Data Succeed" })
+  getCustomOrder : (req, res)=>{
+    let selectQuery = `select p.id_prescription, u.id_user, username, p.commentar, p.prescription_img 
+    from prescription p 
+    left join user u on u.id_user = p.id_user limit ${req.params.page}, 4;`
+    db.query(selectQuery, (err, results)=>{
+      if(err){
+        console.log(err);
+        return res.status(500).send(err)
+      }
+      res.status(200).json({results})
+    })
+  },
+  getProduct : (req, res)=>{
+    let selectQuery = `select * from product;`
+    db.query(selectQuery,(err, results)=>{
+      if(err){
+        console.log(err);
+        return res.status(500).send(err)
+      }
+      res.status(200).json({results})
+    })
+  },
+  getProductPrice : (req, res)=>{
+    let selectQuery = `select product_price from product where id_product = ${req.params.id};`
+    
+    db.query(selectQuery,(err, results)=>{
+      if(err){
+        console.log(err);
+        return res.status(500).send(err)
+      }
+      res.status(200).json({results})
+    })
+  },
+  payBtnCustom: (req, res) => {
+    let insertQuery = `INSERT INTO transaction VALUES ?;`
+    var values = req.body.outputProduct
+    console.log(insertQuery)
+
+    db.query(insertQuery, [values], (err, results) =>{
+      if (err) {
+        console.log(err);
+        return res.status(500).send(err)
+      }
+      res.status(200).send({ results, message : "Insert to transaction", success: true })
+    })
+  },
+  deletePrescription : (req, res)=>{
+    let deleteQuery = `delete from prescription where id_prescription = ${req.params.id}`
+    db.query(deleteQuery,(err, results)=>{
+      if(err){
+        console.log(err);
+        return res.status(500).send(err)
+      }
+      res.status(200).json({results})
+    })
+  }, 
+  getProductUsage : (req, res)=>{
+    let selectQuery = `SELECT t.id_transaction,p.product_price, SUM(qty) as total_qty, t.status, p.product_name, p.product_image, p.stock ,p.unit, p.id_product, id_prescription
+                      FROM transaction t
+                      left join product p on p.id_product = t.id_product  WHERE id_prescription IS NOT NULL and t.status = "shipping" group by id_product limit ${req.params.page}, 3 ;`
+    
+    db.query(selectQuery,(err, results)=>{
+      if(err){
+        console.log(err);
+        return res.status(500).send(err)
+      }
+      res.status(200).json({results})
     })
   }
+
+
 }
