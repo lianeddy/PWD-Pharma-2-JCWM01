@@ -18,6 +18,7 @@ class CustomTransaction extends React.Component {
     id_prescription: 0,
     id_product: 1,
     index : 0,
+    capsulQty : 0,
     page : 1,
     limitPage : 0,
     maxPage : 1,
@@ -185,7 +186,7 @@ class CustomTransaction extends React.Component {
           >
             
             {this.state.dbProduct.map((e) => {
-      return <option value={e.id_product}>{e.product_name} - ({e.product_price / e.bottle_volume})</option>;
+      return <option value={e.id_product}>{e.product_name} - (Rp.{e.product_price / e.bottle_volume}/{e.unit})</option>;
       
     })}
           </Input>
@@ -264,9 +265,9 @@ class CustomTransaction extends React.Component {
     }) : null
   };
   render() {
-    if (!this.props.userGlobal.username) {
-      return <Redirect to="/" />;
-    }
+    // if (!this.props.userGlobal.username) {
+    //   return <Redirect to="/" />;
+    // }
     if (!this.state.dbCustomTransaction.length) {
       return (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginTop: "50px" }}>
@@ -368,6 +369,12 @@ class CustomTransaction extends React.Component {
                   <tbody>{this.printInput()}</tbody>
                 </table>
               </div>
+              <input
+              onChange={this.setState({capsulQty})}
+              name="total_price"
+              min="1"
+              type="number"
+            />
 
               <button className="btn btn-primary" onClick={this.btnPost}>
                 post{" "}
