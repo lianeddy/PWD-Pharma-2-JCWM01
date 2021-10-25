@@ -265,9 +265,9 @@ class CustomTransaction extends React.Component {
     }) : null
   };
   render() {
-    // if (!this.props.userGlobal.username) {
-    //   return <Redirect to="/" />;
-    // }
+    if (!this.props.userGlobal.username) {
+      return <Redirect to="/" />;
+    }
     if (!this.state.dbCustomTransaction.length) {
       return (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginTop: "50px" }}>
