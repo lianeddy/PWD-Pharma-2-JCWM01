@@ -20,6 +20,7 @@ import History from "./pages/History";
 import Profile from "./pages/Profile";
 import Prescription from './pages/Prescription'
 import SalesReport from "./pages/admin/SalesReport";
+import adminTransaction from "./pages/admin/adminTransaction";
 import UploadPayment from "./pages/UploadPayment";
 import Transaction from "./pages/Transaction"
 import ConfirmReject from "./pages/admin/ConfirmReject";
@@ -62,6 +63,7 @@ class App extends React.Component {
             <Route component={Cart} path="/cart" />
             <Route component={History} path="/history" />
             <Route component={Profile} path="/profile" />
+            <Route component={adminTransaction} path="/admin-transaction" />
             <Route component={Prescription} path="/prescription"/>
             <Route component={SalesReport} path="/sales" />
             <Route component={UploadPayment} path="/upload-payment" />
