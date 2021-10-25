@@ -162,7 +162,7 @@ class CustomTransaction extends React.Component {
   mapInsertQuery = () => {
     for(var i =0; i < this.state.inputProduct.length; i++){
       var input = this.state.inputProduct[i]
-      this.state.outputProduct.push([null, this.state.id_user, input.qty, input.total_price * 0.05, input.total_price, moment().format("YYYY-MM-DD HH-mm-ss"),"bank transfer", "jnt", 5000, null,"unpaid", input.id_product, this.state.id_prescription])
+      this.state.outputProduct.push([null, this.state.id_user, input.qty * this.state.capsulQty, input.total_price * 0.05, input.total_price, moment().format("YYYY-MM-DD HH-mm-ss"),"bank transfer", "jnt", 5000, null,"unpaid", input.id_product, this.state.id_prescription])
     }
     console.log(this.state.outputProduct);
   };
@@ -354,7 +354,7 @@ class CustomTransaction extends React.Component {
           </div>
           <div className={"justify-content-center align-items-center"}>
             <Container>
-              <h1>Input Product and </h1>
+              <h1>Input Product and Qty</h1>
 
               <div className="justify-content-center align-items-center">
                 <table className="table">
@@ -369,14 +369,17 @@ class CustomTransaction extends React.Component {
                   <tbody>{this.printInput()}</tbody>
                 </table>
               </div>
+              Input Total Capsul : 
+              <br />
               <input
-              onChange={this.setState({capsulQty})}
+              onChange={(e)=> this.setState({capsulQty : e.target.value})}
               name="total_price"
               min="1"
               type="number"
             />
+            <br />
 
-              <button className="btn btn-primary" onClick={this.btnPost}>
+              <button className="btn btn-primary my-4" onClick={this.btnPost}>
                 post{" "}
               </button>
              
