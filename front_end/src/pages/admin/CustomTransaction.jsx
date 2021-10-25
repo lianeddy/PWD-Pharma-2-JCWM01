@@ -28,7 +28,8 @@ class CustomTransaction extends React.Component {
         product_price : 0
       },
     ],
-    outputProduct: []
+    outputProduct: [],
+    capsuleQTY : 0
   };
 
   inputHandler = (index, event) => {
@@ -119,12 +120,13 @@ class CustomTransaction extends React.Component {
   // };
 
   insertTransaction = () => {
-    const {outputProduct} = this.state
+    const {outputProduct, capsuleQTY} = this.state
     Axios.post(`${URL_API}/admin/pay-custom`, {
-      outputProduct
+      outputProduct,
     })
       .then((res) => {
         alert("Please Continue to Upload Your Proof of Payment");
+        
         console.log(res);
       })
       .catch((err) => {
@@ -160,7 +162,7 @@ class CustomTransaction extends React.Component {
   mapInsertQuery = () => {
     for(var i =0; i < this.state.inputProduct.length; i++){
       var input = this.state.inputProduct[i]
-      this.state.outputProduct.push([null, this.state.id_user, input.qty, input.total_price * 0.05, input.total_price, moment().format("YYYY-MM-DD HH-mm-ss"),"bank transfer", "jnt", 5000, null,"unpaid", input.id_product, this.state.id_prescription])
+      this.state.outputProduct.push([null, this.state.id_user, input.qty * this.state.capsuleQTY, input.total_price * 0.05, input.total_price, moment().format("YYYY-MM-DD HH-mm-ss"),"bank transfer", "jnt", 5000, null,"unpaid", input.id_product, this.state.id_prescription])
     }
     console.log(this.state.outputProduct);
   };
@@ -184,7 +186,7 @@ class CustomTransaction extends React.Component {
           >
             
             {this.state.dbProduct.map((e) => {
-      return <option value={e.id_product}>{e.product_name} - ({e.product_price})</option>;
+      return <option value={e.id_product}>{e.product_name} - (Rp.{e.product_price / e.bottle_volume}/{e.unit})</option>;
       
     })}
           </Input>
@@ -197,15 +199,16 @@ class CustomTransaction extends React.Component {
               type="number"
             />
           </td>
+          <td className="align-middle ">
+                    <input
+                      onChange={(event) => this.inputHandler(index, event)}
+                      name="total_price"
+                      min="1"
+                      type="number"
+                    />
+                  </td>
                 
-                <td className="align-middle">
-            <input
-              onChange={(event) => this.inputHandler(index, event)}
-              name="total_price"
-              min="1"
-              type="number"
-            />
-          </td>
+              
              
           <td className="align-middle">
           <button
@@ -216,9 +219,11 @@ class CustomTransaction extends React.Component {
                 Add Product{" "}
               </button>
           </td>
+          
         </tr>
       );
     })
+   
     
   };
 
@@ -356,13 +361,25 @@ class CustomTransaction extends React.Component {
                     </tr>
                   </thead>
                   <tbody>{this.printInput()}</tbody>
+                
                 </table>
-              </div>
 
-              <button className="btn btn-primary" onClick={this.btnPost}>
+              </div>
+                Total Capsul : <br />
+                    <input
+                      onChange={(e) => this.setState({capsuleQTY: e.target.value})} 
+                      name="total_price"
+                      min="1"
+                      type="number"
+                    />
+                    <br />
+                  <button className="btn btn-primary my-4" onClick={this.btnPost}>
                 post{" "}
               </button>
-             
+              
+              
+                  
+              
             </Container>
           </div>
         </div>
