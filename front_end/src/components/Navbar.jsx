@@ -133,6 +133,9 @@ class MyNavbar extends React.Component {
                             <Link to="/sales">Sales Report</Link>
                           </DropdownItem>
                           <DropdownItem>
+                            <Link to="/admin-transaction">All User Transaction</Link>
+                          </DropdownItem>
+                          <DropdownItem>
                             <Link to="/stock">Product List and Stock</Link>
                           </DropdownItem>
                           <DropdownItem>
@@ -153,6 +156,7 @@ class MyNavbar extends React.Component {
                           <DropdownItem>
                             <Link to="/transaction">Transaction</Link>
                           </DropdownItem>
+                         
                           <DropdownItem>
                             <Link to="/change-pass">Change Password</Link>
                           </DropdownItem>

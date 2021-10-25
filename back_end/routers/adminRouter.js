@@ -36,7 +36,7 @@ routers.get('/get-product-price/:id', adminController.getProductPrice)
 routers.get('/get-product-usage/:page', adminController.getProductUsage)
 routers.post('/pay-custom', adminController.payBtnCustom)
 routers.delete('/delete-prescription/:id', adminController.deletePrescription)
-routers.get("/revenue", adminController.countRevenue);
+routers.get("/revenue", adminController.chartStats);
 routers.get("/getAdminTransaction/:page/:field/:ordered", adminController.getAdminTransaction);
 routers.get("/getAdminTransactionFilter/:page/:field/:ordered/:status", adminController.getAdminTransactionFilter);
 

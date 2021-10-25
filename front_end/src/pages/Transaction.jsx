@@ -121,6 +121,19 @@ class Transaction extends React.Component {
     }
   };
 
+  onBtnDone = (date1)=>{
+    Axios.patch(`${URL_API}/transaction/transactionDone/${date1}`)
+      .then((res) => {
+        alert(res.data.message);
+        this.getData();
+        console.log(date1);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+  }
+
   componentDidUpdate() {
     this.getData();
   }
@@ -218,12 +231,24 @@ class Transaction extends React.Component {
                 Detail Product
               </button>
             )}
+            {item.status == "shipping" ? (
+              <button
+                className="btn btn-primary mx-3"
+                onClick={() => this.onBtnDone( moment(item.date).format("YYYY-MM-DD HH:mm:ss") )}
+              >
+                done Transaction
+              </button>
+            ) : (
+              null
+            )}
+
           </td>
         </tr>
       );
     });
   };
   render() {
+    
     if (!this.props.userGlobal.username) {
       return <Redirect to="/" />;
     }

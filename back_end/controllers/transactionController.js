@@ -51,5 +51,16 @@ module.exports = {
           }
           res.status(200).send(result)
         })
-      }
+      },
+      updateDone: (req, res) => {
+        let updateQuery = `Update transaction set status = 'done' where date = "${req.params.date}";`;
+    
+        db.query(updateQuery, (err, result) => {
+          if (err) {
+            console.log(err);
+            res.status(500).send(err);
+          }
+          res.status(200).send({ message: "Success Transaction and Get Well soon", success: true });
+        });
+      },
 }
