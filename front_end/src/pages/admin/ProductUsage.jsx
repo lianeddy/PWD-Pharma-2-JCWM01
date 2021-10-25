@@ -58,7 +58,7 @@ class ProductUsage extends React.Component {
                                 </div>
                                 <div className="text-center p-4" style={{ backgroundColor:"#FFB6C1", borderBottomLeftRadius : "20px", borderBottomRightRadius : "20px"}}>
                                     <span className="excerpt d-block" style={{fontWeight :"bold"}}>{item.product_name}</span>
-                                    <span className="price"><sup>Rp.</sup> <span class="number">{item.product_price}</span> <sub>/ml</sub></span>
+                                    <span className="price"><sup>Rp.</sup> <span class="number">{item.product_price / item.bottle_volume}</span> <sub>/{item.unit}</sub></span>
                                     
                                         <li><span className="">QTY Usage = {item.total_qty} {item.unit}</span></li>
                                         <li><span className="">QTY Now = {item.stock} {item.unit}</span></li>
