@@ -268,7 +268,7 @@ module.exports = {
   },
   pieChartMg: (req, res) => {
     let selectQuery = `SELECT sum(t.qty) as qty, p.product_name FROM transaction t
-    LEFT JOIN product p ON p.id_product = p.id_product
+    LEFT JOIN product p ON p.id_product = t.id_product
     WHERE t.status = 'done' and p.unit = 'mg' and p.id_product IS NOT NULL
     GROUP BY p.product_name
     ORDER BY product_name asc;`
