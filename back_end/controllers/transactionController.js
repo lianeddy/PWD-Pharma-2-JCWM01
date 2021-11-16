@@ -42,7 +42,7 @@ module.exports = {
         t.qty
         from transaction t
         left join product p on p.id_product = t.id_product
-        where date = ${db.escape(req.params.date)};`
+        where date = ${db.escape(req.params.date)} order by date desc;`
 
         db.query(scriptQuery, (err, result)=>{
           if(err){

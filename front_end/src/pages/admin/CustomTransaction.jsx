@@ -247,6 +247,7 @@ class CustomTransaction extends React.Component {
                   item.id_prescription
                 )
               }
+              style={{color : "white"}}
               className="btn btn-primary"
               activeClass="active"
               to="section2"
