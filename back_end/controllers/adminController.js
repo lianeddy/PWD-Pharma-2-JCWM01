@@ -8,7 +8,8 @@ module.exports = {
     LEFT JOIN product p on p.id_product = t.id_product
     LEFT JOIN user u on u.id_user = t.id_user
     LEFT JOIN prescription pre on pre.id_prescription = t.id_prescription
-    WHERE t.status = 'done';`
+    WHERE t.status = 'done'
+    ORDER BY date desc;`
     console.log(selectQuery)
 
     db.query(selectQuery, (err, results) => {
