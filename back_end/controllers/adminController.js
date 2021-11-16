@@ -393,7 +393,7 @@ module.exports = {
   getCustomOrder : (req, res)=>{
     let selectQuery = `select p.id_prescription, u.id_user, username, p.commentar, p.prescription_img 
     from prescription p 
-    left join user u on u.id_user = p.id_user limit ${req.params.page}, 4;`
+    left join user u on u.id_user = p.id_user limit ${req.params.page}, 4 ;`
     db.query(selectQuery, (err, results)=>{
       if(err){
         console.log(err);
