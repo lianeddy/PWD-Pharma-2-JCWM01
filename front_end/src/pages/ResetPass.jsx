@@ -44,6 +44,11 @@ class ResetPass extends React.Component {
     if (this.state.redirect) {
       return <Redirect to="/" />
     }
+
+    if (!this.props.userGlobal.id_user) {
+      return <Redirect to="/" />
+    }
+
     return (
       <div className="container">
         <div className="row">
