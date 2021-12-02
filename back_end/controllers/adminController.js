@@ -8,7 +8,8 @@ module.exports = {
     LEFT JOIN product p on p.id_product = t.id_product
     LEFT JOIN user u on u.id_user = t.id_user
     LEFT JOIN prescription pre on pre.id_prescription = t.id_prescription
-    WHERE t.status = 'done';`
+    WHERE t.status = 'done'
+    ORDER BY date desc;`
     console.log(selectQuery)
 
     db.query(selectQuery, (err, results) => {
@@ -268,7 +269,7 @@ module.exports = {
   },
   pieChartMg: (req, res) => {
     let selectQuery = `SELECT sum(t.qty) as qty, p.product_name FROM transaction t
-    LEFT JOIN product p ON p.id_product = p.id_product
+    LEFT JOIN product p ON p.id_product = t.id_product
     WHERE t.status = 'done' and p.unit = 'mg' and p.id_product IS NOT NULL
     GROUP BY p.product_name
     ORDER BY product_name asc;`
@@ -388,11 +389,11 @@ module.exports = {
 
       res.status(200).json({ results, message: "Get Admin Stock Data Succeed" })
     })
-    },
+  },
   getCustomOrder : (req, res)=>{
     let selectQuery = `select p.id_prescription, u.id_user, username, p.commentar, p.prescription_img 
     from prescription p 
-    left join user u on u.id_user = p.id_user limit ${req.params.page}, 4;`
+    left join user u on u.id_user = p.id_user limit ${req.params.page}, 4 ;`
     db.query(selectQuery, (err, results)=>{
       if(err){
         console.log(err);
@@ -448,7 +449,7 @@ module.exports = {
   getProductUsage : (req, res)=>{
     let selectQuery = `SELECT t.id_transaction,p.product_price, SUM(qty) as total_qty, t.status, p.product_name, p.product_image, p.bottle_volume, p.stock ,p.unit, p.id_product, id_prescription
                       FROM transaction t
-                      left join product p on p.id_product = t.id_product  WHERE id_prescription IS NOT NULL and t.status = "shipping" group by id_product limit ${req.params.page}, 3 ;`
+                      left join product p on p.id_product = t.id_product  WHERE id_prescription IS NOT NULL and t.status = "shipping" or t.status = "done" group by id_product limit ${req.params.page}, 3 ;`
     
     db.query(selectQuery,(err, results)=>{
       if(err){
