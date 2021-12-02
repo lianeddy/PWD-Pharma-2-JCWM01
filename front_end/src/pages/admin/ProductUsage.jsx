@@ -26,18 +26,35 @@ class ProductUsage extends React.Component {
             console.log(err);
           });
       };
+      // fetchData = () =>{
+      //   Axios.get(`${URL_API}/admin/get-product-usage/${this.state.limitPage}`)
+      //   .then((res) => {
+      //     console.log(res.data)
+      //     this.setState({
+      //       dbProductUsage: res.data.results
+      //     });
+      //   })
+      //   .catch((err) => {
+      //     alert("Cannot Get Data");
+      //     console.log(err);
+      //   });
+      // }
 
       componentDidMount(){
           this.getData()
       }
-      componentDidUpdate (){
-          this.getData()
-      }
+      // componentDidUpdate (){
+      //     this.getData()
+      // }
       nextPageHandler = () => {
         this.setState({
           page: this.state.page + 1,
           limitPage: this.state.limitPage + 3,
+          
         });
+        this.getData()
+        
+        
       };
     
       prevPageHandler = () => {
@@ -45,9 +62,13 @@ class ProductUsage extends React.Component {
           page: this.state.page - 1,
           limitPage: this.state.limitPage - 3,
         });
+        this.getData()
+      
       };
 
       cardProduct =()=>{
+     
+        
           return this.state.dbProductUsage.map((item, index)=>{
 
               return(
@@ -70,6 +91,10 @@ class ProductUsage extends React.Component {
           })
       }
     render (){
+      
+      
+      
+      
       if (!this.props.userGlobal.username) {
         return <Redirect to="/" />;
       }

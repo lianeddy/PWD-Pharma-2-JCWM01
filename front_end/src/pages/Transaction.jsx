@@ -23,6 +23,7 @@ class Transaction extends React.Component {
   };
 
   inputHandler = (e) => {
+    this.getData();
     const value = e.target.value;
     const name = e.target.name;
     this.setState({ [name]: value });
@@ -92,6 +93,7 @@ class Transaction extends React.Component {
       page: this.state.page + 1,
       limitPage: this.state.limitPage + 5,
     });
+    this.getData();
   };
 
   prevPageHandler = () => {
@@ -99,6 +101,7 @@ class Transaction extends React.Component {
       page: this.state.page - 1,
       limitPage: this.state.limitPage - 5,
     });
+    this.getData();
   };
 
   onBtnUploadPayment = () => {
@@ -134,9 +137,9 @@ class Transaction extends React.Component {
 
   }
 
-  componentDidUpdate() {
-    this.getData();
-  }
+  // componentDidUpdate() {
+  //   this.getData();
+  // }
 
   componentDidMount() {
     this.getData();

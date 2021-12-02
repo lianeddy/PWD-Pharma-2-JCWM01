@@ -44,8 +44,8 @@ class Login extends React.Component {
             <div className="card" style={{ backgroundColor: "#6495ED" }}>
               <div className="card-body">
                 <h5 className="font-weight-bold mb-3" style={{ color: "white" }}>Log in</h5>
-                <input onChange={this.inputHandler} name="username" placeholder="Username" type="text" className="form-control my-2" />
-                <input onChange={this.inputHandler} name="password" placeholder="Password" type="password" className="form-control my-2" />
+                <input onChange={this.inputHandler} name="username" placeholder="Username" maxLength="12" type="text" className="form-control my-2" />
+                <input onChange={this.inputHandler} name="password" placeholder="Password" maxLength="12" type="password" className="form-control my-2" />
                 <div className="d-flex flex-row justify-content-between align-items-center">
                   <button onClick={() => this.props.onBtnLogin(this.state)} className="btn btn-light mt-2">
                     <strong>Login</strong>

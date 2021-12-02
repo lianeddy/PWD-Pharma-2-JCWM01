@@ -40,10 +40,11 @@ class Register extends React.Component {
       //proses asyncronus
       .then(() => {
         alert("Register Success !!! check your EMAIL to verified");
+        window.location.reload()
         this.setState({tryVerified : true})
       })
       .catch(() => {
-        alert("gagal mendapatkan users");
+        alert("gagal mendapatkan users or username sudah terdaftar");
       });
     }
   }
@@ -65,6 +66,7 @@ class Register extends React.Component {
                   name="username"
                   onChange={this.inputHandler}
                   placeholder="Username"
+                  maxLength="12"
                   type="text"
                   className="form-control my-2"
                   />
@@ -78,6 +80,7 @@ class Register extends React.Component {
                   <input
                   name="password"
                   onChange={this.inputHandler}
+                  maxLength="12"
                   placeholder="Password"
                   type="password"
                   className="form-control my-2"
@@ -86,6 +89,7 @@ class Register extends React.Component {
                   name="confPassword"
                   onChange={this.inputHandler}
                   placeholder="Confirm password"
+                  maxLength="12"
                   type="password"
                   className="form-control my-2"
                   />

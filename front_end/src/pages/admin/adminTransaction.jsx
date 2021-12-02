@@ -24,6 +24,7 @@ class Transaction extends React.Component{
     }
 
     inputHandler = (e) =>{
+      this.getData()
         const value = e.target.value 
         const name = e.target.name 
         this.setState({[name] : value})
@@ -80,11 +81,12 @@ class Transaction extends React.Component{
     }
     nextPageHandler = () =>{
         this.setState({page : this.state.page + 1 , limitPage : this.state.limitPage + 5})
+        this.getData()
     }
     
     prevPageHandler = () =>{
         this.setState({page : this.state.page - 1 , limitPage : this.state.limitPage - 5})
-
+        this.getData()
     }
 
     onBtnUploadPayment = () =>{
@@ -110,9 +112,9 @@ class Transaction extends React.Component{
 
  
 
-    componentDidUpdate(){
-        this.getData()
-    }
+    // componentDidUpdate(){
+    //     this.getData()
+    // }
   
 
     componentDidMount() {
@@ -131,18 +133,22 @@ class Transaction extends React.Component{
         this.setState({
             isPaidClicked : false
         })
+        this.getData()
     }
     onBtnLatest = () =>{
       this.setState({field : "date",
                   ordered : "desc"})
+                  this.getData()
     }
     onBtnFinalPrice = () =>{
       this.setState({field : "final_price",
                   ordered : "desc"})
+                  this.getData()
     }
     onBtnHightQty = () =>{
       this.setState({field : "total_qty",
                   ordered : "desc"})
+                  this.getData()
 
     }
 
@@ -249,6 +255,7 @@ class Transaction extends React.Component{
     render(){
         
         return(
+          
             <div className="p-5 text-center">
         <h1>Admin All Transaction</h1>
         <div className="row mt-5">
@@ -267,6 +274,7 @@ class Transaction extends React.Component{
                 <option value={"process"}>Process</option>
                 <option value={"shipping"}>Shipping</option>
                 <option value={"done"}>Done</option>
+                
                 </Input>
                 {"Ordered By : "} 
                 <button type="button" onClick={this.onBtnLatest} class="btn btn-outline-primary mx-1" style={{borderRadius: "20px"}}>Latest</button>
