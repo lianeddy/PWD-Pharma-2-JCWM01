@@ -18,9 +18,9 @@ class Home extends React.Component {
     this.getData()
   }
 
-  // componentDidUpdate() {
-  //   this.getData()
-  // }
+  componentDidUpdate() {
+    this.getData()
+  }
 
   getData = () => {
     Axios.get(`${URL_API}/admin/admin-stock/${this.state.limitPage}`)
@@ -41,19 +41,15 @@ class Home extends React.Component {
 
   nextPageHandler = () =>{
     this.setState({ page : this.state.page + 1, limitPage : this.state.limitPage + 4 });
-    this.getData()
-    
+    // this.getData()
   }
 
   prevPageHandler = () =>{
     this.setState({ page : this.state.page - 1, limitPage : this.state.limitPage - 4 });
-    this.getData()
-     
-    
+    // this.getData()
   }
 
   render() {
-    
     return (
       <>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: "50px", flexDirection: "column" }}>
