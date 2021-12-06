@@ -82,10 +82,22 @@ class ProductDetail extends React.Component {
     
     this.getCart()
   }
-  
+
   componentDidUpdate() {
     this.getProduct()
   }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   // only update if searchValue has changed
+  //   // if (prevState.dbproduct !== this.state.dbproduct) {
+  //   //   this.getProduct();
+  //   // }
+
+  //   do {
+  //     this.getProduct();
+  //   }
+  //   while (prevState.dbproduct !== this.state.dbproduct);
+  // }
 
   render() {
     return (
