@@ -77,7 +77,7 @@ class Prescription extends React.Component {
                         <form>
                             
                             <div className="form-group">
-                                <label htmlFor="description">Commentar</label>
+                                <label htmlFor="description">Comment</label>
                                 <textarea type="textarea" className="form-control" id="commentar" aria-describedby="emailHelp" style={{height: "300px"}} ref={elemen => this.inputCommentar = elemen} />
                             </div>
                             <div className="form-group">
