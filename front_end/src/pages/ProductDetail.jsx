@@ -110,14 +110,14 @@ class ProductDetail extends React.Component {
               alt="" 
             />
           </div>
-          <div className="col-6 d-flex flex-column justify-content-center">
-            <h4 className="my-1">{this.state.dbproduct.product_name}</h4>
-            <h5>Rp {this.state.dbproduct.product_price}</h5>
-            <p className="my-1">
+          <div className="col-6 d-flex flex-column justify-content-center border border-info rounded-circle p-5">
+            <h4 className="my-3 text-center" style={{ color: "#20B2AA", textDecoration: "underline" }}>{this.state.dbproduct.product_name}</h4>
+            <h5 className="text-center" style={{ color: "#FF6347" }}>Rp {this.state.dbproduct.product_price}</h5>
+            <p className="my-2 text-center font-weight-bold">
               {this.state.dbproduct.description}
             </p>
-            <div className="d-flex flex-row align-items-center">
-              <button onClick={() => this.qtyBtnHandler("decrement")} className="btn btn-dark mr-4">
+            <div className="d-flex flex-row align-items-center justify-content-center">
+              <button onClick={() => this.qtyBtnHandler("decrement")} className="btn btn-dark mx-4">
                 -
               </button>
               {this.state.quantity}
@@ -125,7 +125,7 @@ class ProductDetail extends React.Component {
                 +
               </button>
             </div>
-            <button onClick={this.addToCartHandler} disabled={this.props.userGlobal.role !== "user"} className="btn btn-info mt-3">
+            <button onClick={this.addToCartHandler} disabled={this.props.userGlobal.role !== "user"} className="btn btn-info mt-4 justify-content-center align-items-center">
               Add to cart
             </button>
           </div>
