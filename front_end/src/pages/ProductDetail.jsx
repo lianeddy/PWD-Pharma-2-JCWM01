@@ -99,21 +99,21 @@ class ProductDetail extends React.Component {
             />
           </div>
           <div className="col-6 d-flex flex-column justify-content-center">
-            <h4>{this.state.dbproduct.product_name}</h4>
+            <h4 className="my-1">{this.state.dbproduct.product_name}</h4>
             <h5>Rp {this.state.dbproduct.product_price}</h5>
-            <p>
+            <p className="my-1">
               {this.state.dbproduct.description}
             </p>
             <div className="d-flex flex-row align-items-center">
-              <button onClick={() => this.qtyBtnHandler("decrement")} className="btn btn-primary mr-4">
+              <button onClick={() => this.qtyBtnHandler("decrement")} className="btn btn-dark mr-4">
                 -
               </button>
               {this.state.quantity}
-              <button onClick={() => this.qtyBtnHandler("increment")} className="btn btn-primary mx-4">
+              <button onClick={() => this.qtyBtnHandler("increment")} className="btn btn-dark mx-4">
                 +
               </button>
             </div>
-            <button onClick={this.addToCartHandler} disabled={this.props.userGlobal.role !== "user"} className="btn btn-success mt-3">
+            <button onClick={this.addToCartHandler} disabled={this.props.userGlobal.role !== "user"} className="btn btn-info mt-3">
               Add to cart
             </button>
           </div>

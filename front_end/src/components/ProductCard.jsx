@@ -12,7 +12,7 @@ class ProductCard extends React.Component {
             src={URL_API + this.props.productData.product_image}
             alt=""
           />
-          <div className="mt-2 text-center">
+          <div className="mt-2 text-center card-footer border-danger bg-light">
             <div>
               <h6>{this.props.productData.product_name}</h6>
               <span className="text-muted">Rp {(this.props.productData.product_price).toLocaleString("id")}</span>
