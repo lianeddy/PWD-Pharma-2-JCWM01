@@ -234,6 +234,7 @@ class CustomTransaction extends React.Component {
           <td className="align-middle">
             <img
               src={URL_API + item.prescription_img}
+              
               alt=""
               style={{ height: "125px" }}
             />
@@ -341,7 +342,8 @@ class CustomTransaction extends React.Component {
           </Link>
           <div
             style={{
-              height: "600px",
+              height: "550px",
+           
               backgroundColor: "#00008B",
               borderRadius: "30px",
             }}

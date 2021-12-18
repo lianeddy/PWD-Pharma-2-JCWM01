@@ -69,6 +69,7 @@ class Home extends React.Component {
             style={{
               background: `url(${imageSlider1})`,
               backgroundSize: "cover",
+              borderRadius : "50px"
             }}
             data-overlay="4"
           >

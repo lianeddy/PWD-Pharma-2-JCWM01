@@ -3,6 +3,7 @@ import Axios from 'axios';
 import { Col, Button, Form, FormGroup, Label, Input, FormText, Table } from 'reactstrap';
 import { connect } from 'react-redux';
 import { URL_API } from '../helper';
+import { height } from '@mui/system';
 
 
 class Prescription extends React.Component {
@@ -67,13 +68,13 @@ class Prescription extends React.Component {
                                id = "prescriptionPreview"
                                alt=""
                                className= "img-thumbnail d-grid gap-2 col-9 mx-auto" 
-                               style={{width:"700px", height:"500px", backgroundColor:"#00008B"}}/>
+                               style={{width:"500px", height:"700px", backgroundColor:"#00008B"}}/>
                            </div>
                         </div>
                     </div>
                     <di className="col-md-3">
                     </di>
-                    <div className="col-md-3 p-4 text-white text-left" style={{backgroundColor:"#00008B", borderRadius: "30px"}}>
+                    <div className="col-md-3 p-4 text-white text-left" style={{backgroundColor:"#00008B", borderRadius: "30px", height: "500px"}}>
                         <form>
                             
                             <div className="form-group">
