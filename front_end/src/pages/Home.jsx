@@ -20,9 +20,9 @@ class Home extends React.Component {
     this.getData()
   }
 
-  // componentDidUpdate() {
-  //   this.getData()
-  // }
+  componentDidUpdate() {
+    this.getData()
+  }
 
   // componentDidUpdate(prevProps, prevState) {
   //   // only update if searchValue has changed

@@ -43,9 +43,9 @@ class ProductUsage extends React.Component {
       componentDidMount(){
           this.getData()
       }
-      // componentDidUpdate (){
-      //     this.getData()
-      // }
+      componentDidUpdate (){
+          this.getData()
+      }
       nextPageHandler = () => {
         this.setState({
           page: this.state.page + 1,

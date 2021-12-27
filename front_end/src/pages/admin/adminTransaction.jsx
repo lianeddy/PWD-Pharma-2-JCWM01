@@ -112,9 +112,10 @@ class Transaction extends React.Component{
 
  
 
-    // componentDidUpdate(){
-    //     this.getData()
-    // }
+    componentDidUpdate(){
+        this.getData()
+        // this.getDataProduct()
+    }
   
 
     componentDidMount() {
